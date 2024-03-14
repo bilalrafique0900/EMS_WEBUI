@@ -1,0 +1,53 @@
+.txt-red {
+    color: red;
+    font-weight: bold;
+}
+table, th, td {
+  border:1px solid black;
+  border-collapse: collapse;
+}
+  .txt-center{
+    text-align: center;
+    padding: 0px;
+    font-size: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .padding{
+    padding-top: 10px;
+    padding-bottom: 40px;
+  }
+.comment{
+  margin: 10px;
+    padding-top: 35px;
+    padding-bottom: 75px;
+    border-top: 2px solid black;
+        border-bottom: 2px solid black;
+}
+@page {
+  size: A4;
+  margin: 10;
+  
+}
+  @media print {
+    /* styling goes here */
+    .image {
+      height: 10px;
+      width: 10px;
+    }
+    .txt-center{
+      text-align: center;
+      padding: 0px;
+      font-size: 15px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+    .comment{
+      margin: 10px;
+        padding-top: 35px;
+        padding-bottom: 75px;
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+    }
+    #Print-btn{display: none;}
+  }

@@ -1,0 +1,184 @@
+<form [formGroup]="parentRegistrationForm" novalidate (ngSubmit)="ParentFormSubmit()">
+  <section>
+    <div class="row">
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Father's Name: <span class="tx-danger">*</span></label>
+        <input type="text" name="name" formControlName="FatherName" placeholder="Father's Name" class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['FatherName'].invalid) && submitted&& (basicFormControlParent['FatherName'].errors?.['required'])"
+          class="tx-danger">
+          <small>Father's Name is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Father Contact No: <span class="tx-danger">*</span></label>
+        <input type="text" name="name"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+          formControlName="FatherContactNo" placeholder="Father Contact No" class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['FatherContactNo'].invalid) && submitted&& (basicFormControlParent['FatherContactNo'].errors?.['required'])"
+          class="tx-danger">
+          <small>Father Contact No is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Father Occupation: <span class="tx-danger">*</span></label>
+        <input type="text" name="name" formControlName="FatherOccupation" placeholder="Father Occupation"
+          class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['FatherOccupation'].invalid) && submitted&& (basicFormControlParent['FatherOccupation'].errors?.['required'])"
+          class="tx-danger">
+          <small>Father Occupation is <strong>required</strong></small>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Father Email: <span class="tx-danger">*</span></label>
+        <input type="email" name="name" formControlName="FatherEmail" placeholder="Father Email" class="form-control" />
+        <div *ngIf="submitted && (basicFormControlParent['FatherEmail'].errors?.['required'])" class="tx-danger">
+          <small>Father Email is <strong>required</strong></small>
+        </div>
+        <span class="text-danger"
+          *ngIf="submitted && basicFormControlParent['FatherEmail'].hasError('pattern') && basicFormControlParent['FatherEmail'].dirty">Email
+          must be a valid email address</span>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Father Company: <span class="tx-danger">*</span></label>
+        <input type="text" name="name" formControlName="FatherCompany" placeholder="Father Company"
+          class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['FatherCompany'].invalid) && submitted&& (basicFormControlParent['FatherCompany'].errors?.['required'])"
+          class="tx-danger">
+          <small>Father Company is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Mother's Name: <span class="tx-danger">*</span></label>
+        <input type="text" name="name" formControlName="MotherName" placeholder="Mother's Name" class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['MotherName'].invalid) && submitted&& (basicFormControlParent['MotherName'].errors?.['required'])"
+          class="tx-danger">
+          <small>Mother's Name is <strong>required</strong></small>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Mother Contact No: <span class="tx-danger">*</span></label>
+        <input type="text" name="name"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+          formControlName="MotherContactNo" placeholder="Mother Contact No" class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['MotherContactNo'].invalid) && submitted&& (basicFormControlParent['MotherContactNo'].errors?.['required'])"
+          class="tx-danger">
+          <small>Mother Contact No is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Mother Occupation:</label>
+        <input type="text" name="name" formControlName="MotherOccupation" placeholder="Mother Occupation"
+          class="form-control" />
+        <!-- <div
+          *ngIf="(basicFormControlParent['MotherOccupation'].invalid) && submitted&& (basicFormControlParent['MotherOccupation'].errors?.['required'])"
+          class="tx-danger">
+          <small>Mother Occupation is <strong>required</strong></small>
+        </div> -->
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Mother Email:</label>
+        <input type="email" name="name" formControlName="MotherEmail" placeholder="Mother Email" class="form-control" />
+        <span class="text-danger"
+          *ngIf="submitted && basicFormControlParent['MotherEmail'].hasError('pattern') && basicFormControlParent['MotherEmail'].dirty">Email
+          must be a valid email address</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Mother Company: <span class="tx-danger">*</span></label>
+        <input type="text" name="name" formControlName="MotherCompany" placeholder="Mother Company"
+          class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['MotherCompany'].invalid) && submitted&& (basicFormControlParent['MotherCompany'].errors?.['required'])"
+          class="tx-danger">
+          <small>Mother Company is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Alternative Name First: </label>
+        <input type="text" name="name" formControlName="AlternativeName" placeholder="Alternative Name First"
+          class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['AlternativeName'].invalid) && submitted&& (basicFormControlParent['AlternativeName'].errors?.['required'])"
+          class="tx-danger">
+          <small>Alternative Name is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Alternative Relation First: </label>
+        <input type="text" name="name" formControlName="AlternativeRelation" placeholder="Alternative Relation First"
+          class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['AlternativeRelation'].invalid) && submitted&& (basicFormControlParent['AlternativeRelation'].errors?.['required'])"
+          class="tx-danger">
+          <small>Alternative Relation is <strong>required</strong></small>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Alternative Phone First: </label>
+        <input type="text" name="name"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+          formControlName="AlternativeContact" placeholder="Alternative Relation First" class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['AlternativeContact'].invalid) && submitted&& (basicFormControlParent['AlternativeContact'].errors?.['required'])"
+          class="tx-danger">
+          <small>Alternative Contact is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Alternative Name Second: </label>
+        <input type="text" name="name" formControlName="AlternativeNameSecond" placeholder="Alternative Name Second"
+          class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['AlternativeNameSecond'].invalid) && submitted&& (basicFormControlParent['AlternativeNameSecond'].errors?.['required'])"
+          class="tx-danger">
+          <small>Alternative Name Second is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Alternative Relation Second: </label>
+        <input type="text" name="name" formControlName="AlternativeRelationSecond"
+          placeholder="Alternative Relation Second" class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['AlternativeRelationSecond'].invalid) && submitted&& (basicFormControlParent['AlternativeRelationSecond'].errors?.['required'])"
+          class="tx-danger">
+          <small>Alternative Relation Second is <strong>required</strong></small>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Alternative Phone Second: </label>
+        <input type="text" name="name"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+          formControlName="AlternativeContactNoSecond" placeholder="Alternative Phone Second" class="form-control" />
+        <div
+          *ngIf="(basicFormControlParent['AlternativeContactNoSecond'].invalid) && submitted&& (basicFormControlParent['AlternativeContactNoSecond'].errors?.['required'])"
+          class="tx-danger">
+          <small>Alternative Contact No Second is <strong>required</strong></small>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+        <label>Father Second Contact No: </label>
+        <input type="text" name="name"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+          formControlName="SecondFatherContactNo" placeholder="Father Contact No" class="form-control" />
+      </div>
+    </div>
+  </section>
+  <button type="submit" class="btn btn-success me-2">
+    Save & Next
+  </button>
+</form>

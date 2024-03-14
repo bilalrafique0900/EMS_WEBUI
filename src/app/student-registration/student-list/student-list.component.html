@@ -1,0 +1,787 @@
+<app-page-header [title]="'Students'" [items]="['Forms']" [active_item]="'Students'"></app-page-header>
+<div class="row row-sm">
+    <div class="col-sm-12 col-lg-12 col-xl-12">
+        <div class="card custom-card">
+            <div class="p-3 border-bottom">
+                <div class="input-group mb-0">
+                    <input type="text" class="form-control" [(ngModel)]="pagination.searchText"
+                        (keyup.enter)="onSearchText()" placeholder="Search..." />
+                    <span class="input-group-append">
+                        <button class="btn ripple btn-info" (click)="onSearchText()" type="button">
+                            <i class="fe fe-search me-2"></i> Search
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="end" (selectedTabChange)="tabChanged($event);">
+        <mat-tab label="All Students">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Manage the all Students</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>middle Name</th>
+                                        <th>Last Name</th>
+                                        <th>H Code</th>
+                                        <th> Email</th>
+                                        <th>Date Of Birth</th>
+                                        <th>Class Name</th>
+                                        <th>Level Name</th>
+                                        <th>Gender</th>
+                                        <th>School System</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of studentList;let ndx = index">
+                                        <td>{{item.firstName}}</td>
+                                        <td>{{item.middleName}}</td>
+                                        <td>{{item.lastName}}</td>
+                                        <td>{{item.hCode}}</td>
+                                        <td>{{item.studentEmail}}</td>
+                                        <td>{{item.dateOfBirth}}</td>
+                                        <td>{{item.className}}</td>
+                                        <td>{{item.levelName}}</td>
+                                        <td>{{item.genderName}}</td>
+                                        <td>{{item.schoolSystem}}</td>
+                                        <td>{{item.studentStatus}}</td>
+                                        <td>
+        
+        
+                                            <div class="dropdown" ngbDropdown>
+                                                <button ngbDropdownToggle class="btn ripple btn-primary" type="button">
+                                                    Actions
+                                                </button>
+                                                <div ngbDropdownMenu class="dropdown-menu tx-13">
+                                                    <a title="Edit Student" [routerLink]="['/registration/student']"
+                                                        [queryParams]="{id:item.studentId}" type="button"
+                                                        class="dropdown-item">Edit</a>
+        
+                                                    <a title="Submit Student" href="javascript:void(0);"
+                                                        *ngIf="!item.isSubmitted" (click)="submitStudent(item)"
+                                                        class="dropdown-item">Submit</a>
+        
+                                                    <a title="Upload Attachments" href="javascript:void(0);"
+                                                        (click)="openScrollableContentMd(ScroleContentAttachmernt,item.studentId)"
+                                                        class="dropdown-item">Upload Documents</a>
+        
+                                                    <a title="Download Attachments" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(AttachmerntList,item.studentId),getUploadDocument()]"
+                                                        class="dropdown-item">Documents</a>
+        
+                                                    <a title="WithDrawn Student" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(WithDraw,item.studentId),getStudenStatusByLovCode()]"
+                                                        class="dropdown-item">WithDrawn Student</a>
+        
+                                                    <a title="Re Registration Student" href="javascript:void(0);"
+                                                        *ngIf="item.isSubmitted"
+                                                        (click)="[openScrollableContentMd(ReRegistration,item.studentId),getDDLForReRegistration()]"
+                                                        class="dropdown-item">Re Registration</a>
+        
+                                                    <a title="Sibbling Student" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(sibblingModel,item.studentId),getSibblingStudentByStudentId()]"
+                                                        class="dropdown-item">Siblings</a>
+                                                    <a title="Student Details" href="javascript:void(0);"
+                                                        (click)="[showStudentDetailsInDialouge(item.studentId),openScrollableContent(ScroleContent)]"
+                                                        class="dropdown-item">Details</a>
+                                                    <a href="javascript:void(0);" *ngIf="item?.paymentAdded =='true'"
+                                                        (click)="[showStudentContractDialouge(item.studentId),openScrollableContent(ScroleStudentContract)]"
+                                                        class="dropdown-item">Student Contract</a>
+                                                    <a class="dropdown-item" *ngIf="!item.isSubmitted">
+                                                        <label>
+                                                            <input (click)="IsActive(item)" type="checkbox"
+                                                                [checked]="item.isActive" name="form-switch-checkbox1"
+                                                                class="form-switch-input">
+                                                            <span class="form-switch-indicator"></span>
+                                                        </label>
+                                                    </a>
+        
+        
+                                                </div>
+                                            </div>
+        
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between p-2">
+                            <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.pageNo"
+                                [pageSize]="pagination.pageSize" (pageChange)="onPageChange($event)"
+                                [maxSize]="pagination.maxSize" [boundaryLinks]="true" [ellipses]="true"></ngb-pagination>
+        
+                            <ng-select class="" style="min-width: 100px" name="pageSize" (change)="getStudents()"
+                                [(ngModel)]="pagination.pageSize">
+                                <ng-option value="5">5</ng-option>
+                                <ng-option value="10" selected>10</ng-option>
+                                <ng-option value="50">50</ng-option>
+                                <ng-option value="100">100</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </mat-tab>
+        <mat-tab label="Submitted Students">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Manage the Submitted Students</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>middle Name</th>
+                                        <th>Last Name</th>
+                                        <th>H Code</th>
+                                        <th> Email</th>
+                                        <th>Date Of Birth</th>
+                                        <th>Class Name</th>
+                                        <th>Level Name</th>
+                                        <th>Gender</th>
+                                        <th>School System</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of studentList;let ndx = index">
+                                        <td>{{item.firstName}}</td>
+                                        <td>{{item.middleName}}</td>
+                                        <td>{{item.lastName}}</td>
+                                        <td>{{item.hCode}}</td>
+                                        <td>{{item.studentEmail}}</td>
+                                        <td>{{item.dateOfBirth}}</td>
+                                        <td>{{item.className}}</td>
+                                        <td>{{item.levelName}}</td>
+                                        <td>{{item.genderName}}</td>
+                                        <td>{{item.schoolSystem}}</td>
+                                        <td>{{item.studentStatus}}</td>
+                                        <td>
+        
+        
+                                            <div class="dropdown" ngbDropdown>
+                                                <button ngbDropdownToggle class="btn ripple btn-primary" type="button">
+                                                    Actions
+                                                </button>
+                                                <div ngbDropdownMenu class="dropdown-menu tx-13">
+                                                    <a title="Edit Student" [routerLink]="['/registration/student']"
+                                                        [queryParams]="{id:item.studentId}" type="button"
+                                                        class="dropdown-item">Edit</a>
+        
+                                                    <a title="Submit Student" href="javascript:void(0);"
+                                                        *ngIf="!item.isSubmitted" (click)="submitStudent(item)"
+                                                        class="dropdown-item">Submit</a>
+        
+                                                    <a title="Upload Attachments" href="javascript:void(0);"
+                                                        (click)="openScrollableContentMd(ScroleContentAttachmernt,item.studentId)"
+                                                        class="dropdown-item">Upload Documents</a>
+        
+                                                    <a title="Download Attachments" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(AttachmerntList,item.studentId),getUploadDocument()]"
+                                                        class="dropdown-item">Documents</a>
+        
+                                                    <a title="WithDrawn Student" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(WithDraw,item.studentId),getStudenStatusByLovCode()]"
+                                                        class="dropdown-item">WithDrawn Student</a>
+        
+                                                    <a title="Re Registration Student" href="javascript:void(0);"
+                                                        *ngIf="item.isSubmitted"
+                                                        (click)="[openScrollableContentMd(ReRegistration,item.studentId),getDDLForReRegistration()]"
+                                                        class="dropdown-item">Re Registration</a>
+        
+                                                    <a title="Sibbling Student" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(sibblingModel,item.studentId),getSibblingStudentByStudentId()]"
+                                                        class="dropdown-item">Siblings</a>
+                                                    <a title="Student Details" href="javascript:void(0);"
+                                                        (click)="[showStudentDetailsInDialouge(item.studentId),openScrollableContent(ScroleContent)]"
+                                                        class="dropdown-item">Details</a>
+                                                    <a href="javascript:void(0);" *ngIf="item?.paymentAdded =='true'"
+                                                        (click)="[showStudentContractDialouge(item.studentId),openScrollableContent(ScroleStudentContract)]"
+                                                        class="dropdown-item">Student Contract</a>
+                                                    <a class="dropdown-item" *ngIf="!item.isSubmitted">
+                                                        <label>
+                                                            <input (click)="IsActive(item)" type="checkbox"
+                                                                [checked]="item.isActive" name="form-switch-checkbox1"
+                                                                class="form-switch-input">
+                                                            <span class="form-switch-indicator"></span>
+                                                        </label>
+                                                    </a>
+        
+        
+                                                </div>
+                                            </div>
+        
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between p-2">
+                            <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.pageNo"
+                                [pageSize]="pagination.pageSize" (pageChange)="onPageChange($event)"
+                                [maxSize]="pagination.maxSize" [boundaryLinks]="true" [ellipses]="true"></ngb-pagination>
+        
+                            <ng-select class="" style="min-width: 100px" name="pageSize" (change)="getStudents()"
+                                [(ngModel)]="pagination.pageSize">
+                                <ng-option value="5">5</ng-option>
+                                <ng-option value="10" selected>10</ng-option>
+                                <ng-option value="50">50</ng-option>
+                                <ng-option value="100">100</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="New Students">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Manage the New Students</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>middle Name</th>
+                                        <th>Last Name</th>
+                                        <th>H Code</th>
+                                        <th> Email</th>
+                                        <th>Date Of Birth</th>
+                                        <th>Class Name</th>
+                                        <th>Level Name</th>
+                                        <th>Gender</th>
+                                        <th>School System</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of studentList;let ndx = index">
+                                        <td>{{item.firstName}}</td>
+                                        <td>{{item.middleName}}</td>
+                                        <td>{{item.lastName}}</td>
+                                        <td>{{item.hCode}}</td>
+                                        <td>{{item.studentEmail}}</td>
+                                        <td>{{item.dateOfBirth}}</td>
+                                        <td>{{item.className}}</td>
+                                        <td>{{item.levelName}}</td>
+                                        <td>{{item.genderName}}</td>
+                                        <td>{{item.schoolSystem}}</td>
+                                        <td>{{item.studentStatus}}</td>
+                                        <td>
+        
+        
+                                            <div class="dropdown" ngbDropdown>
+                                                <button ngbDropdownToggle class="btn ripple btn-primary" type="button">
+                                                    Actions
+                                                </button>
+                                                <div ngbDropdownMenu class="dropdown-menu tx-13">
+                                                    <a title="Edit Student" [routerLink]="['/registration/student']"
+                                                        [queryParams]="{id:item.studentId}" type="button"
+                                                        class="dropdown-item">Edit</a>
+        
+                                                    <a title="Submit Student" href="javascript:void(0);"
+                                                        *ngIf="!item.isSubmitted" (click)="submitStudent(item)"
+                                                        class="dropdown-item">Submit</a>
+        
+                                                    <a title="Upload Attachments" href="javascript:void(0);"
+                                                        (click)="openScrollableContentMd(ScroleContentAttachmernt,item.studentId)"
+                                                        class="dropdown-item">Upload Documents</a>
+        
+                                                    <a title="Download Attachments" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(AttachmerntList,item.studentId),getUploadDocument()]"
+                                                        class="dropdown-item">Documents</a>
+        
+                                                    <a title="WithDrawn Student" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(WithDraw,item.studentId),getStudenStatusByLovCode()]"
+                                                        class="dropdown-item">WithDrawn Student</a>
+        
+                                                    <a title="Re Registration Student" href="javascript:void(0);"
+                                                        *ngIf="item.isSubmitted"
+                                                        (click)="[openScrollableContentMd(ReRegistration,item.studentId),getDDLForReRegistration()]"
+                                                        class="dropdown-item">Re Registration</a>
+        
+                                                    <a title="Sibbling Student" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(sibblingModel,item.studentId),getSibblingStudentByStudentId()]"
+                                                        class="dropdown-item">Siblings</a>
+                                                    <a title="Student Details" href="javascript:void(0);"
+                                                        (click)="[showStudentDetailsInDialouge(item.studentId),openScrollableContent(ScroleContent)]"
+                                                        class="dropdown-item">Details</a>
+                                                    <a href="javascript:void(0);" *ngIf="item?.paymentAdded =='true'"
+                                                        (click)="[showStudentContractDialouge(item.studentId),openScrollableContent(ScroleStudentContract)]"
+                                                        class="dropdown-item">Student Contract</a>
+                                                    <a class="dropdown-item" *ngIf="!item.isSubmitted">
+                                                        <label>
+                                                            <input (click)="IsActive(item)" type="checkbox"
+                                                                [checked]="item.isActive" name="form-switch-checkbox1"
+                                                                class="form-switch-input">
+                                                            <span class="form-switch-indicator"></span>
+                                                        </label>
+                                                    </a>
+        
+        
+                                                </div>
+                                            </div>
+        
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between p-2">
+                            <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.pageNo"
+                                [pageSize]="pagination.pageSize" (pageChange)="onPageChange($event)"
+                                [maxSize]="pagination.maxSize" [boundaryLinks]="true" [ellipses]="true"></ngb-pagination>
+        
+                            <ng-select class="" style="min-width: 100px" name="pageSize" (change)="getStudents()"
+                                [(ngModel)]="pagination.pageSize">
+                                <ng-option value="5">5</ng-option>
+                                <ng-option value="10" selected>10</ng-option>
+                                <ng-option value="50">50</ng-option>
+                                <ng-option value="100">100</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Re-Registered Students">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Manage the Re-Registered Students</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>middle Name</th>
+                                        <th>Last Name</th>
+                                        <th>H Code</th>
+                                        <th> Email</th>
+                                        <th>Date Of Birth</th>
+                                        <th>Class Name</th>
+                                        <th>Level Name</th>
+                                        <th>Gender</th>
+                                        <th>School System</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of studentList;let ndx = index">
+                                        <td>{{item.firstName}}</td>
+                                        <td>{{item.middleName}}</td>
+                                        <td>{{item.lastName}}</td>
+                                        <td>{{item.hCode}}</td>
+                                        <td>{{item.studentEmail}}</td>
+                                        <td>{{item.dateOfBirth}}</td>
+                                        <td>{{item.className}}</td>
+                                        <td>{{item.levelName}}</td>
+                                        <td>{{item.genderName}}</td>
+                                        <td>{{item.schoolSystem}}</td>
+                                        <td>{{item.studentStatus}}</td>
+                                        <td>
+        
+        
+                                            <div class="dropdown" ngbDropdown>
+                                                <button ngbDropdownToggle class="btn ripple btn-primary" type="button">
+                                                    Actions
+                                                </button>
+                                                <div ngbDropdownMenu class="dropdown-menu tx-13">
+                                                    <a title="Edit Student" [routerLink]="['/registration/student']"
+                                                        [queryParams]="{id:item.studentId}" type="button"
+                                                        class="dropdown-item">Edit</a>
+        
+                                                    <a title="Submit Student" href="javascript:void(0);"
+                                                        *ngIf="!item.isSubmitted" (click)="submitStudent(item)"
+                                                        class="dropdown-item">Submit</a>
+        
+                                                    <a title="Upload Attachments" href="javascript:void(0);"
+                                                        (click)="openScrollableContentMd(ScroleContentAttachmernt,item.studentId)"
+                                                        class="dropdown-item">Upload Documents</a>
+        
+                                                    <a title="Download Attachments" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(AttachmerntList,item.studentId),getUploadDocument()]"
+                                                        class="dropdown-item">Documents</a>
+        
+                                                    <a title="WithDrawn Student" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(WithDraw,item.studentId),getStudenStatusByLovCode()]"
+                                                        class="dropdown-item">WithDrawn Student</a>
+        
+                                                    <a title="Re Registration Student" href="javascript:void(0);"
+                                                        *ngIf="item.isSubmitted"
+                                                        (click)="[openScrollableContentMd(ReRegistration,item.studentId),getDDLForReRegistration()]"
+                                                        class="dropdown-item">Re Registration</a>
+        
+                                                    <a title="Sibbling Student" href="javascript:void(0);"
+                                                        (click)="[openScrollableContentMd(sibblingModel,item.studentId),getSibblingStudentByStudentId()]"
+                                                        class="dropdown-item">Siblings</a>
+                                                    <a title="Student Details" href="javascript:void(0);"
+                                                        (click)="[showStudentDetailsInDialouge(item.studentId),openScrollableContent(ScroleContent)]"
+                                                        class="dropdown-item">Details</a>
+                                                    <a href="javascript:void(0);" *ngIf="item?.paymentAdded =='true'"
+                                                        (click)="[showStudentContractDialouge(item.studentId),openScrollableContent(ScroleStudentContract)]"
+                                                        class="dropdown-item">Student Contract</a>
+                                                    <a class="dropdown-item" *ngIf="!item.isSubmitted">
+                                                        <label>
+                                                            <input (click)="IsActive(item)" type="checkbox"
+                                                                [checked]="item.isActive" name="form-switch-checkbox1"
+                                                                class="form-switch-input">
+                                                            <span class="form-switch-indicator"></span>
+                                                        </label>
+                                                    </a>
+        
+        
+                                                </div>
+                                            </div>
+        
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between p-2">
+                            <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.pageNo"
+                                [pageSize]="pagination.pageSize" (pageChange)="onPageChange($event)"
+                                [maxSize]="pagination.maxSize" [boundaryLinks]="true" [ellipses]="true"></ngb-pagination>
+        
+                            <ng-select class="" style="min-width: 100px" name="pageSize" (change)="getStudents()"
+                                [(ngModel)]="pagination.pageSize">
+                                <ng-option value="5">5</ng-option>
+                                <ng-option value="10" selected>10</ng-option>
+                                <ng-option value="50">50</ng-option>
+                                <ng-option value="100">100</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    
+</div>
+
+<ng-template #ReRegistration let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title">Re Registration</h6>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="reRegistrationForm" novalidate (ngSubmit)="submitReRegistration()">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 my-1">
+                    <div class="form-group">
+                        <label>Year: <span class="tx-danger">*</span></label>
+                        <ng-select #select [items]="classList" formControlName="classId"
+                            (change)="getSectionByClassId()" bindLabel="name" bindValue="classId">
+                        </ng-select>
+                        <div *ngIf="(basicFormControlRegistration['classId'].invalid) && submitted&& (basicFormControlRegistration['classId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Year is <strong>required</strong></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 my-1">
+                    <div class="form-group">
+                        <label>Section: <span class="tx-danger">*</span></label>
+                        <ng-select #select [items]="classSectionList" formControlName="sectionId"
+                            bindLabel="sectionName" bindValue="sectionId">
+                        </ng-select>
+                        <div *ngIf="(basicFormControlRegistration['sectionId'].invalid) && submitted&& (basicFormControlRegistration['sectionId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Section is <strong>required</strong></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-4 my-1">
+                    <div class="form-group">
+                        <label>Status: <span class="tx-danger">*</span></label>
+                        <ng-select #select [items]="studenStatusList" formControlName="statusId" bindLabel="text"
+                            bindValue="id">
+                        </ng-select>
+                        <div *ngIf="(basicFormControlRegistration['statusId'].invalid) && submitted  && (basicFormControlRegistration['statusId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Status is <strong>required</strong></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 my-1">
+                    <label>Renew Date: <span class="tx-danger">*</span></label>
+                    <div class="form-input">
+                        <div class="input-group">
+                            <input formControlName="ReNewDate" class="form-control" placeholder="dd/mm/yyyy" name="dn"
+                                [(ngModel)]="reNewDatePicker" ngbDatepicker #dnn="ngbDatepicker" />
+                            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dnn.toggle()"
+                                type="button"></button>
+                        </div>
+                        <div *ngIf="(basicFormControlRegistration['ReNewDate'].invalid) && submitted  && (basicFormControlRegistration['ReNewDate'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Renew Date is <strong>required</strong></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12  my-1">
+                    <label>Academic Year: </label>
+                    <div class="form-input">
+                        <ng-select #select [items]="yearArray" formControlName="AcadmicYear" bindLabel="item"
+                            bindValue="item">
+                        </ng-select>
+                        <div *ngIf="(basicFormControlRegistration['AcadmicYear'].invalid) && submitted && (basicFormControlRegistration['AcadmicYear'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Academic Year is <strong>required</strong></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success me-2">
+                Save
+            </button>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #WithDraw let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title">WithDrawn</h6>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="widthDrawForm" novalidate (ngSubmit)="formSubmit()">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 my-1">
+                    <div class="form-group">
+                        <label>Status: <span class="tx-danger">*</span></label>
+                        <ng-select #select [items]="studenStatusList" formControlName="statusId" bindLabel="text"
+                            bindValue="id">
+                        </ng-select>
+                        <div *ngIf="(basicFormControl['statusId'].invalid) && submitted  && (basicFormControl['statusId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Status is <strong>required</strong></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 my-1">
+                    <label>Reason For Going: </label>
+                    <input type="text" name="name" formControlName="reasonForGoing" placeholder="reason For Going"
+                        class="form-control">
+                    <div *ngIf="(basicFormControl['reasonForGoing'].invalid) && submitted  && (basicFormControl['reasonForGoing'].errors?.['required'])"
+                        class="tx-danger">
+                        <small>reason For Going is <strong>required</strong></small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 my-1">
+                    <label>which School Going: </label>
+                    <input type="text" name="name" formControlName="whichSchoolGoing" placeholder="reason For Going"
+                        class="form-control">
+                    <div *ngIf="(basicFormControl['whichSchoolGoing'].invalid) && submitted  && (basicFormControl['whichSchoolGoing'].errors?.['required'])"
+                        class="tx-danger">
+                        <small>which School Going is <strong>required</strong></small>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 my-1">
+                    <label>withdrawn Date: <span class="tx-danger">*</span></label>
+                    <div class="form-input">
+                        <div class="input-group">
+                            <input formControlName="withdrawnDate" class="form-control" placeholder="dd/mm/yyyy"
+                                name="dn" [(ngModel)]="withdrawicker" ngbDatepicker #dn="ngbDatepicker" />
+                            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dn.toggle()"
+                                type="button"></button>
+                        </div>
+                        <div *ngIf="(basicFormControl['withdrawnDate'].invalid) && submitted  && (basicFormControl['withdrawnDate'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>withdrawn Date is <strong>required</strong></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success me-2">
+                Save
+            </button>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #sibblingModel let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title">Sibling</h6>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 my-1">
+                <div class="form-group">
+                    <label> Student H Code: <span class="tx-danger">*</span></label>
+                    <input class="form-control" [(ngModel)]="studentHCode" placeholder="Enter Student H Code">
+                </div>
+            </div>
+        </div>
+        <button (click)="getStudentByHCode()" type="button" class="btn btn-success me-2">
+            Search
+        </button>
+        <br>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Found Sibling Student</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
+                                <thead>
+                                    <tr>
+                                        <th>H Code</th>
+                                        <th>Full Name</th>
+                                        <th>Email</th>
+                                        <th>Class</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of sibblingStudents;let ndx = index">
+                                        <td>{{item.hCode}}</td>
+                                        <td>{{item.fullName}}</td>
+                                        <td>{{item.studentEmail}}</td>
+                                        <td>{{item.className}}</td>
+                                        <td>
+                                            <button (click)="deleteSibbling(item.studentId)" id="bDel" type="button"
+                                                class="btn mx-3 btn-sm btn-danger">
+                                                <span class="fe fe-trash-2"> </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button (click)="saveSibblingStudent()" type="button" class="btn btn-success me-2">
+            Save
+        </button>
+    </div>
+</ng-template>
+
+
+<ng-template #ScroleContent let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title">Student Details</h6>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-profile-dialogue [studentId]="tempStudentId"></app-profile-dialogue>
+    </div>
+</ng-template>
+
+<ng-template #ScroleContentAttachmernt let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title">Student Attachments</h6>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-danger me-2">
+            Close
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row" *ngFor="let item of attachmentList;let ndx = index">
+            <div class="col-md-10">
+                <label for="file" style="font-weight: bold;">{{item.lovName}}</label>
+                <input accept="application/pdf" id="file" type="file" class="form-control"
+                    (change)="onSelectAttachment($event,item.lovId)">
+            </div>
+            <div class="col-md-2" style="margin-top: 30px;">
+                <label class="ckbox mg-b-5"> <input type="checkbox" id="BusServices" disabled="disabled"
+                        [checked]="item.isRequired"><span>Required</span></label>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #AttachmerntList let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title">Attachments</h6>
+        <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-danger me-2">
+            Close
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card custom-card">
+                        <div class="card-body p-4 pt-0">
+                            <div class="text-wrap">
+                                <div class="file-image-btn" *ngFor="let item of getAttachment;let ndx = index">
+                                    <div class="product-image"><a
+                                            routerlink="/apps/file-manager/file-manager-details"><img
+                                                src="../../../assets/Files/2.png" alt=""></a>
+                                        <ul class="image-icons">
+                                            <li><a download target="_blank"
+                                                    href="{{baseUrl+FilePath.StudentDocuments+'/'+item.documentGuid}}"
+                                                    class="btn btn-secondary"><i class="fe fe-download"></i></a>
+                                                <a (click)="deleteDocument(item.documentId)" class="btn btn-secondary"><i class="fe fe-trash"></i></a>
+                                            </li>
+                                        </ul><span class="file-name-1">{{item.lovName}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #ScroleStudentContract let-modal>
+    <div class="modal-header">
+        <h6 class="modal-title">Student Contract</h6>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-studentcontract-dialogue [studentId]="tempStudentId"></app-studentcontract-dialogue>
+    </div>
+</ng-template>

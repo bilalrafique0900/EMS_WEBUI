@@ -1,0 +1,86 @@
+<app-page-header [title]="'TimeTable'" [items]="['Forms']" [active_item]="'TimeTable-list'"></app-page-header>
+
+<div class="row row-sm">
+    <div class="col-sm-12 col-lg-12 col-xl-12">
+        <div class="card custom-card">
+            <div class="">
+                <div class="p-3 border-bottom">
+                    <div class="d-flex align-items-center mb-3">
+                        <h5 class="mb-0">TimeTable</h5>
+                        <div class="ms-auto d-flex align-items-center">
+                            <div class="btn-list radiobtns">
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="btnradio" id="Add" (click)="generateTimeTable()" [checked]="!curdBtnIsList">
+                                    <label ngbTooltip="Generate TimeTable" class="btn btn-outline-primary" for="Add"><i
+                                            class="fa fa-plus"> Generate TimeTable</i></label>
+                                    <input type="radio" class="btn-check" name="btnradio" id="List" (click)="changeCurdView(true)" [checked]="curdBtnIsList">
+                                    <label ngbTooltip="List" class="btn btn-outline-primary" for="List"><i
+                                            class="fa fa-list-ul"> List</i></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-0" *ngIf="curdBtnIsList">
+                      <input type="text" [(ngModel)]="searchText" (keyup.enter)="onSearchText()" class="form-control" placeholder="Search..." />
+                      <span class="input-group-append">
+                          <button class="btn ripple btn-info" (click)="onSearchText()" type="button">
+                              <i class="fe fe-search me-2"></i> Search
+                          </button>
+                      </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="curdBtnIsList">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="parsley-input col-md-8">
+          <h3 class="card-title">Class {{classname}} TimeTable </h3>
+            </div>
+          <div class="parsley-input col-md-4">
+            <label>Section: <span class="tx-danger">*</span></label>
+            <ng-select #select [items]="sectionList"  [(ngModel)]="FilterSectionId" (change)="sectionChange($event)"
+            bindLabel="description" Value="sectionId" bindValue="sectionId" >
+          </ng-select>
+        </div>
+
+    </div>
+        </div>
+        <div class="card-body" *ngIf="gridList.length>0">
+            <div class="table-responsive" >
+             <table class="table table-bordered border text-nowrap mb-0">
+                 <tr>
+                    <th>Days</th>
+                    <th *ngFor="let item of gridList">{{item.startTime | date:"HH:mm a"}}-{{item.endTime | date:"HH:mm a"}}
+                                             
+                    </th>
+                </tr>
+                <tr *ngFor="let day of days">
+                    <td>{{day}}</td>
+                    <td *ngFor="let item of gridList;let ndx = index">
+                    <span style="font-size: 18px;font-weight: bold;">{{item.courseName}}</span>
+                    <span layout="row" style="font-size: 12px;" *ngIf="item.isBreak==false">
+                    <hr flex/><b>Teacher:</b>{{item.teacherName}} <b>Room:</b>{{item.roomName}} <hr flex/>
+                    </span>
+                    <span layout="row" style="font-size: 18px;" *ngIf="item.isBreak==true">
+                      <hr flex/><b>Break </b> <hr flex/>
+                      </span>
+{{item.isbreak}}
+                     </td>
+                </tr>
+               
+              </table>
+            
+              
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+	

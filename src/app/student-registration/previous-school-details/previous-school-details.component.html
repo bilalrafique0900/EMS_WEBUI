@@ -1,0 +1,77 @@
+<form [formGroup]="form" novalidate (ngSubmit)="FormSubmit()">
+    <section>
+      <div class="row">
+        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+          <label>Previous School Name: <span class="tx-danger">*</span></label>
+          <input type="text" name="name" formControlName="PreviousSchoolName" placeholder="Previous School Name"
+            class="form-control" />
+          <div
+            *ngIf="(basicFormControl['PreviousSchoolName'].invalid) && submitted&& (basicFormControl['PreviousSchoolName'].errors?.['required'])"
+            class="tx-danger">
+            <small>Previous School Name is <strong>required</strong></small>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+          <label>Previous School Academic Year: <span class="tx-danger">*</span></label>
+          <input type="text" name="name" formControlName="PreviousSchoolYear" placeholder="Previous School Academic Year"
+            class="form-control" />
+          <div
+            *ngIf="(basicFormControl['PreviousSchoolYear'].invalid) && submitted&& (basicFormControl['PreviousSchoolYear'].errors?.['required'])"
+            class="tx-danger">
+            <small>Previous School Year is <strong>required</strong></small>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+          <label>Previous School Grade/Year: <span class="tx-danger">*</span></label>
+          <input type="text" name="name" formControlName="PreviousSchoolGrade"
+            placeholder="Previous School Grade/Year" class="form-control" />
+            <div
+            *ngIf="(basicFormControl['PreviousSchoolGrade'].invalid) && submitted&& (basicFormControl['PreviousSchoolGrade'].errors?.['required'])"
+            class="tx-danger">
+            <small>Previous School Grade is <strong>required</strong></small>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+          <label>Previous School Certificate: <span class="tx-danger">*</span></label>
+          <input type="email" name="name" formControlName="PreviousSchoolCertificate" placeholder="Previous School Certificate"
+            class="form-control" />
+          <div
+            *ngIf="(basicFormControl['PreviousSchoolCertificate'].invalid) && submitted&& (basicFormControl['PreviousSchoolCertificate'].errors?.['required'])"
+            class="tx-danger">
+            <small>Previous School Certificate is <strong>required</strong></small>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+          <label>Previous School Certificate Number: <span class="tx-danger">*</span></label>
+          <input type="text" name="name" formControlName="PreviousSchoolCertificateNumber" placeholder="Previous School Certificate Number"
+            class="form-control" />
+          <div
+            *ngIf="(basicFormControl['PreviousSchoolCertificateNumber'].invalid) && submitted&& (basicFormControl['PreviousSchoolCertificateNumber'].errors?.['required'])"
+            class="tx-danger">
+            <small>Previous School Certificate Number is <strong>required</strong></small>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+            <label>Previous School Certificate Date: <span class="tx-danger">*</span></label>
+            <div class="form-input">
+              <div class="input-group">
+                <input formControlName="PreviousSchoolCertificateDate" class="form-control" placeholder="dd/mm/yyyy" name="d22"
+                  [(ngModel)]="dateicker" ngbDatepicker #d22="ngbDatepicker" />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d22.toggle()"
+                  type="button"></button>
+              </div>
+            </div>
+            <div
+              *ngIf="(basicFormControl['PreviousSchoolCertificateDate'].invalid) && submitted&& (basicFormControl['PreviousSchoolCertificateDate'].errors?.['required'])"
+              class="tx-danger">
+              <small>Previous School Certificate Date is <strong>required</strong></small>
+            </div>
+          </div>
+      </div>
+    </section>
+    <button type="submit" class="btn btn-success me-2">
+      Save Details
+    </button>
+  </form>

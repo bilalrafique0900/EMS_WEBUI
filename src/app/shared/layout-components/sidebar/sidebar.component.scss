@@ -1,0 +1,9 @@
+::ng-deep{
+    .flex-wrap {
+            flex-wrap: nowrap !important;
+        }
+}
+
+.slide-item.active{
+    color: var(--primary-bg-color)!important;
+}

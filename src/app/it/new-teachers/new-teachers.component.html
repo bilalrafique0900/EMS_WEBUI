@@ -1,0 +1,77 @@
+<app-page-header [title]="'NEW TEACHERS'" [items]="['Forms']" [active_item]="'Teachers'"></app-page-header>
+<div class="row row-sm">
+    <div class="col-sm-12 col-lg-12 col-xl-12">
+        <div class="card custom-card">
+            <div class="">
+                <div class="p-3 border-bottom">
+                    <div class="input-group mb-0" >
+                        <input type="text" class="form-control" [(ngModel)]="searchText" (keyup.enter)="onSearchText()" placeholder="Search..." />
+                        <span class="input-group-append">
+                            <button class="btn ripple btn-info" (click)="onSearchText()" type="button">
+                                <i class="fe fe-search me-2"></i> Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="parsley-input col-md-8">
+                  <h3 class="card-title">New Teachers</h3>
+                    </div>
+                  <!-- <div class="parsley-input col-md-4">
+                    <label>Branch: <span class="tx-danger">*</span></label>
+                    <ng-select #select [items]="branchList"  [(ngModel)]="FilterBranchId" (change)="getStudents()"
+                    bindLabel="branchName" bindValue="branchId">
+                  </ng-select>
+                </div> -->
+        
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
+                        <thead>
+                            <tr>
+                                <th>Actions</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of teacherList;let ndx = index">
+                                <td>
+                                   <a [routerLink]="['/it/add-teacher-user']" [queryParams]="{tid:item.teacherId}">
+                                        Add User
+                                    </a>
+                                </td>
+                                <td>{{item.firstName}}</td>
+                                <td>{{item.lastName}}</td>
+                                <td>{{item.teacherEmail}}</td>
+                                <td>{{item.teacherPhoneNo}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.pageNo" [pageSize]="pagination.pageSize" (pageChange)="onPageChange($event)" [maxSize]="pagination.maxSize" [boundaryLinks]="true" [ellipses]="true"></ngb-pagination>
+    
+                    <ng-select class="" style="min-width: 100px" name="pageSize" (change)="getTeachers()" [(ngModel)]="pagination.pageSize">
+                      <ng-option value="5">5</ng-option>
+                      <ng-option value="10" selected>10</ng-option>
+                      <ng-option value="50">50</ng-option>
+                      <ng-option value="100">100</ng-option>
+                    </ng-select>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,259 @@
+<app-page-header [title]="'Institutes'" [items]="['Forms']" [active_item]="'institute'"></app-page-header>
+
+<div class="row row-sm">
+    <div class="col-sm-12 col-lg-12 col-xl-12">
+        <div class="card custom-card">
+            <div class="">
+                <div class="p-3 border-bottom">
+                    <div class="d-flex align-items-center mb-3">
+                        <h5 class="mb-0">Institute</h5>
+                        <div class="ms-auto d-flex align-items-center">
+                            <div class="btn-list radiobtns">
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="btnradio" id="Add" (click)="changeCurdView(false)" [checked]="!curdBtnIsList">
+                                    <label ngbTooltip="Add" class="btn btn-outline-primary" for="Add"><i
+                                            class="fa fa-plus"> Add</i></label>
+                                    <input type="radio" class="btn-check" name="btnradio" id="List" (click)="changeCurdView(true)" [checked]="curdBtnIsList">
+                                    <label ngbTooltip="List" class="btn btn-outline-primary" for="List"><i
+                                            class="fa fa-list-ul"> List</i></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-0" *ngIf="curdBtnIsList">
+                        <input type="text" class="form-control" [(ngModel)]="searchText" (keyup.enter)="onSearchText()" placeholder="Search..." />
+                        <span class="input-group-append">
+                            <button class="btn ripple btn-info" (click)="onSearchText()" type="button">
+                                <i class="fe fe-search me-2"></i> Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="!curdBtnIsList">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Please {{ isEdit ? 'Edit' : 'Add' }} here</div>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="instituteForm" novalidate (ngSubmit)="formSubmit()">
+                        <div class="row mg-b-20">
+                            <div class="parsley-input col-md-6" id="fnWrapper">
+                                <label>Institute Name: <span class="tx-danger">*</span></label>
+                                <input class="form-control" formControlName="InstituteName" (ngModelChange)="this.isRecordExist()" placeholder="Enter Institute name"
+                                    [ngClass]="{'has-success': basicFormControl['InstituteName'].valid}">
+                                <div *ngIf="(basicFormControl['InstituteName'].touched || submitted) && (basicFormControl['InstituteName'].errors?.['required'])"
+                                    class="tx-danger">
+                                    <small>Institute Name is <strong>required</strong></small>
+                                </div>
+                            </div>
+                            <div class="parsley-input col-md-6" id="fnWrapper">
+                                <label>Phone: <span class="tx-danger">*</span></label>
+                                <input class="form-control" formControlName="Phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="Enter Phone name" 
+                                contact type="text" [ngClass]="{'has-success': basicFormControl['Phone'].valid}">
+                                <div *ngIf="(basicFormControl['Phone'].touched || submitted) && (basicFormControl['Phone'].errors?.['required'])"
+                                    class="tx-danger">
+                                    <small>Phone is <strong>required</strong></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mg-b-20">
+                          <div class="col-md-6 col-sm-12 col-md-6 my-1">
+                            <label>Session Start Date: <span class="tx-danger">*</span></label>
+                            <div class="form-input">
+                              <div class="input-group">
+                                <input formControlName="SessionStartDate" class="form-control" placeholder="dd/mm/yyyy" name="d22"
+                                  [(ngModel)]="sessionStartDatePicker" ngbDatepicker #d22="ngbDatepicker" />
+                                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d22.toggle()"
+                                  type="button"></button>
+                              </div>
+                            </div>
+                            <div
+                              *ngIf="(basicFormControl['SessionStartDate'].touched || submitted) && (basicFormControl['SessionStartDate'].errors?.['required'])"
+                              class="tx-danger">
+                              <small>Session Start Date is <strong>required</strong></small>
+                            </div>
+                          </div>
+                            <!-- <div class="parsley-input col-md-6" id="SessionStartDate">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Session Start Date</mat-label>
+                                    <input matInput [matDatepicker]="SessionStartDate" formControlName="SessionStartDate">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="SessionStartDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #SessionStartDate></mat-datepicker>
+                                  </mat-form-field>
+                                  <div *ngIf="(basicFormControl['SessionStartDate'].touched || submitted) && (basicFormControl['SessionStartDate'].errors?.['required'])"
+                                  class="tx-danger">
+                                  <small>Session Start Date is <strong>required</strong></small>
+                              </div>
+                            </div> -->
+                            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+                              <label>Session End Date: <span class="tx-danger">*</span></label>
+                              <div class="form-input">
+                                <div class="input-group">
+                                  <input formControlName="SessionEndDate" class="form-control" placeholder="dd/mm/yyyy" name="d23"
+                                    [(ngModel)]="sessionEndDatePicker" ngbDatepicker #d23="ngbDatepicker" />
+                                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d23.toggle()"
+                                    type="button"></button>
+                                </div>
+                              </div>
+                              <div
+                                *ngIf="(basicFormControl['SessionEndDate'].touched || submitted) && (basicFormControl['SessionEndDate'].errors?.['required'])"
+                                class="tx-danger">
+                                <small>Session End Date is <strong>required</strong></small>
+                              </div>
+                            </div>
+                            <!-- <div class="parsley-input col-md-6" id="SessionEndDate">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Session End Date</mat-label>
+                                    <input matInput [matDatepicker]="SessionEndDate" formControlName="SessionEndDate">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="SessionEndDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #SessionEndDate></mat-datepicker>
+                                  </mat-form-field>
+                                  <div *ngIf="(basicFormControl['SessionEndDate'].touched || submitted) && (basicFormControl['SessionEndDate'].errors?.['required'])"
+                                  class="tx-danger">
+                                  <small>Session End Date is <strong>required</strong></small>
+                              </div>
+                            </div> -->
+                        </div>
+                        <div class="row mg-b-20">
+                          <div class="col-md-6 col-sm-12 col-md-6 my-1">
+                            <label>License Expiration Date: <span class="tx-danger">*</span></label>
+                            <div class="form-input">
+                              <div class="input-group">
+                                <input formControlName="LicenseExpireDate" class="form-control" placeholder="dd/mm/yyyy" name="d24"
+                                  [(ngModel)]="licenseExpireDatePicker" ngbDatepicker #d24="ngbDatepicker" />
+                                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d24.toggle()"
+                                  type="button"></button>
+                              </div>
+                            </div>
+                            <div
+                              *ngIf="(basicFormControl['LicenseExpireDate'].touched || submitted) && (basicFormControl['LicenseExpireDate'].errors?.['required'])"
+                              class="tx-danger">
+                              <small>License Expiration Date is <strong>required</strong></small>
+                            </div>
+                          </div>
+                            <!-- <div class="parsley-input col-md-6" id="licenseExpirationDate">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>license Expiration Date</mat-label>
+                                    <input matInput [matDatepicker]="licenseExpirationDate" formControlName="licenseExpirationDate">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="licenseExpirationDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #licenseExpirationDate></mat-datepicker>
+                                  </mat-form-field>
+                                  <div *ngIf="(basicFormControl['licenseExpirationDate'].touched || submitted) && (basicFormControl['licenseExpirationDate'].errors?.['required'])"
+                                  class="tx-danger">
+                                  <small>license Expiration Date is <strong>required</strong></small>
+                              </div>
+                            </div> -->
+                            <div class="col-md-6 col-sm-12 col-md-6 my-1 mt-3">
+                              <label><span class="tx-danger"></span></label>
+                              <div class="form-input">
+                                <div class="input-group">
+                                  <label class="custom-control form-checkbox custom-control-md">
+                                    <input type="checkbox" class="custom-control-input" name="example-checkbox1" formControlName="Islicense" value="option1" checked="">
+                                    <span class="custom-control-label custom-control-label-md  tx-17">Is license Active</span>
+                                </label>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <div class="parsley-input col-md-6" id="fnWrapper">
+                                <label class="custom-control form-checkbox custom-control-md">
+                                    <input type="checkbox" class="custom-control-input" name="example-checkbox1" formControlName="IslicenseActive" value="option1" checked="">
+                                    <span class="custom-control-label custom-control-label-md  tx-17">Is license Active</span>
+                                </label>
+                            </div> -->
+                        </div>
+                       
+                        <div class="row mg-b-20">
+                            <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
+                                <label>Address:</label>
+                                <textarea class="form-control" formControlName="Address"
+                                    placeholder="Enter Address"></textarea>
+                            </div>
+                            <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
+                                <label>Description:</label>
+                                <textarea class="form-control" formControlName="Description"
+                                    placeholder="Enter Description"></textarea>
+                            </div>
+                        </div>
+                    <div class="mg-t-30">
+                        <button class="btn btn-primary pd-x-20" type="submit">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="curdBtnIsList">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Manage the all Institute</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
+                <thead>
+                  <tr>
+                    <th>Institute name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>license Expiration Date</th>
+                    <th>Islicense Active</th>
+                    <th>Session Start Date</th>
+                    <th>Session End Date</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+               <tbody>
+                <tr *ngFor="let item of gridList;let ndx = index">
+                  <td>{{item.instituteName}}</td>
+                  <td>{{item.address}}</td>
+                  <td>{{item.phone}}</td>
+                    <td>{{item.licenseExpireDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{item.islicense}}</td>
+                    <td>{{item.sessionStartDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{item.sessionEndDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{item.description}}</td>
+                    <td>
+                        <button type="button"  (click)="setValueToForm(item)"  class="btn btn-sm btn-primary">
+                          <span class="fe fe-edit"> </span>
+                          <!-- Edit -->
+                        </button>
+                        <button (click)="deleteRow(item)" id="bDel" type="button" class="btn mx-3 btn-sm btn-danger">
+                          <span class="fe fe-trash-2"> </span>
+                          <!-- trash -->
+                        </button>
+                        <label>
+                          <input (click)="IsActive(item)" type="checkbox" [checked]="item.isActive" name="form-switch-checkbox1" class="form-switch-input">
+                          <span class="form-switch-indicator"></span>
+                        </label>
+                      </td>
+                </tr>
+               </tbody>
+              </table>
+            </div>
+            <div class="d-flex justify-content-between p-2">
+              <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.pageNo" [pageSize]="pagination.pageSize" (pageChange)="onPageChange($event)" [maxSize]="pagination.maxSize" [boundaryLinks]="true" [ellipses]="true"></ngb-pagination>
+
+              
+              <ng-select class="" style="min-width: 100px" name="pageSize" (change)="getInstitutes()" [(ngModel)]="pagination.pageSize">
+                <ng-option value="5">5</ng-option>
+                <ng-option value="10" selected>10</ng-option>
+                <ng-option value="50">50</ng-option>
+                <ng-option value="100">100</ng-option>
+              </ng-select>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,41 @@
+<app-page-header [title]="'Add Teacher Users'" [items]="['IT']" [active_item]="'Add Teacher User'"></app-page-header>
+
+
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+      <div class="card">
+          <div class="card-header">
+              <div class="card-title">Please add User here</div>
+          </div>
+          <div class="card-body">
+              <form [formGroup]="userForm" novalidate (ngSubmit)="formSubmit()">
+                      <div class="row mg-b-20">
+                          <div class="parsley-input col-md-6" id="fnWrapper">
+                              <label>Teacher Email: <span class="tx-danger">*</span></label>
+                              <input type="email" class="form-control" formControlName="teacherEmail"  placeholder="Enter Teacher Email for User"
+                                  [ngClass]="{'has-success': basicFormControl['teacherEmail'].valid}">
+                              <div *ngIf="(basicFormControl['teacherEmail'].touched || isSubmitted) && (basicFormControl['teacherEmail'].errors?.['required'])"
+                                  class="tx-danger">
+                                  <small> Teacher User Email is <strong>required</strong></small>
+                              </div>
+                          </div>
+                          <div class="parsley-input col-md-6" id="fnWrapper">
+                            <label>Teacher Name: <span class="tx-danger">*</span></label>
+                            <input class="form-control" formControlName="fullName" readonly  placeholder="Enter Full Name"
+                                [ngClass]="{'has-success': basicFormControl['fullName'].valid}">
+                            <div *ngIf="(basicFormControl['fullName'].touched || isSubmitted) && (basicFormControl['fullName'].errors?.['required'])"
+                                class="tx-danger">
+                                <small> Full Name is <strong>required</strong></small>
+                            </div>
+                        </div>
+                     </div>
+                  <div class="mg-t-30">
+                      <button class="btn btn-primary pd-x-20" type="submit">
+                          Save
+                      </button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

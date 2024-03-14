@@ -1,0 +1,463 @@
+<app-page-header [title]="'Student Registration'" [items]="['Forms']" [active_item]="'Student Registration'"></app-page-header>
+<!-- row -->
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Student Registration</div>
+        <p class="mb-0 text-muted tx-13">
+          Student Registration and Student Updation
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /row -->
+
+<!-- row -->
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Student Registration</div>
+        <!-- <p class="mb-0 text-muted tx-13">
+          It is Very Easy to Customize and it uses in your website apllication.
+        </p> -->
+      </div>
+      <div class="card-body">
+        <div id="wizard3">
+          <mat-stepper #stepper>
+              <mat-step>
+                <ng-template matStepLabel>Personal Information</ng-template>
+                <ng-template matStepContent>
+                  <form [formGroup]="registrationForm" novalidate (ngSubmit)="formSubmit()">
+                  <section>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <div class="form-group">
+                          <label>H Code: </label>
+                          <input type="text" name="name" readonly formControlName="HCode"
+                            placeholder="H Code" class="form-control" />
+                        </div>
+
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>First Name: </label>
+                        <input class="form-control" formControlName="FirstName" placeholder="Enter First name"
+                          [ngClass]="{'has-success': basicFormControl['FirstName'].valid}">
+                        <div
+                          *ngIf="(basicFormControl['FirstName'].invalid) && submitted && (basicFormControl['FirstName'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>First Name is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Middle Name: </label>
+                        <input class="form-control" formControlName="MiddleName" placeholder="Enter Middle name"
+                          [ngClass]="{'has-success': basicFormControl['MiddleName'].valid}">
+                        <div
+                          *ngIf="(basicFormControl['MiddleName'].invalid) && submitted&& (basicFormControl['MiddleName'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Middle Name is <strong>required</strong></small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Last Name: </label>
+                        <input class="form-control" formControlName="LastName" placeholder="Enter Last name"
+                          [ngClass]="{'has-success': basicFormControl['LastName'].valid}">
+                        <div
+                          *ngIf="(basicFormControl['LastName'].invalid) && submitted&& (basicFormControl['LastName'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Last Name is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Full Name: </label>
+                        <input class="form-control" [readOnly]="true"[value]="this.registrationForm.controls['FirstName'].value +' '+ this.registrationForm.controls['MiddleName'].value +' '+ this.registrationForm.controls['LastName'].value" formControlName="FullName" placeholder="Enter Full name"
+                          [ngClass]="{'has-success': basicFormControl['FullName'].valid}">
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Student Email: </label>
+                        <input class="form-control" formControlName="StudentEmail" placeholder="Enter Student Email"
+                          [ngClass]="{'has-success': basicFormControl['StudentEmail'].valid}">
+                        <div
+                          *ngIf="submitted && (basicFormControl['StudentEmail'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Student Email is <strong>required</strong></small>
+                        </div>
+                        <span class="text-danger" *ngIf="submitted && basicFormControl['StudentEmail'].hasError('pattern') && (basicFormControl['StudentEmail'].dirty)">Email must be a valid email address</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Nationality: </label>
+                        <input class="form-control" formControlName="Nationality" placeholder="Enter Nationality"
+                          [ngClass]="{'has-success': basicFormControl['Nationality'].valid}">
+                        <div
+                          *ngIf="(basicFormControl['Nationality'].invalid) && submitted&& (basicFormControl['Nationality'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Nationality is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Place Of Birth: </label>
+                        <input class="form-control" formControlName="PlaceOfBirth" placeholder="Enter Place Of Birth"
+                          [ngClass]="{'has-success': basicFormControl['PlaceOfBirth'].valid}">
+                        <div
+                          *ngIf="(basicFormControl['PlaceOfBirth'].invalid) && submitted&& (basicFormControl['PlaceOfBirth'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Place Of Birth is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Date Of Birth: </label>
+                        <div class="form-input">
+                          <div class="input-group">
+                            <input formControlName="DateOfBirth" class="form-control" placeholder="dd/mm/yyyy" name="d22"
+                              [(ngModel)]="dateofbirthPicker" ngbDatepicker #d22="ngbDatepicker" />
+                            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d22.toggle()"
+                              type="button"></button>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="(basicFormControl['DateOfBirth'].invalid) && submitted&& (basicFormControl['DateOfBirth'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Date Of Birth is <strong>required</strong></small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Date Of Joining: </label>
+                        <div class="form-input">
+                          <div class="input-group">
+                            <input  formControlName="DateOfJoining" class="form-control" placeholder="dd/mm/yyyy"
+                              name="d2" [(ngModel)]="dateOfJoiningPicker" ngbDatepicker #d2="ngbDatepicker" />
+                            <button  class="btn btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()"
+                              type="button"></button>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="(basicFormControl['DateOfJoining'].invalid) && submitted&& (basicFormControl['DateOfJoining'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Date Of Joining is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label> Passport No: </label>
+                        <input class="form-control" formControlName="PassportNo" placeholder="Enter Passport No"
+                          [ngClass]="{'has-success': basicFormControl['PassportNo'].valid}">
+                        <div
+                          *ngIf="(basicFormControl['PassportNo'].invalid) && submitted&& (basicFormControl['PassportNo'].errors?.['required'])"
+                          class="tx-danger">
+                          <small> Passport No is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label> ID No: </label>
+                        <input class="form-control" formControlName="IDNo" placeholder="Enter ID No"
+                          [ngClass]="{'has-success': basicFormControl['IDNo'].valid}">
+                        <div
+                          *ngIf="(basicFormControl['IDNo'].invalid) && submitted&& (basicFormControl['IDNo'].errors?.['required'])"
+                          class="tx-danger">
+                          <small> ID No is <strong>required</strong></small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Student Phone No: </label>
+                          <input formControlName="StudentPhoneNo" placeholder="123456789" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" type="text"
+                          />
+                        <div
+                          *ngIf="(basicFormControl['StudentPhoneNo'].invalid) && submitted&& (basicFormControl['StudentPhoneNo'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Student Phone No is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Religion: </label>
+                        <input class="form-control" formControlName="Religion" placeholder="Enter Religion"
+                          [ngClass]="{'has-success': basicFormControl['Religion'].valid}">
+                        <div
+                          *ngIf="(basicFormControl['Religion'].invalid) && submitted&& (basicFormControl['Religion'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Religion is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <div class="form-group">
+                          <label>Gender: </label>
+                          <ng-select #select [items]="genderList"  formControlName="GenderId"
+                            bindLabel="text" bindValue="id">
+                          </ng-select>
+                          <div
+                            *ngIf="(basicFormControl['GenderId'].invalid) && submitted&& (basicFormControl['GenderId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Gender is <strong>required</strong></small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <div class="form-group">
+                          <label>Level: </label>
+                          <ng-select #select [items]="levelList"  formControlName="LevelId" (change)="onChangeLevel()"
+                            bindLabel="text" bindValue="id">
+                          </ng-select>
+                          <div
+                            *ngIf="(basicFormControl['LevelId'].invalid) && submitted&& (basicFormControl['LevelId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Level is <strong>required</strong></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <div class="form-group">
+                          <label>School System: </label>
+                          <ng-select #select [items]="schoolSystemList"  formControlName="ForSchoolSystemId"
+                            bindLabel="text" bindValue="id">
+                          </ng-select>
+                          <div
+                            *ngIf="(basicFormControl['ForSchoolSystemId'].invalid) && submitted&& (basicFormControl['ForSchoolSystemId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>School System is <strong>required</strong></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <div class="form-group">
+                          <label>Year: </label>
+                          <ng-select #select [items]="classList"  formControlName="classId" (change)="getSectionByClassId()"
+                            bindLabel="name" bindValue="classId">
+                          </ng-select>
+                          <div
+                            *ngIf="(basicFormControl['classId'].invalid) && submitted&& (basicFormControl['classId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Year is <strong>required</strong></small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <div class="form-group">
+                            <label>Section: </label>
+                            <ng-select #select [items]="classSectionList"  formControlName="sectionId"
+                              bindLabel="sectionName" bindValue="sectionId">
+                            </ng-select>
+                            <div
+                              *ngIf="(basicFormControl['sectionId'].invalid) && submitted&& (basicFormControl['sectionId'].errors?.['required'])"
+                              class="tx-danger">
+                              <small>Section is <strong>required</strong></small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <label>Academic Year: </label>
+                          <div class="form-input">
+                            <ng-select #select [items]="yearArray"  formControlName="AcadmicYear"
+                            bindLabel="item" bindValue="item">
+                          </ng-select>
+                          <div
+                            *ngIf="(basicFormControl['AcadmicYear'].invalid) && submitted&& (basicFormControl['AcadmicYear'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Academic Year is <strong>required</strong></small>
+                          </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <label>Year: </label>
+                          <input type="text" name="name" formControlName="year" placeholder="Year"
+                            class="form-control" />
+                            <div
+                            *ngIf="(basicFormControl['year'].invalid) && submitted&& (basicFormControl['year'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Year is <strong>required</strong></small>
+                          </div>
+                        </div> -->
+                        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <label>Allergy Type:</label>
+                          <input class="form-control" formControlName="AllergyType" placeholder="Enter Allergy Type"
+                            [ngClass]="{'has-success': basicFormControl['AllergyType'].valid}">
+                            <div
+                            *ngIf="(basicFormControl['AllergyType'].invalid) && submitted&& (basicFormControl['AllergyType'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Allergy Type is <strong>required</strong></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                       
+                        <!-- <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <label>Grade: </label>
+                          <input type="text" name="name" formControlName="Grade" placeholder="Grade"
+                            class="form-control" />
+                            <div
+                            *ngIf="(basicFormControl['Grade'].invalid) && submitted&& (basicFormControl['Grade'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Grade is <strong>required</strong></small>
+                          </div>
+                        </div> -->
+                         <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <label>where did you hear about BISK?: </label>
+                          <input type="text" name="name" formControlName="WhereHearAboutSchool"
+                            placeholder="where did you hear about BISK?" class="form-control" />
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <label>Mother Tongue: </label>
+                          <input class="form-control" formControlName="MotherTongue" placeholder="Enter Mother Tongue"
+                            [ngClass]="{'has-success': basicFormControl['MotherTongue'].valid}">
+                          <div
+                            *ngIf="(basicFormControl['MotherTongue'].invalid) && submitted&& (basicFormControl['MotherTongue'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Mother Tongue is <strong>required</strong></small>
+                          </div>
+                        </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <div class="form-group">
+                          <label>Status: </label>
+                          <ng-select #select [items]="studenStatusList"  formControlName="statusId"
+                            bindLabel="text" bindValue="id">
+                          </ng-select>
+                          <div
+                            *ngIf="(basicFormControl['statusId'].invalid) && submitted&& (basicFormControl['statusId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Status is <strong>required</strong></small>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                      <div class="row">
+                      
+                        <div class="col-md-4 col-sm-12 col-md-4 my-1" id="lnWrapper">
+                          <label>Zone: </label>
+                          <ng-select #select [items]="zones"  formControlName="zoneId" (change)="getAreaByZone()"
+                              bindLabel="zoneName" bindValue="zoneId">
+                          </ng-select>
+                          <div
+                              *ngIf="(basicFormControl['zoneId'].invalid) && submitted&& (basicFormControl['zoneId'].errors?.['required'])"
+                              class="tx-danger">
+                              <small>Zone is <strong>required</strong></small>
+                          </div>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1" id="lnWrapper">
+                        <label>Area: </label>
+                        <ng-select #select [items]="areas"  formControlName="AreaId"
+                            bindLabel="areaName" bindValue="areaId">
+                        </ng-select>
+                        <div
+                            *ngIf="(basicFormControl['AreaId'].invalid) && submitted&& (basicFormControl['AreaId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Area is <strong>required</strong></small>
+                        </div>
+                    </div>
+                      <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                        <label>Street Name: </label>
+                        <input type="text" name="name" formControlName="StreetName" placeholder="Street Name"
+                          class="form-control" />
+                          <div
+                          *ngIf="(basicFormControl['StreetName'].invalid) && submitted&& (basicFormControl['StreetName'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Street Name is <strong>required</strong></small>
+                        </div>
+                      </div>
+                      </div>
+                      <div class="row">
+                       
+                        <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <label>HouseNo: </label>
+                          <input type="text" name="name" formControlName="HouseNo" placeholder="House No"
+                            class="form-control" />
+                            <div
+                            *ngIf="(basicFormControl['HouseNo'].invalid) && submitted&& (basicFormControl['HouseNo'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>House No is <strong>required</strong></small>
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                          <label>Renew Date: <span class="tx-danger"></span></label>
+                          <div class="form-input">
+                            <div class="input-group">
+                              <input [readOnly]="false" formControlName="RenewDate" class="form-control" placeholder="dd/mm/yyyy"
+                                name="dn" [(ngModel)]="RenewPicker" ngbDatepicker #dn="ngbDatepicker" />
+                              <button  class="btn btn-outline-secondary bi bi-calendar3" (click)="dn.toggle()"
+                                type="button"></button>
+                            </div>
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12 col-md-8 my-1">
+                          <label>Address Details: </label>
+                          <textarea type="text" name="name" formControlName="Address" placeholder="Address Details.."
+                            class="form-control"></textarea>
+                            <div
+                            *ngIf="(basicFormControl['Address'].invalid) && submitted&& (basicFormControl['Address'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Address is <strong>required</strong></small>
+                          </div>
+                        </div>
+                       
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12 col-md-4 my-1"
+                          *ngIf="registrationForm.controls['IsPicturePermission'].value">
+                          <ngx-dropzone (change)="onSelectFile($event)">
+                            <ngx-dropzone-label class="ff_fileupload_dropzone">
+                              <img [src]="url ? url : 'https://www.w3schools.com/howto/img_avatar.png'"
+                                height="150px" />
+                            </ngx-dropzone-label>
+                            <button type="button" class="btn btn-danger mt-2" (click)="onRemove()">X</button>
+                          </ngx-dropzone>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-md-4 my-1 row">
+                          <div class="col-md-6">
+                            <div class="parsley-checkbox" id="cbWrapper">
+                              <label class="ckbox mg-b-5"> <input type="checkbox" formControlName="IsBusServices"
+                                  id="BusServices"><span>Bus
+                                  Services</span></label>
+                              <label class="ckbox mg-b-5"> <input type="checkbox" formControlName="IsLunchServices"
+                                  id="LunchServices"><span>Lunch
+                                  Services</span></label>
+                                  <label class="ckbox mg-b-5"><input type="checkbox" formControlName="IsUniform"
+                                    id="Uniform"><span>Uniform</span></label>
+                                <label class="ckbox mg-b-5"><input type="checkbox" formControlName="IsBooks"
+                                    id="Books"><span>Books</span></label>
+                                    <!-- <label class="ckbox mg-b-5"><input type="checkbox" formControlName="IsForeign"
+                                      id="Books"><span>Foreign</span></label> -->
+                                      <label class="ckbox mg-b-5"><input type="checkbox" formControlName="IsPicturePermission"
+                                        id="Books"><span>Picture Permission</span></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </section>
+                  <button [disabled]="working" type="submit" class="btn btn-success me-2" mat-button>
+                    Save & Next
+                  </button>
+                </form>
+                </ng-template>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>Parents Information</ng-template>
+                <ng-template matStepContent>
+                  <app-parent-details [studentId]="studentId"></app-parent-details>
+                </ng-template>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>Previous School Details</ng-template>
+                <ng-template matStepContent>
+                 <app-previous-school-details [studentId]="studentId"></app-previous-school-details>
+                </ng-template>
+              </mat-step>
+          </mat-stepper>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- row closed -->

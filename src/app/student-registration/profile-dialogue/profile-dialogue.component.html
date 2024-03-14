@@ -1,0 +1,266 @@
+<div class="row-sm" id="print">
+    <div style="text-align: end;">
+        <button title="Print" id="Print-btn" type="button" class="btn mx-3 btn-sm btn-primary">
+            <i class="fas fa-print"></i>
+        </button>
+    </div>
+    <div class="txt-center">
+        <img alt="" height="100" width="100" src="../../../assets/logo/logo.jpg" />
+    </div>
+    <h4 class="txt-center">Student Application</h4>
+    <h4 class="txt-center">Academic Year {{studentDetails?.acadmicYear}}</h4>
+    <div class="row ">
+        <div class="col-xl-12">
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <th>Academic Year</th>
+                        <td>{{studentDetails?.acadmicYear}}</td>
+                        <th>H Code</th>
+                        <td>{{studentDetails?.hCode}}</td>
+                        <th style="width: 140px;">Image</th>
+                    </tr>
+
+                    <tr>
+                        <th>School Level</th>
+                        <td>{{studentDetails?.levelName}}</td>
+                        <th>Year</th>
+                        <td>{{studentDetails?.year}}</td>
+                        <td rowspan="3">
+                            <img alt="" height="100" width="150"
+                                src="{{studentDetails?.picture ? baseUrl+FilePath.ProfilePictures+'/'+studentDetails?.picture : 'https://www.w3schools.com/howto/img_avatar.png'}}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Student Status</th>
+                        <td>{{studentDetails?.studentStatus}}</td>
+                        <th>Date Of Joining</th>
+                        <td>{{studentDetails?.dateOfJoining | date:'mediumDate'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Student Phone Number</th>
+                        <td>{{studentDetails?.studentPhoneNo}}</td>
+                        <th>Student Email</th>
+                        <td>{{studentDetails?.studentEmail}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-xl-12">
+            <table style="width:100%">
+                <tr>
+                    <th>First Name</th>
+                    <td>{{studentDetails?.firstName}}</td>
+                    <th>Date Of Birth</th>
+                    <td>{{studentDetails?.dateOfBirth | date:'mediumDate'}}</td>
+                </tr>
+                <tr>
+                    <th>Middle Name</th>
+                    <td>{{studentDetails?.middleName}}</td>
+                    <th>Place Of Birth</th>
+                    <td>{{studentDetails?.placeOfBirth}}</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td>{{studentDetails?.lastName}}</td>
+                    <th>Passport No</th>
+                    <td>{{studentDetails?.passportNo}}</td>
+                </tr>
+                <tr>
+                    <th>Student Geneder</th>
+                    <td>{{studentDetails?.genderName}}</td>
+                    <th>Nationalty</th>
+                    <td>{{studentDetails?.nationality}}</td>
+                </tr>
+                <tr>
+                    <th>Religion</th>
+                    <td>{{studentDetails?.religion}}</td>
+                    <th>Mother Tongue</th>
+                    <td>{{studentDetails?.motherTongue}}</td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td>{{studentDetails?.age}} - Year</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xl-12">
+            <h4 class="txt-center">Parent Information</h4>
+            <table style="width:100%">
+                <tr>
+                    <th>Father Name</th>
+                    <td>{{studentDetails?.fatherName}}</td>
+                    <th>Mother name</th>
+                    <td>{{studentDetails?.motherName}}</td>
+                    <th>Mother Occupation </th>
+                    <td>{{studentDetails?.motherOccupation}}</td>
+                </tr>
+                <tr>
+                    <th>Father Email</th>
+                    <td>{{studentDetails?.fatherEmail}}</td>
+                    <th>Mother Email </th>
+                    <td>{{studentDetails?.motherEmail}}</td>
+                    <th>Mother Contact No </th>
+                    <td>{{studentDetails?.motherContactNo}}</td>
+                </tr>
+                <tr>
+                    <th>Father Contact No</th>
+                    <td>{{studentDetails?.fatherContactNo}}</td>
+                    <th>Second Father Contact No</th>
+                    <td>{{studentDetails?.secondFatherContactNo}}</td>
+                    <th>Father Occupation</th>
+                    <td>{{studentDetails?.fatherOccupation}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xl-12">
+            <h4 class="txt-center">School Services</h4>
+            <table style="width:100%">
+                <tr>
+                    <th>School Transport</th>
+                    <td>{{studentDetails?.isBusServices == true ?'Yes':'No'}}</td>
+                    <th>Lunch Required</th>
+                    <td>{{studentDetails?.isLunchServices == true ?'Yes':'No'}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xl-12">
+            <h4 class="txt-center">Alternative Contact No</h4>
+            <table style="width:100%">
+                <tr>
+                    <th>Contact Number 1</th>
+                    <td>{{studentDetails?.alternativeContact}}</td>
+                    <th>Relation</th>
+                    <td>{{studentDetails?.alternativeRelation}}</td>
+                    <th>Name</th>
+                    <td>{{studentDetails?.alternativeName}}</td>
+                </tr>
+                <tr>
+                    <th>Contact Number 2</th>
+                    <td>{{studentDetails?.alternativeContactSecond}}</td>
+                    <th>Relation</th>
+                    <td>{{studentDetails?.alternativeRelationSecond}}</td>
+                    <th>Name</th>
+                    <td>{{studentDetails?.alternativeNameSecond}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xl-12">
+            <h4 class="txt-center">House Address</h4>
+            <table style="width:100%">
+                <tr>
+                    <th>Street No </th>
+                    <td>{{studentDetails?.streetName}}</td>
+                    <th>House No</th>
+                    <td>{{studentDetails?.houseNo}}</td>
+                </tr>
+                <tr>
+                    <th>Zone</th>
+                    <td>{{studentDetails?.zoneName}}</td>
+                    <th>Area</th>
+                    <td>{{studentDetails?.areaName}}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>{{studentDetails?.address}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xl-12">
+            <h4 class="txt-center">Previous School Details</h4>
+            <table style="width:100%">
+                <tr>
+                    <th>School Name </th>
+                    <td>{{studentDetails?.previousSchoolName}}</td>
+                    <th>Which Grade</th>
+                    <td>{{studentDetails?.previousSchoolGrade}}</td>
+                </tr>
+                <tr>
+                    <th>Year</th>
+                    <td>{{studentDetails?.previousSchoolYear}}</td>
+                    <th>Certificate</th>
+                    <td>{{studentDetails?.previousSchoolCertificate}}</td>
+                </tr>
+                <tr>
+                    <th>Certificate Number</th>
+                    <td>{{studentDetails?.previousSchoolCertificateNumber}}</td>
+                    <th>Certificate Date</th>
+                    <td>{{studentDetails?.previousSchoolCertificateDate | date:'mediumDate'}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xl-12">
+            <h4 class="txt-center">WidthDrawn</h4>
+            <table style="width:100%">
+                <tr>
+                    <th>Reason For Going </th>
+                    <td>{{studentDetails?.reasonForGoing}}</td>
+                    <th>Withdrawn Date</th>
+                    <td>{{studentDetails?.withdrawnDate | date:'mediumDate'}}</td>
+                </tr>
+                <tr>
+                    <th>which School Going</th>
+                    <td>{{studentDetails?.whichSchoolGoing}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <h4 class="txt-center">Medical</h4>
+            <table style="width:100%">
+                <tr>
+                    <th>Allergy</th>
+                    <td>{{studentDetails?.allergyType}}</td>
+                    <th>Vaccination</th>
+                    <td>{{studentDetails?.isVaacination == true ?'Yes':'No'}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <h4 class="txt-center">Registerd By</h4>
+            <table style="width:100%">
+                <tr>
+                    <th>Name</th>
+                    <td>{{studentDetails?.registerdBy}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="txt-center">
+        <h4>Comments</h4>
+    </div>
+    <div class="row comment">
+        <span></span>
+    </div>
+    <!-- <div class="row padding">
+        <div class="col-xl-3">
+            <h4 class="txt-center">Registration Office</h4>
+        </div>
+        <div class="col-xl-3">
+        </div>
+        <div class="col-xl-3">
+            <h4 class="txt-center">Accountant</h4>
+        </div>
+        <div class="col-xl-3">
+            <h4 class="txt-center">IT</h4>
+        </div>
+    </div> -->
+</div>
