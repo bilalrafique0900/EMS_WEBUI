@@ -18,7 +18,9 @@ import { DiscountComponent } from './discount/discount.component';
 import { StudentDocumentComponent } from './student-document/student-document.component';
 import { PaymentTypeSapConfigComponent } from './payment-type-sap-config/payment-type-sap-config.component';
 import { DepartmentComponent } from './department/department.component';
+import { FunctionComponent } from './function/function.component';
 import { GroupComponent } from './group/group.component';
+import { LevelComponent } from './level/level.component';
 import { PostHostComponent } from './posthost/posthost.component';
 
 const routes: Routes = [
@@ -28,8 +30,18 @@ const routes: Routes = [
    // canActivate: [AuthGuardService]
   },
   {
+    path: 'functions',
+    component: FunctionComponent,
+   // canActivate: [AuthGuardService]
+  },
+  {
     path: 'groups',
     component: GroupComponent,
+   // canActivate: [AuthGuardService]
+  },
+  {
+    path: 'levels',
+    component: LevelComponent,
    // canActivate: [AuthGuardService]
   },
   {

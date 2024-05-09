@@ -51,7 +51,7 @@
                           class="tx-danger">
                           <small>Title is <strong>required</strong></small>
 
-                      </div>
+                       </div>
                       
                         </div>
                         <div class="col-md-6 col-sm-12 col-md-6 my-1">
@@ -82,67 +82,72 @@
                           </div>
                         </div>
                       </div> 
+                      <div class="col-md-6 col-sm-12 col-md-6 my-1">
+                        <div class="form-group"> 
+                          <label>Hiring Managers: </label>
+                          <ng-select #select [items]="managerList"  formControlName="HiringManagerId"
+                            bindLabel="name" bindValue="id">
+                          </ng-select>
+                          <div
+                            *ngIf="(basicFormControl['HiringManagerId'].invalid) && submitted&& (basicFormControl['HiringManagerId'].errors?.['required'])"
+                            class="tx-danger">
+                            <small>Manager is <strong>required</strong></small>
+                          </div>
+                        </div>
+                      </div>
+                       
+                    </div>
+                    <div class="row">
                      
+                        
                         <div class="col-md-6 col-sm-12 col-md-6 my-1">
                           <div class="form-group">
-                            <label>Hiring Managers: </label>
-                            <ng-select #select [items]="managerList"  formControlName="HiringManagerId"
-                              bindLabel="name" bindValue="id">
+                            <label>Post Host: </label>
+                            <ng-select #select [items]="posthostList"  formControlName="PostHostId"
+                              bindLabel="postHostName" bindValue="postHostId">
                             </ng-select>
                             <div
-                              *ngIf="(basicFormControl['HiringManagerId'].invalid) && submitted&& (basicFormControl['HiringManagerId'].errors?.['required'])"
+                              *ngIf="(basicFormControl['PostHostId'].invalid) && submitted&& (basicFormControl['PostHostId'].errors?.['required'])"
                               class="tx-danger">
-                              <small>Manager is <strong>required</strong></small>
+                              <small>Post Host is <strong>required</strong></small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-md-6 my-1">
+                          <div class="form-group">
+                            <label>Employment Type: </label>
+                            <ng-select #select [items]="employmenttypeList"  formControlName="EmploymentTypeId"
+                              bindLabel="text" bindValue="id">
+                            </ng-select>
+                            <div
+                              *ngIf="(basicFormControl['EmploymentTypeId'].invalid) && submitted&& (basicFormControl['EmploymentTypeId'].errors?.['required'])"
+                              class="tx-danger">
+                              <small>Employment Type is <strong>required</strong></small>
                             </div>
                           </div>
                         </div>
                        
                     </div>
                     <div class="row">
+                     
+                     
                       <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                        <div class="form-group">
-                          <label>Post Host: </label>
-                          <ng-select #select [items]="posthostList"  formControlName="PostHostId"
-                            bindLabel="postHostName" bindValue="postHostId">
-                          </ng-select>
-                          <div
-                            *ngIf="(basicFormControl['PostHostId'].invalid) && submitted&& (basicFormControl['PostHostId'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Post Host is <strong>required</strong></small>
+                        <label>Job Opening Date: </label>
+                        <div class="form-input">
+                          <div class="input-group">
+                            <input  formControlName="JobOpeningDate" class="form-control" placeholder="dd/mm/yyyy"
+                              name="d2" [(ngModel)]="jobOpeningDatePicker" ngbDatepicker #d2="ngbDatepicker" />
+                            <button  class="btn btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()"
+                              type="button"></button>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                        <div class="form-group">
-                          <label>Employment Type: </label>
-                          <ng-select #select [items]="employmenttypeList"  formControlName="EmploymentTypeId"
-                            bindLabel="text" bindValue="id">
-                          </ng-select>
-                          <div
-                            *ngIf="(basicFormControl['EmploymentTypeId'].invalid) && submitted&& (basicFormControl['EmploymentTypeId'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Employment Type is <strong>required</strong></small>
-                          </div>
+                        <div
+                          *ngIf="(basicFormControl['JobOpeningDate'].invalid) && submitted&& (basicFormControl['JobOpeningDate'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Job Opening Date is <strong>required</strong></small>
                         </div>
                       </div>
-                      <div class="row">
-                        <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                          <label>Job Opening Date: </label>
-                          <div class="form-input">
-                            <div class="input-group">
-                              <input  formControlName="JobOpeningDate" class="form-control" placeholder="dd/mm/yyyy"
-                                name="d2" [(ngModel)]="jobOpeningDatePicker" ngbDatepicker #d2="ngbDatepicker" />
-                              <button  class="btn btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()"
-                                type="button"></button>
-                            </div>
-                          </div>
-                          <div
-                            *ngIf="(basicFormControl['JobOpeningDate'].invalid) && submitted&& (basicFormControl['JobOpeningDate'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Job Opening Date is <strong>required</strong></small>
-                          </div>
-                        </div>
-                      </div>
+                     
                       <div class="row">
                         <b>Job Description Details:</b>
                       </div>

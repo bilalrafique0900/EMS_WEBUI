@@ -6,6 +6,7 @@ import { HttpRequestService } from 'src/app/shared/services/http-request.service
 import { paginationEnum } from 'src/app/shared/Enum/paginationEnum';
 import { ZoneService } from 'src/app/domain/services/zone.service';
 import { AuthService } from 'src/app/shared/security/auth-service.service';
+import { GroupService } from 'src/app/domain/services/group.service';
 import Swal from 'sweetalert2';
 import { DepartmentService } from 'src/app/domain/services/department.service';
 @Component({
@@ -22,20 +23,24 @@ export class DepartmentComponent {
   searchText:string='';
   branchId:any;
   departmentList: any[] = [];
+  groupList: any[] = [];
   constructor(
     private fb: FormBuilder, 
     private toast: ToastrService,
+    private groupService: GroupService, 
     private departmentService: DepartmentService, 
     private http: HttpRequestService,
     private authSrv : AuthService) {
     this.departmentForm = this.fb.group({
       DepartmentId: [uuidv4()],
-      DepartmentName: ['', Validators.required],
+      GroupId: ['',Validators.required],
+      DepartmentName: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
     this.getdepartments();
+    this.getgroups();
   }
   get basicFormControl() {
     return this.departmentForm.controls;
@@ -72,6 +77,7 @@ export class DepartmentComponent {
   setValueToForm(row: any) {
     this.departmentForm.controls['DepartmentId'].setValue(row.departmentId);
     this.departmentForm.controls['DepartmentName'].setValue(row.departmentName);
+    this.departmentForm.controls['GroupId'].setValue(row.groupId);
     this.curdBtnIsList = false;
     this.isEdit=true;
   }
@@ -79,7 +85,7 @@ export class DepartmentComponent {
     debugger;
     this.submitted = true;
     if (!this.departmentForm.valid)
-      return;
+      return;debugger;
     this.departmentService.saveUpdate(this.departmentForm.value).subscribe({
       next: (data: any) => {
         this.departmentForm.reset();
@@ -122,6 +128,17 @@ export class DepartmentComponent {
           confirmButtonColor: '#6259ca',
         });
       }
+    });
+  }
+  getgroups() {
+
+    this.groupService.getall().subscribe({
+      next: result => {
+        debugger;
+        this.groupList=[];
+        this.groupList = result.data;
+      },
+      error: (err: any) => { this.toast.error(err.message) },
     });
   }
   IsActive(row: any) {

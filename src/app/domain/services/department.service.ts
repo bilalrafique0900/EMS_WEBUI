@@ -15,6 +15,9 @@ export class DepartmentService {
   getall(): Observable<any> {
     return this.http.get(`master/department`);
     }
+  getdepartmentsbyGroupId(GroupId:string): Observable<any> {
+    return this.http.get(`master/department/department-by-groupid?GroupId=`+GroupId);
+    }
   delete(id: string): Observable<any> {
     return this.http.delete(`master/department/delete/${id}`);
   }

@@ -45,7 +45,7 @@ export class GroupComponent {
     this.getgroups();
   }
   onSearchText(){
-    this.pagination.pageNo=1;
+    this.pagination.pageNo=1; 
     this.pagination.pageSize=10;
     this.getgroups();
   }

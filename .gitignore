@@ -11,6 +11,8 @@
 npm-debug.log
 yarn-error.log
 
+/.angular
+
 # IDEs and editors
 .idea/
 .project
@@ -27,7 +29,7 @@ yarn-error.log
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
-.vs/
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
@@ -40,5 +42,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-/.vs/TASHEEL_WEBUI/FileContentIndex/71f96a0a-4cde-455e-a3e2-c8dcd65d9ac5.vsidx
-/.vs/TASHEEL_WEBUI/FileContentIndex/71f96a0a-4cde-455e-a3e2-c8dcd65d9ac5.vsidx
+
+
+
+

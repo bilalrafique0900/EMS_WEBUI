@@ -27,14 +27,17 @@ import { DiscountComponent } from './discount/discount.component';
 import { StudentDocumentComponent } from './student-document/student-document.component';
 import { PaymentTypeSapConfigComponent } from './payment-type-sap-config/payment-type-sap-config.component';
 import { DepartmentComponent } from './department/department.component';
+import { FunctionComponent } from './function/function.component';
 import { GroupComponent } from './group/group.component';
+import { LevelComponent } from './level/level.component';
 import { PostHostComponent } from './posthost/posthost.component';
-
 
 @NgModule({
   declarations: [
     DepartmentComponent,
+    FunctionComponent,
     GroupComponent,
+    LevelComponent,
     PostHostComponent,
     ClassComponent,
     CourseComponent,

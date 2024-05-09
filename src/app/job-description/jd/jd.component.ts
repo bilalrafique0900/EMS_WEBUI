@@ -35,6 +35,7 @@ export class JDComponent {
   departmentList: any[] = [];
   posthostList: any[] = [];
   groupList: any[] = [];
+
   managerList: any[]=[];
   employmenttypeList: any[]=[];
   jobList: any[]=[];
@@ -54,6 +55,7 @@ export class JDComponent {
       JobDescriptionId:uuidv4(),
       DepartmentId: ['',Validators.required],
       GroupId: ['',Validators.required],
+     
       PostHostId: ['',Validators.required],
       HiringManagerId: ['',Validators.required],
       EmploymentTypeId: ['',Validators.required],
@@ -72,6 +74,7 @@ export class JDComponent {
   ngOnInit(): void {
     this.editor = new Editor();
     this.getgroups();
+   
     this.getdepartments();
     this.getposthosts();
     this.getHiringManagers();
@@ -185,6 +188,7 @@ export class JDComponent {
     this.jobForm.controls['DepartmentId'].setValue(row.departmentId);
     this.jobForm.controls['PostHostId'].setValue(row.postHostId);
     this.jobForm.controls['GroupId'].setValue(row.groupId);
+    
     this.jobForm.controls['HiringManagerId'].setValue(row.hiringManagerId);
     this.jobForm.controls['EmploymentTypeId'].setValue(row.employmentTypeId);
     this.jobForm.controls['Title'].setValue(row.title);

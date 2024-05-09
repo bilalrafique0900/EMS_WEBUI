@@ -173,8 +173,8 @@
                       </div>
                      
                      <div class="row">
-                    </div>
-                    <!-- <div class="col-md-4 col-sm-12 col-md-4 my-1"> 
+                     </div>
+                     <div class="col-md-4 col-sm-12 col-md-4 my-1"> 
                       <div class="form-group">
                         <label>Employee Designation: </label>
                         <ng-select #select [items]="emplyeeDesignationList"  formControlName="EmployeeDesignationId"
@@ -186,7 +186,7 @@
                           <small>Employee Designation is <strong>required</strong></small>
                         </div>
                       </div>
-                    </div> -->
+                    </div> 
                     <div class="col-md-4 col-sm-12 col-md-4 my-1" *ngIf="!isEdit">
                       <div class="form-group">
                         <label>Job Description: </label>
@@ -200,6 +200,79 @@
                         </div>
                       </div>
                     </div> 
+                    <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                      <div class="form-group">
+                        <label>Employment Type: </label>
+                        <ng-select #select [items]="employmenttypeList"  formControlName="EmploymentTypeId"
+                          bindLabel="text" bindValue="id">
+                        </ng-select>
+                        <div
+                          *ngIf="(basicFormControl['EmploymentTypeId'].invalid) && submitted&& (basicFormControl['EmploymentTypeId'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Employment Type is <strong>required</strong></small>
+                        </div>
+                      </div>
+                    </div>
+
+                 
+                  
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                      <div class="form-group">
+                        <label>Group: </label>
+                        <ng-select #select [items]="groupList"  formControlName="GroupId" (change)="onGroupChange($event)"
+                          bindLabel="name" bindValue="id">
+                        </ng-select>
+                        <div
+                          *ngIf="(basicFormControl['GroupId'].invalid) && submitted&& (basicFormControl['GroupId'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Group is <strong>required</strong></small>
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                      <div class="form-group">
+                        <label>Department: </label>
+                        <ng-select #select [items]="departmentList"  formControlName="DepartmentId"
+                          bindLabel="departmentName" bindValue="departmentId">
+                        </ng-select>
+                        <div
+                          *ngIf="(basicFormControl['DepartmentId'].invalid) && submitted&& (basicFormControl['DepartmentId'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Department is <strong>required</strong></small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                      <div class="form-group">
+                        <label>Function: </label>
+                        <ng-select #select [items]="functionList"  formControlName="FunctionId"
+                          bindLabel="functionName" bindValue="functionId">
+                        </ng-select>
+                        <div
+                          *ngIf="(basicFormControl['FunctionId'].invalid) && submitted&& (basicFormControl['FunctionId'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Function is <strong>required</strong></small>
+                        </div>
+                      </div>
+                    </div>
+                 
+                  </div>
+                  <div class="row">
+                  <div class="col-md-4 col-sm-12 col-md-4 my-1">
+                    <div class="form-group">
+                      <label>Level: </label>
+                      <ng-select #select [items]="levelList"  formControlName="LevelId"
+                        bindLabel="name" bindValue="id">
+                      </ng-select>
+                      <div
+                        *ngIf="(basicFormControl['LevelId'].invalid) && submitted&& (basicFormControl['LevelId'].errors?.['required'])"
+                        class="tx-danger">
+                        <small>Level is <strong>required</strong></small>
+                      </div>
+                    </div>
+                  </div>
                   </div>
       
                       <div class="row">
