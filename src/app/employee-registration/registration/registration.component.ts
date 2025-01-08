@@ -11,7 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DepartmentService } from 'src/app/domain/services/department.service';
 import { FunctionService } from 'src/app/domain/services/function.service';
 import { GroupService } from 'src/app/domain/services/group.service';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';                                             
 import { LovService } from 'src/app/domain/services/Lov.service';
 import { AcadmicYearService } from 'src/app/domain/services/acadmic-year.service';
 import { AreaService } from 'src/app/domain/services/area.service';
@@ -147,14 +147,14 @@ export class RegistrationComponent implements OnInit {
     }else{
       this.isEdit=false;
     }
-    //if(!this.isEdit)
-    //this.getEmployeeCode();
+    if(!this.isEdit)
+    this.getEmployeeCode();
      this.getGenderByLovCode();
      this.getgroups();
    
     //this.getdepartments();
    // this.getfunctions();
-     this.getlevels();
+    // this.getlevels();
      this.getEmployeeDesignationByLovCode();
      this.getMaritalStatusByLovCode();
      this.getEmployeeTypeByLovCode();
@@ -163,6 +163,7 @@ export class RegistrationComponent implements OnInit {
   }
   onGroupChange(event:any){
     this.getdepartmentsbyGroupId(event.id);
+    this.getlevelsbyGroupId(event.id)
     this.getfunctionsbyGroupId(event.id);
 
   }
@@ -194,6 +195,17 @@ export class RegistrationComponent implements OnInit {
           
           this.departmentList=[];
           this.departmentList = result.data;
+        },
+        error: (err: any) => { this.toast.error(err.message) },
+      });
+    }
+    getlevelsbyGroupId(groupId:string) {
+
+      this.levelService.getlevelsbyGroupId(groupId).subscribe({
+        next: result => {
+          debugger;
+          this.levelList=[];
+          this.levelList = result.data;
         },
         error: (err: any) => { this.toast.error(err.message) },
       });
@@ -296,7 +308,7 @@ export class RegistrationComponent implements OnInit {
     this.LovServ.getLevelByCode(LovCode.EMPLOYMENT_TYPE).subscribe({
       next: (result) => {
         this.employeetypeList = result.data;
-      },
+      },     
       error: (err: any) => {
         this.toast.error(err?.error?.message);
       },
@@ -308,7 +320,7 @@ export class RegistrationComponent implements OnInit {
         this.registrationForm.controls['EmployeeCode'].setValue(result.data);
       },
       error: (err: any) => {
-        this.toast.error(err?.error?.message);
+        this.toast.error(err?.error?.message);   
       },
     });
   }

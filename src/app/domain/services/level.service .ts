@@ -18,6 +18,9 @@ export class LevelService {
   delete(id: string): Observable<any> {
     return this.http.delete(`master/level/delete/${id}`);
   }
+  getlevelsbyGroupId(GroupId:string): Observable<any> {
+    return this.http.get(`master/level/level-by-groupid?GroupId=`+GroupId);
+    }
   active(id: string): Observable<any> {
     return this.http.get(`master/level/active/${id}`);
   }
