@@ -14,10 +14,12 @@ import { NgxEditorModule } from 'ngx-editor';
 
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
 import { JDComponent } from './jd/jd.component';
+import { CvComponent } from './cv/cv.component';
 
 @NgModule({
   declarations: [
-    JDComponent
+    JDComponent,
+    CvComponent
   ],
   imports: [
     CommonModule,
