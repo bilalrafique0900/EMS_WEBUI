@@ -7,3 +7,7 @@
 .slide-item.active{
     color: var(--primary-bg-color)!important;
 }
+
+ul, li{
+    cursor: pointer;
+}

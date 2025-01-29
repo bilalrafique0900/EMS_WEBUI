@@ -147,6 +147,26 @@
                           <small>Job Opening Date is <strong>required</strong></small>
                         </div>
                       </div>
+
+                      <div class="col-md-6 col-sm-12 col-md-6 my-1">
+                        <label>CV</label>
+                        <div class="form-input">
+                      <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="inputGroupFile02">
+                        <button class="btn btn-primary pd-x-20">See All</button>
+                      </div>
+                      <div
+                      *ngIf="(basicFormControl['DepartmentId'].invalid) && submitted&& (basicFormControl['DepartmentId'].errors?.['required'])"
+                      class="tx-danger">
+                      <small>CV is <strong>required</strong></small>
+                    </div>
+                        </div>
+                        <div
+                          *ngIf="(basicFormControl['JobOpeningDate'].invalid) && submitted&& (basicFormControl['JobOpeningDate'].errors?.['required'])"
+                          class="tx-danger">
+                          <small>Job Opening Date is <strong>required</strong></small>
+                        </div>
+                      </div>
                      
                       <div class="row">
                         <b>Job Description Details:</b>
