@@ -1,262 +1,266 @@
-<app-page-header [title]="'Job Description'" [items]="['Job Description']" [active_item]="'Job Description'"></app-page-header>
+<app-page-header [title]="'Job Description'" [items]="['Job Description']"
+  [active_item]="'Job Description'"></app-page-header>
 
 <div class="row row-sm">
-    <div class="col-sm-12 col-lg-12 col-xl-12">
-        <div class="card custom-card">
-            <div class="">
-                <div class="p-3 border-bottom">
-                    <div class="d-flex align-items-center mb-3">
-                        <h5 class="mb-0">JOB Description</h5>
-                        <div class="ms-auto d-flex align-items-center">
-                            <div class="btn-list radiobtns">
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="btnradio" id="Add" (click)="changeCurdView(false)" [checked]="!curdBtnIsList">
-                                    <label ngbTooltip="Add" class="btn btn-outline-primary" for="Add"><i
-                                            class="fa fa-plus"> Add</i></label>
-                                    <input type="radio" class="btn-check" name="btnradio" id="List" (click)="changeCurdView(true)" [checked]="curdBtnIsList">
-                                    <label ngbTooltip="List" class="btn btn-outline-primary" for="List"><i
-                                            class="fa fa-list-ul"> List</i></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-0" *ngIf="curdBtnIsList">
-                        <input type="text" class="form-control" [(ngModel)]="pagination.searchText" (keyup.enter)="onSearchText()" placeholder="Search..." />
-                        <span class="input-group-append">
-                            <button class="btn ripple btn-info" (click)="onSearchText()" type="button">
-                                <i class="fe fe-search me-2"></i> Search
-                            </button>
-                        </span>
-                    </div>
+  <div class="col-sm-12 col-lg-12 col-xl-12">
+    <div class="card custom-card">
+      <div class="">
+        <div class="p-3 border-bottom">
+          <div class="d-flex align-items-center mb-3">
+            <h5 class="mb-0">JOB Description</h5>
+            <div class="ms-auto d-flex align-items-center">
+              <div class="btn-list radiobtns">
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class="btn-check" name="btnradio" id="Add" (click)="changeCurdView(false)"
+                    [checked]="!curdBtnIsList">
+                  <label ngbTooltip="Add" class="btn btn-outline-primary" for="Add"><i class="fa fa-plus">
+                      Add</i></label>
+                  <input type="radio" class="btn-check" name="btnradio" id="List" (click)="changeCurdView(true)"
+                    [checked]="curdBtnIsList">
+                  <label ngbTooltip="List" class="btn btn-outline-primary" for="List"><i class="fa fa-list-ul">
+                      List</i></label>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
-</div>
-<div class="row" *ngIf="!curdBtnIsList">
-    <div class="col-lg-12 col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">Please {{ isEdit ? 'Edit' : 'Add' }} here</div>
-            </div>
-            <div class="card-body">
-                <form [formGroup]="jobForm" novalidate (ngSubmit)="formSubmit()">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                        <label>Title: </label>
-                        <input class="form-control" formControlName="Title" placeholder="Enter Title"
-                          [ngClass]="{'has-success': basicFormControl['Title'].valid}">
-                        <div
-                          *ngIf="(basicFormControl['Title'].invalid) && submitted && (basicFormControl['Title'].errors?.['required'])"
-                          class="tx-danger">
-                          <small>Title is <strong>required</strong></small>
-
-                       </div>
-                      
-                        </div>
-                        <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                          <div class="form-group">
-                            <label>Department: </label>
-                            <ng-select #select [items]="departmentList"  formControlName="DepartmentId"
-                              bindLabel="departmentName" bindValue="departmentId">
-                            </ng-select>
-                            <div
-                              *ngIf="(basicFormControl['DepartmentId'].invalid) && submitted&& (basicFormControl['DepartmentId'].errors?.['required'])"
-                              class="tx-danger">
-                              <small>Department is <strong>required</strong></small>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                       <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                        <div class="form-group">
-                          <label>Group: </label>
-                          <ng-select #select [items]="groupList"  formControlName="GroupId"
-                            bindLabel="name" bindValue="id">
-                          </ng-select>
-                          <div
-                            *ngIf="(basicFormControl['GroupId'].invalid) && submitted&& (basicFormControl['GroupId'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Group is <strong>required</strong></small>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                        <div class="form-group"> 
-                          <label>Hiring Managers: </label>
-                          <ng-select #select [items]="managerList"  formControlName="HiringManagerId"
-                            bindLabel="name" bindValue="id">
-                          </ng-select>
-                          <div
-                            *ngIf="(basicFormControl['HiringManagerId'].invalid) && submitted&& (basicFormControl['HiringManagerId'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Manager is <strong>required</strong></small>
-                          </div>
-                        </div>
-                      </div>
-                       
-                    </div>
-                    <div class="row">
-                     
-                        
-                        <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                          <div class="form-group">
-                            <label>Post Host: </label>
-                            <ng-select #select [items]="posthostList"  formControlName="PostHostId"
-                              bindLabel="postHostName" bindValue="postHostId">
-                            </ng-select>
-                            <div
-                              *ngIf="(basicFormControl['PostHostId'].invalid) && submitted&& (basicFormControl['PostHostId'].errors?.['required'])"
-                              class="tx-danger">
-                              <small>Post Host is <strong>required</strong></small>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                          <div class="form-group">
-                            <label>Employment Type: </label>
-                            <ng-select #select [items]="employmenttypeList"  formControlName="EmploymentTypeId"
-                              bindLabel="text" bindValue="id">
-                            </ng-select>
-                            <div
-                              *ngIf="(basicFormControl['EmploymentTypeId'].invalid) && submitted&& (basicFormControl['EmploymentTypeId'].errors?.['required'])"
-                              class="tx-danger">
-                              <small>Employment Type is <strong>required</strong></small>
-                            </div>
-                          </div>
-                        </div>
-                       
-                    </div>
-                    <div class="row">
-                     
-                     
-                      <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                        <label>Job Opening Date: </label>
-                        <div class="form-input">
-                          <div class="input-group">
-                            <input  formControlName="JobOpeningDate" class="form-control" placeholder="dd/mm/yyyy"
-                              name="d2" [(ngModel)]="jobOpeningDatePicker" ngbDatepicker #d2="ngbDatepicker" />
-                            <button  class="btn btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()"
-                              type="button"></button>
-                          </div>
-                        </div>
-                        <div
-                          *ngIf="(basicFormControl['JobOpeningDate'].invalid) && submitted&& (basicFormControl['JobOpeningDate'].errors?.['required'])"
-                          class="tx-danger">
-                          <small>Job Opening Date is <strong>required</strong></small>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6 col-sm-12 col-md-6 my-1">
-                        <label>CV</label>
-                        <div class="form-input">
-                      <div class="input-group mb-3">
-                        <input type="file" class="form-control" id="inputGroupFile02">
-                        <button class="btn btn-primary pd-x-20" routerLink="job-description/cv">See All</button>
-                      </div>
-                      <div
-                      *ngIf="(basicFormControl['DepartmentId'].invalid) && submitted&& (basicFormControl['DepartmentId'].errors?.['required'])"
-                      class="tx-danger">
-                      <small>CV is <strong>required</strong></small>
-                    </div>
-                        </div>
-                        <div
-                          *ngIf="(basicFormControl['JobOpeningDate'].invalid) && submitted&& (basicFormControl['JobOpeningDate'].errors?.['required'])"
-                          class="tx-danger">
-                          <small>Job Opening Date is <strong>required</strong></small>
-                        </div>
-                      </div>
-                     
-                      <div class="row">
-                        <b>Job Description Details:</b>
-                      </div>
-                      <div class="parsley-input col-md-12 mt-2">
-                        <ngx-editor-menu
-                          class="border-1"
-                          [editor]="editor"
-                          [toolbar]="toolbar"
-                        >
-                        </ngx-editor-menu>
-                        <ngx-editor [editor]="editor" formControlName="Description" >
-                        </ngx-editor>
-                        <div *ngIf="(basicFormControl['Description'].touched || submitted) && (basicFormControl['Description'].errors?.['required'])"
-                              class="tx-danger">
-                              <small>Description Content is <strong>required</strong></small>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="mg-t-30">
-                        <button class="btn btn-primary pd-x-20" type="submit">
-                            Save
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" *ngIf="curdBtnIsList">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Manage the all Job Description</h3>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Department</th>
-                    <th>Group</th>
-                    <th>Manager</th>
-                    <th>Post Host</th>
-                    <th>Employment Type</th>
-                    <th>Opening Date</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of jobList;let ndx = index">
-                    <td>{{item.title}}</td>
-                    <td>{{item.departmentName}}</td>
-                    <td>{{item.groupName}}</td>
-                    <td>{{item.managerName}}</td>
-                    <td>{{item.postHostName}}</td>
-                    <td>{{item.employmentTypeName}}</td>
-                    <td>{{item.jobOpeningDate | date: 'yyyy-MM-dd'}}</td>
-                    <td>
-                      <button type="button" (click)="setValueToForm(item)" class="btn btn-sm btn-primary">
-                        <span class="fe fe-edit"> </span>
-                        <!-- Edit -->
-                      </button>
-                      <button (click)="deleteRow(item)" id="bDel" type="button" class="btn mx-3 btn-sm btn-danger">
-                        <span class="fe fe-trash-2"> </span>
-                        <!-- trash -->
-                      </button>
-                      <label>
-                        <input (click)="IsActive(item)" type="checkbox" [checked]="item.isActive"
-                          name="form-switch-checkbox1" class="form-switch-input">
-                        <span class="form-switch-indicator"></span>
-                      </label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="d-flex justify-content-between p-2">
-              <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.pageNo" [pageSize]="pagination.pageSize" (pageChange)="onPageChange($event)" [maxSize]="pagination.maxSize" [boundaryLinks]="true" [ellipses]="true"></ngb-pagination>
-
-              
-              <ng-select class="" style="min-width: 100px" name="pageSize" (change)="getdepartments()" [(ngModel)]="pagination.pageSize">
-                <ng-option value="5">5</ng-option>
-                <ng-option value="10" selected>10</ng-option>
-                <ng-option value="50">50</ng-option>
-                <ng-option value="100">100</ng-option>
-              </ng-select>
-            </div>
+          </div>
+          <div class="input-group mb-0" *ngIf="curdBtnIsList">
+            <input type="text" class="form-control" [(ngModel)]="pagination.searchText" (keyup.enter)="onSearchText()"
+              placeholder="Search..." />
+            <span class="input-group-append">
+              <button class="btn ripple btn-info" (click)="onSearchText()" type="button">
+                <i class="fe fe-search me-2"></i> Search
+              </button>
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+<div class="row" *ngIf="!curdBtnIsList">
+  <div class="col-lg-12 col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Please {{ isEdit ? 'Edit' : 'Add' }} here</div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="jobForm" novalidate (ngSubmit)="formSubmit()">
+          <div class="row">
+            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <label>Title: </label>
+              <input class="form-control" formControlName="Title" placeholder="Enter Title"
+                [ngClass]="{'has-success': basicFormControl['Title'].valid}">
+              <div
+                *ngIf="(basicFormControl['Title'].invalid) && submitted && (basicFormControl['Title'].errors?.['required'])"
+                class="tx-danger">
+                <small>Title is <strong>required</strong></small>
+
+              </div>
+
+            </div>
+            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <div class="form-group">
+                <label>Department: </label>
+                <ng-select #select [items]="departmentList" formControlName="DepartmentId" bindLabel="departmentName"
+                  bindValue="departmentId">
+                </ng-select>
+                <div
+                  *ngIf="(basicFormControl['DepartmentId'].invalid) && submitted&& (basicFormControl['DepartmentId'].errors?.['required'])"
+                  class="tx-danger">
+                  <small>Department is <strong>required</strong></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <div class="form-group">
+                <label>Group: </label>
+                <ng-select #select [items]="groupList" formControlName="GroupId" bindLabel="name" bindValue="id">
+                </ng-select>
+                <div
+                  *ngIf="(basicFormControl['GroupId'].invalid) && submitted&& (basicFormControl['GroupId'].errors?.['required'])"
+                  class="tx-danger">
+                  <small>Group is <strong>required</strong></small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <div class="form-group">
+                <label>Hiring Managers: </label>
+                <ng-select #select [items]="managerList" formControlName="HiringManagerId" bindLabel="name"
+                  bindValue="id">
+                </ng-select>
+                <div
+                  *ngIf="(basicFormControl['HiringManagerId'].invalid) && submitted&& (basicFormControl['HiringManagerId'].errors?.['required'])"
+                  class="tx-danger">
+                  <small>Manager is <strong>required</strong></small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+
+
+            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <div class="form-group">
+                <label>Post Host: </label>
+                <ng-select #select [items]="posthostList" formControlName="PostHostId" bindLabel="postHostName"
+                  bindValue="postHostId">
+                </ng-select>
+                <div
+                  *ngIf="(basicFormControl['PostHostId'].invalid) && submitted&& (basicFormControl['PostHostId'].errors?.['required'])"
+                  class="tx-danger">
+                  <small>Post Host is <strong>required</strong></small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <div class="form-group">
+                <label>Employment Type: </label>
+                <ng-select #select [items]="employmenttypeList" formControlName="EmploymentTypeId" bindLabel="text"
+                  bindValue="id">
+                </ng-select>
+                <div
+                  *ngIf="(basicFormControl['EmploymentTypeId'].invalid) && submitted&& (basicFormControl['EmploymentTypeId'].errors?.['required'])"
+                  class="tx-danger">
+                  <small>Employment Type is <strong>required</strong></small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+
+
+            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <label>Job Opening Date: </label>
+              <div class="form-input">
+                <div class="input-group">
+                  <input formControlName="JobOpeningDate" class="form-control" placeholder="dd/mm/yyyy" name="d2"
+                    [(ngModel)]="jobOpeningDatePicker" ngbDatepicker #d2="ngbDatepicker" />
+                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()"
+                    type="button"></button>
+                </div>
+              </div>
+              <div
+                *ngIf="(basicFormControl['JobOpeningDate'].invalid) && submitted&& (basicFormControl['JobOpeningDate'].errors?.['required'])"
+                class="tx-danger">
+                <small>Job Opening Date is <strong>required</strong></small>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <label>CV :</label>
+              <div class="input-group mb-3">
+                <input type="file" multiple class="form-control" id="inputGroupFile02">
+              </div>
+              <div
+                *ngIf="(basicFormControl['JobOpeningDate'].invalid) && submitted&& (basicFormControl['JobOpeningDate'].errors?.['required'])"
+                class="tx-danger">
+                <small>CV is <strong>required</strong></small>
+              </div>
+            </div>
+
+            <div class="row">
+              <b>Job Description Details:</b>
+            </div>
+            <div class="parsley-input col-md-12 mt-2">
+              <ngx-editor-menu class="border-1" [editor]="editor" [toolbar]="toolbar">
+              </ngx-editor-menu>
+              <ngx-editor [editor]="editor" formControlName="Description">
+              </ngx-editor>
+              <div
+                *ngIf="(basicFormControl['Description'].touched || submitted) && (basicFormControl['Description'].errors?.['required'])"
+                class="tx-danger">
+                <small>Description Content is <strong>required</strong></small>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="mg-t-30">
+            <button class="btn btn-primary pd-x-20" type="submit">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="curdBtnIsList">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Manage the all Job Description</h3>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Department</th>
+                <th>Group</th>
+                <th>Manager</th>
+                <th>Post Host</th>
+                <th>Employment Type</th>
+                <th>Opening Date</th>
+                <th>Actions</th>
+                <th>VIEW CV</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of jobList;let ndx = index">
+                <td>{{item.title}}</td>
+                <td>{{item.departmentName}}</td>
+                <td>{{item.groupName}}</td>
+                <td>{{item.managerName}}</td>
+                <td>{{item.postHostName}}</td>
+                <td>{{item.employmentTypeName}}</td>
+                <td>{{item.jobOpeningDate | date: 'yyyy-MM-dd'}}</td>
+                <td>
+                  <button type="button" (click)="setValueToForm(item)" class="btn btn-sm btn-primary">
+                    <span class="fe fe-edit"> </span>
+                    <!-- Edit -->
+                  </button>
+                  <button (click)="deleteRow(item)" id="bDel" type="button" class="btn mx-3 btn-sm btn-danger">
+                    <span class="fe fe-trash-2"> </span>
+                    <!-- trash -->
+                  </button>
+                  <label>
+                    <input (click)="IsActive(item)" type="checkbox" [checked]="item.isActive"
+                      name="form-switch-checkbox1" class="form-switch-input">
+                    <span class="form-switch-indicator"></span>
+                  </label>
+                </td>
+
+                <td>
+                  <button type="button" class="btn btn-sm btn-success" (click)="goDefine(item.jobDescriptionId)">
+                    <span>VIEW CV</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.pageNo"
+            [pageSize]="pagination.pageSize" (pageChange)="onPageChange($event)" [maxSize]="pagination.maxSize"
+            [boundaryLinks]="true" [ellipses]="true"></ngb-pagination>
+
+
+          <ng-select class="" style="min-width: 100px" name="pageSize" (change)="getdepartments()"
+            [(ngModel)]="pagination.pageSize">
+            <ng-option value="5">5</ng-option>
+            <ng-option value="10" selected>10</ng-option>
+            <ng-option value="50">50</ng-option>
+            <ng-option value="100">100</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

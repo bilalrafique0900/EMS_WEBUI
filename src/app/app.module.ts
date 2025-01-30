@@ -33,7 +33,7 @@ export function initializeApp(configService: ConfigService) {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
+      multi: true,
     },
     ConfigService,
     {

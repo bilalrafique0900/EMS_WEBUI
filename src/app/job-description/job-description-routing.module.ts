@@ -8,11 +8,13 @@ const routes: Routes = [
     component: JDComponent,
    // canActivate: [AuthGuardService]
   },
+  { path: 'cv/:id', component: CvComponent },
   {
     path: 'cv',
-    component: CvComponent,
-   // canActivate: [AuthGuardService]
+    component: CvComponent
   }
+
+
 ];
 
 @NgModule({

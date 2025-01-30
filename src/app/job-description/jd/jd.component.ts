@@ -15,6 +15,7 @@ import { LovService } from 'src/app/domain/services/Lov.service';
 import { Editor, Toolbar } from 'ngx-editor';
 import { DatePipe } from '@angular/common';
 import { JobService } from 'src/app/domain/services/job.service ';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-jd',
   templateUrl: './jd.component.html',
@@ -49,6 +50,7 @@ export class JDComponent {
     private employeeService: EmployeeService, 
     private jobService: JobService, 
     private readonly datePipe: DatePipe,
+    private router : Router,
     private http: HttpRequestService,
     private authSrv : AuthService) {
     this.jobForm = this.fb.group({
@@ -278,4 +280,10 @@ export class JDComponent {
       error: (err: any) => { this.toast.error(err.message) },
     });
   }
+  goDefine(id: string) {
+    // this.router.navigateByUrl(`/job-description/cv/${id}`);
+    this.router.navigate(['/job-description/cv/', id])
+  }
+  
+  
 }
