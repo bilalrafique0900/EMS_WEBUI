@@ -108,12 +108,18 @@ export class RegistrationComponent implements OnInit {
       Mohallah: [''],
       City: [''],
       State: [''],
+      CurrentStreetAddress: [''],
+      CurrentMohallah: [''],
+      CurrentTehsil: [''],
+      CurrentDistrict: [''],
+      CurrentCity: [''],
+      CurrentState: [''],
       PermanentStreetAddress: [''],
       PermanentMohallah: [''],
-      PermanentCity: [''],
-      PermanentState: [''],
       PermanentTehsil: [''],
       PermanentDistrict: [''],
+      PermanentCity: [''],
+      PermanentState: [''],
       IsPicturePermission: [true],
       Picture: [''],
       Base64: [''], 
@@ -466,4 +472,27 @@ export class RegistrationComponent implements OnInit {
       },
     });
   }
+
+  copyCurrentToPermanent(event: any) {
+    if (event.target.checked) {
+      this.registrationForm.patchValue({
+        PermanentStreetAddress: this.registrationForm.value.CurrentStreetAddress,
+        PermanentMohallah: this.registrationForm.value.CurrentMohallah,
+        PermanentTehsil: this.registrationForm.value.CurrentTehsil,
+        PermanentDistrict: this.registrationForm.value.CurrentDistrict,
+        PermanentCity: this.registrationForm.value.CurrentCity,
+        PermanentState: this.registrationForm.value.CurrentState
+      });
+    } else {
+      this.registrationForm.patchValue({
+        PermanentStreetAddress: '',
+        PermanentMohallah: '',
+        PermanentTehsil: '',
+        PermanentDistrict: '',
+        PermanentCity: '',
+        PermanentState: ''
+      });
+    }
+  }
+  
 }
