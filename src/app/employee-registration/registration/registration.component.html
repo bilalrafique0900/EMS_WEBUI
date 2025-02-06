@@ -337,10 +337,10 @@
                     </div>
                   </div>
 
-                  <div class="row align-items-center">
+                  <div class="row align-items-center" style="float: right;">
                     <div class="col-sm-12 my-2 align-items-center">
                       <input type="checkbox" id="sameAsCurrent" (change)="copyCurrentToPermanent($event)">
-                      <label for="sameAsCurrent" style="padding-left: 10px;">Same as Current Address</label>
+                      <label for="sameAsCurrent" style="padding-left: 10px;"><b>Same as Current Address</b></label>
                     </div>
                   </div>
                   
@@ -348,8 +348,8 @@
                         
                        
                      
-                      <div class="row">
-                        <div class="col-sm-12 col-md-4 my-1"
+                      <div class="row pt-5">
+                        <div class="col-sm-12 col-md-4 my-1 p-0"
                           *ngIf="registrationForm.controls['IsPicturePermission'].value">
                           <ngx-dropzone (change)="onSelectFile($event)">
                             <ngx-dropzone-label class="ff_fileupload_dropzone">
