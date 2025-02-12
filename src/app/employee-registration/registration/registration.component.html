@@ -275,142 +275,81 @@
                   </div>
                   </div>
       
-                      <div class="row">
-                        <b> Current Address</b>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label>Street Address : </label>
-                          <input class="form-control" formControlN ame="StreetAddress" placeholder="Enter Street Address"
-                            [ngClass]="{'has-success': basicFormControl['StreetAddress'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['StreetAddress'].invalid) && submitted && (basicFormControl[' StreetAddress'].errors?.['required'])"
-                            class="tx-danger">
-                            <small> Street Address is <strong>required</strong></small>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label>Mohallah : </label>
-                          <input class="form-control" formControlName="Mohallah" placeholder="Enter Mohallah"
-                            [ngClass]="{'has-success': basicFormControl['Mohallah'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['Mohallah'].invalid) && submitted && (basicFormControl[' Mohallah'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Mohallah is <strong>required</strong></small>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label>City : </label>
-                          <input class="form-control" formControlName="City" placeholder="Enter City"
-                            [ngClass]="{'has-success': basicFormControl['City'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['City'].invalid) && submitted && (basicFormControl['City'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>City is <strong>required</strong></small>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label>State : </label>
-                          <input class="form-control" formControlName="State" placeholder="Enter State"
-                            [ngClass]="{'has-success': basicFormControl['State'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['State'].invalid) && submitted && (basicFormControl['State'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>State is <strong>required</strong></small>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <b>Permanent Address</b> 
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label> Permanent Street Address : </label>
-                          <input class="form-control" formControlName="PermanentStreetAddress" placeholder="Enter Permanent Street Address"
-                            [ngClass]="{'has-success': basicFormControl['PermanentStreetAddress'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['PermanentStreetAddress'].invalid) && submitted && (basicFormControl['PermanentStreetAddress'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Permanent Street Address is <strong>required</strong></small>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label> Permanent Mohallah : </label>
-                          <input class="form-control" formControlName="PermanentMohallah" placeholder="Enter  Permanent Mohallah"
-                            [ngClass]="{'has-success': basicFormControl['PermanentMohallah'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['PermanentMohallah'].invalid) && submitted && (basicFormControl['PermanentMohallah'].errors?.['required'])"
-                            class="tx-danger">
-                            <small> Permanent Mohallah is <strong>required</strong></small>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label> Permanent Tehsil : </label>
-                          <input class="form-control" formControlName="PermanentTehsil" placeholder="Enter PermanentTehsil"
-                            [ngClass]="{'has-success': basicFormControl['PermanentTehsil'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['PermanentTehsil'].invalid) && submitted && (basicFormControl['PermanentTehsil'].errors?.['required'])"
-                            class="tx-danger">
-                            <small> Permanent Tehsil is <strong>required</strong></small>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label> Permanent District : </label>
-                          <input class="form-control" formControlName="PermanentDistrict" placeholder="Enter Permanent District"
-                            [ngClass]="{'has-success': basicFormControl['PermanentDistrict'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['PermanentDistrict'].invalid) && submitted && (basicFormControl['PermanentDistrict'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Permanent District is <strong>required</strong></small>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label> Permanent City : </label>
-                          <input class="form-control" formControlName="PermanentCity" placeholder="Enter Permanent City"
-                            [ngClass]="{'has-success': basicFormControl['PermanentCity'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['PermanentCity'].invalid) && submitted && (basicFormControl['PermanentCity'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Permanent City is <strong>required</strong></small>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 my-1">
-                          <label>Permanent State : </label>
-                          <input class="form-control" formControlName="PermanentState" placeholder="Enter Permanent State "
-                            [ngClass]="{'has-success': basicFormControl['PermanentState'].valid}">
-                          <!-- <textarea type="text" name="name" formControlName="Address" placeholder="Address "
-                            class="form-control"></textarea> -->
-                            <div
-                            *ngIf="(basicFormControl['PermanentState'].invalid) && submitted && (basicFormControl['PermanentState'].errors?.['required'])"
-                            class="tx-danger">
-                            <small>Permanent State  is <strong>required</strong></small>
-                          </div>
-                        </div>
-                      </div>
+                  <div class="row mt-3 mb-3">
+                    <b> Current Address</b>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Current Street Address:</label>
+                      <input class="form-control" formControlName="CurrentStreetAddress" placeholder="Enter Current Street Address">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Current Mohallah:</label>
+                      <input class="form-control" formControlName="CurrentMohallah" placeholder="Enter Current Mohallah">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Current Tehsil:</label>
+                      <input class="form-control" formControlName="CurrentTehsil" placeholder="Enter Current Tehsil">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Current District:</label>
+                      <input class="form-control" formControlName="CurrentDistrict" placeholder="Enter Current District">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Current City:</label>
+                      <input class="form-control" formControlName="CurrentCity" placeholder="Enter Current City">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Current State:</label>
+                      <input class="form-control" formControlName="CurrentState" placeholder="Enter Current State">
+                    </div>
+                  </div>
+                  
+      
+                  
+                  <div class="row mt-2 mb-3">
+                    <b> Permanent Address</b>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Permanent Street Address:</label>
+                      <input class="form-control" formControlName="PermanentStreetAddress" placeholder="Enter Permanent Street Address">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Permanent Mohallah:</label>
+                      <input class="form-control" formControlName="PermanentMohallah" placeholder="Enter Permanent Mohallah">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Permanent Tehsil:</label>
+                      <input class="form-control" formControlName="PermanentTehsil" placeholder="Enter Permanent Tehsil">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Permanent District:</label>
+                      <input class="form-control" formControlName="PermanentDistrict" placeholder="Enter Permanent District">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Permanent City:</label>
+                      <input class="form-control" formControlName="PermanentCity" placeholder="Enter Permanent City">
+                    </div>
+                    <div class="col-sm-12 col-md-4 my-1">
+                      <label>Permanent State:</label>
+                      <input class="form-control" formControlName="PermanentState" placeholder="Enter Permanent State">
+                    </div>
+                  </div>
+
+                  <div class="row align-items-center" style="float: right;">
+                    <div class="col-sm-12 my-2 align-items-center">
+                      <input type="checkbox" id="sameAsCurrent" (change)="copyCurrentToPermanent($event)">
+                      <label for="sameAsCurrent" style="padding-left: 10px;"><b>Same as Current Address</b></label>
+                    </div>
+                  </div>
+                  
                         
                         
                        
                      
-                      <div class="row">
-                        <div class="col-sm-12 col-md-4 my-1"
+                      <div class="row pt-5">
+                        <div class="col-sm-12 col-md-4 my-1 p-0"
                           *ngIf="registrationForm.controls['IsPicturePermission'].value">
                           <ngx-dropzone (change)="onSelectFile($event)">
                             <ngx-dropzone-label class="ff_fileupload_dropzone">

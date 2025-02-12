@@ -282,36 +282,36 @@
                 <td>{{item.personalEmail}}</td>
                 <td>
                   <a title="Upload Attachments" href="javascript:void(0);"
-                                                        (click)="
-                          [
-                            openScrollableContentMd(
-                              ScroleContentAttachmernt,
-                              item.employeeId
-                            ),
-                            getUploadDocument()
-                          ]
-                        "
-                                                        class="btn me-3 btn-sm btn-success">Upload Documents</a>
-
-                                                        <a title="Download Attachments" href="javascript:void(0);"
-                                                        (click)="[openScrollableContentMd(AttachmerntList,item.employeeId),getUploadDocument()]"
-                                                        class="dropdown-item">Documents</a>
-
-        
-                  <button type="button"  class="btn me-3 btn-sm btn-primary" [routerLink]="['/register/employee']"
-                  [queryParams]="{id:item.employeeId}">
+                     (click)="openScrollableContentMd(uploadDocumentsModal, item.employeeId)"
+                     class="btn me-3 btn-sm btn-success">
+                    Upload Documents
+                  </a>
+                
+                  <a title="Given Accessories" href="javascript:void(0);"
+                     (click)="openScrollableContentMd(givenAccessoriesModal, item.employeeId)"
+                     class="btn me-3 btn-sm btn-info">
+                    Given Accessories
+                  </a>
+                
+                  <a title="Download Attachments" href="javascript:void(0);"
+                     (click)="openScrollableContentMd(AttachmerntList, item.employeeId)"
+                     class="dropdown-item">
+                    Documents
+                  </a>
+                
+                  <button type="button" class="btn me-3 btn-sm btn-primary"
+                          [routerLink]="['/register/employee']"
+                          [queryParams]="{id:item.employeeId}">
                     <span class="fe fe-edit"> </span>
-                    <!-- Edit -->
                   </button>
-                  <!-- <button  id="bDel" type="button" class="btn me-3 btn-sm btn-danger">
-                    <span class="fe fe-trash-2"> </span>
-                  </button> -->
+                
                   <label>
-                    <input (click)="IsActive(item)" type="checkbox" [checked]="item.isActive" name="form-switch-checkbox1" class="form-switch-input">
+                    <input (click)="IsActive(item)" type="checkbox"
+                           [checked]="item.isActive" class="form-switch-input">
                     <span class="form-switch-indicator"></span>
-                </label>
-                  
+                  </label>
                 </td>
+                
               </tr>
             </tbody>
           </table>
@@ -335,31 +335,56 @@
   </div>
 </div>
 
-
-<ng-template #ScroleContentAttachmernt let-modal>
+<ng-template #uploadDocumentsModal let-modal>
   <div class="modal-header">
-      <h6 class="modal-title">Employee Attachments</h6>
-      <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-danger me-2">
-          Close
-      </button>
+    <h6 class="modal-title">Upload Documents</h6>
+    <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-danger me-2">
+      Close
+    </button>
   </div>
   <div class="modal-body">
-    <!-- *ngFor="let item of attachmentList;let ndx = index" -->
-    <div class="form-group row" *ngFor="let item of attachmentList;let ndx = index">
+    <div class="form-group row" *ngFor="let item of attachmentList; let ndx = index">
       <div class="col-md-10">
-          <label for="file" style="font-weight: bold;">{{item.documentName}}</label>
-          <!-- (change)="onSelectAttachment($event,item.lovId)" -->
-          <input accept="application/pdf" id="file" type="file" (change)="onSelectAttachment($event,item.employeeDocumentId)" class="form-control"
-              >
+        <label for="file-{{ndx}}" style="font-weight: bold;">{{item.documentName}}</label>
+        <input accept="application/pdf" id="file-{{ndx}}" type="file" 
+               (change)="onSelectAttachment($event, item.employeeDocumentId)" class="form-control">
       </div>
       <div class="col-md-2" style="margin-top: 30px;">
-          <label class="ckbox mg-b-5"> <input type="checkbox" id="BusServices" disabled="disabled"
-                  [checked]="item.isRequired"><span>Required</span></label>
+        <label class="ckbox mg-b-5">
+          <input type="checkbox" id="BusServices-{{ndx}}" disabled [checked]="item.isRequired">
+          <span>Required</span>
+        </label>
       </div>
-  </div>
-
+    </div>
   </div>
 </ng-template>
+
+<ng-template #givenAccessoriesModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">Given Accessories</h6>
+    <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-danger me-2">
+      Close
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group row" *ngFor="let item of attachmentList; let ndx = index">
+      <div class="col-md-10">
+        <label for="accessory-{{ndx}}" style="font-weight: bold;">{{item.documentName}}</label>
+
+        <input accept="application/pdf" id="accessory-{{ndx}}" type="file"
+               (change)="onSelectAttachment($event, item.employeeDocumentId)" class="form-control">
+      </div>
+      <div class="col-md-2" style="margin-top: 30px;">
+        <label class="ckbox mg-b-5">
+          <input type="checkbox" id="GivenAccessories-{{ndx}}" [checked]="item.isRequired">
+          <span>Required</span>
+        </label>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
 <ng-template #AttachmerntList let-modal>
   <div class="modal-header">
       <h6 class="modal-title">Attachments</h6>
