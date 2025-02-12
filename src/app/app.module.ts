@@ -13,6 +13,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AuthInterceptor } from './shared/security/auth.interceptor';
 import { ConfigService } from './shared/services/config.service';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SharedModule } from './shared/shared.module';
+import { JobDescriptionModule } from './job-description/job-description.module';
+
 export function initializeApp(configService: ConfigService) {
   return () => configService.loadConfig();
 }
@@ -20,6 +23,7 @@ export function initializeApp(configService: ConfigService) {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    SharedModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -27,7 +31,8 @@ export function initializeApp(configService: ConfigService) {
     NgxColorsModule,
     CommonModule,
     NgxSpinnerModule,
-    PdfViewerModule
+    PdfViewerModule,
+    JobDescriptionModule
   ],
   providers: [
     {

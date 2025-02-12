@@ -1,0 +1,42 @@
+<!-- PopUp -->
+<div class="status-modal-backdrop" *ngIf="selectedFile">
+  <div class="status-modal">
+    <div class="modal-content">
+      <h3>Update Status</h3>
+      <textarea [(ngModel)]="selectedFile.comment" class="cv-comment-box" placeholder="Enter your comment..."></textarea>
+      <div class="modal-actions">
+        <button class="save-btn" (click)="saveStatus()">Save</button>
+        <button class="close-btn" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- List  -->
+<div class="cv-container" *ngIf="files && files.length > 0; else noFiles">
+  <h2 class="cv-heading">Uploaded CVs</h2>
+
+  <table class="cv-table">
+    <thead>
+      <tr>
+        <th>File Names</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let file of files">
+        <td class="file-name">{{ file.fileName }}</td>
+        <td>{{ file.status || 'No Status' }}</td>
+        <td class="cv-actions">
+          <a class="download-btn" (click)="downloadCv(file.id, file.fileName)">Download</a>
+          <a class="status-btn" (click)="openModal(file)">Status</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noFiles>
+  <p class="no-files">No CVs found.</p>
+</ng-template>
