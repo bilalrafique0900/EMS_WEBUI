@@ -19,12 +19,12 @@ import { CvComponent } from './cv/cv.component';
 @NgModule({
   declarations: [
     JDComponent,
-    CvComponent
+    CvComponent,
   ],
   imports: [
+    SharedModule,
     CommonModule,
     JobDescriptionRoutingModule,
-    SharedModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
@@ -32,7 +32,8 @@ import { CvComponent } from './cv/cv.component';
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-     NgxEditorModule,
-  ]
+    NgxEditorModule
+    
+]
 })
 export class JobDescriptionModule { }

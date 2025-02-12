@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
@@ -16,6 +16,8 @@ import { Editor, Toolbar } from 'ngx-editor';
 import { DatePipe } from '@angular/common';
 import { JobService } from 'src/app/domain/services/job.service ';
 import { Router } from '@angular/router';
+import { FileUploadService } from 'src/app/domain/services/file-upload.service';
+import { SharedModule } from "../../shared/shared.module";
 @Component({
   selector: 'app-jd',
   templateUrl: './jd.component.html',
@@ -26,44 +28,49 @@ export class JDComponent {
   editor: any;
   public jobForm!: FormGroup;
   submitted = false;
-  curdBtnIsList:boolean = true;
-  pagination:any = paginationEnum;
-  isEdit: boolean=false;
+  curdBtnIsList: boolean = true;
+  pagination: any = paginationEnum;
+  isEdit: boolean = false;
   jobOpeningDatePicker: { day?: number; month: number; year: number };
-  
-  searchText:string='';
-  branchId:any;
+
+  searchText: string = '';
+  branchId: any;
   departmentList: any[] = [];
   posthostList: any[] = [];
   groupList: any[] = [];
 
-  managerList: any[]=[];
-  employmenttypeList: any[]=[];
-  jobList: any[]=[];
+  managerList: any[] = [];
+  employmenttypeList: any[] = [];
+  jobList: any[] = [];
+
+  selectedFiles: File[] = [];
+  referenceId: number = 1;
+
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
+    private fileService: FileUploadService,
     private toast: ToastrService,
-    private departmentService: DepartmentService, 
-    private groupService: GroupService, 
-    private postHostService: PostHostService, 
-    private LovServ:LovService,
-    private employeeService: EmployeeService, 
-    private jobService: JobService, 
+    private departmentService: DepartmentService,
+    private groupService: GroupService,
+    private postHostService: PostHostService,
+    private LovServ: LovService,
+    private employeeService: EmployeeService,
+    private jobService: JobService,
     private readonly datePipe: DatePipe,
-    private router : Router,
+    private router: Router,
     private http: HttpRequestService,
-    private authSrv : AuthService) {
+    private authSrv: AuthService) {
     this.jobForm = this.fb.group({
-      JobDescriptionId:uuidv4(),
-      DepartmentId: ['',Validators.required],
-      GroupId: ['',Validators.required],
-     
-      PostHostId: ['',Validators.required],
-      HiringManagerId: ['',Validators.required],
-      EmploymentTypeId: ['',Validators.required],
+      JobDescriptionId: uuidv4(),
+      DepartmentId: ['', Validators.required],
+      GroupId: ['', Validators.required],
+
+      PostHostId: ['', Validators.required],
+      HiringManagerId: ['', Validators.required],
+      EmploymentTypeId: ['', Validators.required],
       Title: ['', Validators.required],
       JobOpeningDate: ['', Validators.required],
-      Description:['',Validators.required]
+      Description: ['', Validators.required]
     });
     const today = new Date();
     this.jobOpeningDatePicker = {
@@ -73,30 +80,33 @@ export class JDComponent {
     };
   }
 
+
+
+
+
   ngOnInit(): void {
     this.editor = new Editor();
     this.getgroups();
-   
+
     this.getdepartments();
     this.getposthosts();
     this.getHiringManagers();
     this.getEmploymentTypeByLovCode();
     this.getjobdescriptions();
   }
-    // make sure to destory the editor
-    ngOnDestroy(): void {
-      this.editor.destroy();
-    }
-    toolbar: Toolbar = [
-      ['bold', 'italic'],
-      ['underline', 'strike'],
-      ['code', 'blockquote'],
-      ['ordered_list', 'bullet_list'],
-      [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
-      ['link', 'image'],
-      ['text_color', 'background_color'],
-      ['align_left', 'align_center', 'align_right', 'align_justify'],
-    ];
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
   get basicFormControl() {
     return this.jobForm.controls;
   }
@@ -104,28 +114,12 @@ export class JDComponent {
     this.pagination.pageNo = event;
     this.getjobdescriptions();
   }
-  onSearchText(){
-    this.pagination.pageNo=1;
-    this.pagination.pageSize=10;
+  onSearchText() {
+    this.pagination.pageNo = 1;
+    this.pagination.pageSize = 10;
     this.getjobdescriptions();
   }
-  getjobdescriptions() {
-    if(this.pagination.pageSize==null)
-    this.pagination.pageSize=10;
-    if(this.pagination.searchText=='')
-    this.pagination.searchText = "";
-    this.jobService.get(this.pagination.pageNo,this.pagination.pageSize,this.pagination.searchText).subscribe({
-      next: result => {
-        debugger;
-        this.jobList=[];
-        this.jobList = result.data;
-        this.pagination.totalCount = result.data[0]?.totalRecords || 0;
-      },
-      error: (err: any) => {
-        debugger;
-        this.toast.error(err.message) },
-    });
-  }
+
   getEmploymentTypeByLovCode(): void {
     this.LovServ.getLevelByCode(LovCode.EMPLOYMENT_TYPE).subscribe({
       next: (result) => {
@@ -140,8 +134,8 @@ export class JDComponent {
 
     this.departmentService.getall().subscribe({
       next: result => {
-        
-        this.departmentList=[];
+
+        this.departmentList = [];
         this.departmentList = result.data;
       },
       error: (err: any) => { this.toast.error(err.message) },
@@ -151,8 +145,8 @@ export class JDComponent {
 
     this.postHostService.getall().subscribe({
       next: result => {
-        
-        this.posthostList=[];
+
+        this.posthostList = [];
         this.posthostList = result.data;
       },
       error: (err: any) => { this.toast.error(err.message) },
@@ -162,20 +156,20 @@ export class JDComponent {
 
     this.groupService.getall().subscribe({
       next: result => {
-        
-        this.groupList=[];
+
+        this.groupList = [];
         this.groupList = result.data;
       },
       error: (err: any) => { this.toast.error(err.message) },
     });
   }
-  
+
   getHiringManagers() {
 
     this.employeeService.getEmployeesByDesignation(DesignationCode.MANAGER).subscribe({
       next: result => {
-        
-        this.managerList=[];
+
+        this.managerList = [];
         this.managerList = result.data;
       },
       error: (err: any) => { this.toast.error(err.message) },
@@ -183,20 +177,20 @@ export class JDComponent {
   }
   changeCurdView(bitVal: boolean) {
     this.curdBtnIsList = bitVal;
-    this.isEdit=false; 
+    this.isEdit = false;
   }
   setValueToForm(row: any) {
     this.jobForm.controls['JobDescriptionId'].setValue(row.jobDescriptionId);
     this.jobForm.controls['DepartmentId'].setValue(row.departmentId);
     this.jobForm.controls['PostHostId'].setValue(row.postHostId);
     this.jobForm.controls['GroupId'].setValue(row.groupId);
-    
+
     this.jobForm.controls['HiringManagerId'].setValue(row.hiringManagerId);
     this.jobForm.controls['EmploymentTypeId'].setValue(row.employmentTypeId);
     this.jobForm.controls['Title'].setValue(row.title);
     this.jobForm.controls['Description'].setValue(row.description);
     this.curdBtnIsList = false;
-    this.isEdit=true;
+    this.isEdit = true;
     let FormateOpeningDate = this.datePipe.transform(
       row.jobOpeningDate,
       'yyyy-MM-dd'
@@ -208,36 +202,7 @@ export class JDComponent {
         month: Number(splitOpeningDate[1]),
         year: Number(splitOpeningDate[0]),
       };
-  }
-}
-  formSubmit() {
-    
-    this.submitted = true;
-    if (!this.jobForm.valid)
-      return;
-      let JobOpeningDate =
-      this.jobOpeningDatePicker.year +
-      '-' +
-      this.jobOpeningDatePicker.month +
-      '-' +
-      this.jobOpeningDatePicker.day;
-  
-
-    this.jobForm.value['JobOpeningDate'] = JobOpeningDate;
-    this.jobService.saveUpdate(this.jobForm.value).subscribe({
-      next: (data: any) => {
-        this.jobForm.reset();
-        this.jobForm.controls['JobDescriptionId'].setValue(uuidv4());
-        this.toast.success("Job Descripton has been Saved.");
-        this.isEdit=false;
-        this.curdBtnIsList =true;
-        this.getjobdescriptions();
-      },
-      error: (err: any) => {
-        this.toast.error(err.error);
-      },
-    
-    });
+    }
   }
   deleteRow(row: any) {
     Swal.fire({
@@ -280,10 +245,86 @@ export class JDComponent {
       error: (err: any) => { this.toast.error(err.message) },
     });
   }
-  goDefine(id: string) {
-    // this.router.navigateByUrl(`/job-description/cv/${id}`);
-    this.router.navigate(['/job-description/cv/', id])
+  // 3) Send Id
+  goDefine(jobDescriptionId: string) {
+    this.router.navigate(['/cv', jobDescriptionId]);
+  }
+
+  // 2) FileSelect
+  onFileSelected(event: any): void {
+    const files: FileList = event.target.files;
+    console.log(files);
+    if (files) {
+      this.selectedFiles = Array.from(files); 
+      console.log(this.selectedFiles);
+    }
+  }
+  
+
+// 1) Upload Cv
+uploadFiles(jobDescriptionId: string) {
+  debugger;
+  console.log(this.selectedFiles && jobDescriptionId ); 
+  if (this.selectedFiles.length > 0) {
+    this.fileService.uploadFiles(this.selectedFiles, jobDescriptionId).subscribe({
+      next: (response) => {
+        this.toast.success('Files uploaded successfully');
+        this.selectedFiles = [];
+      },
+      error: (err) => {
+        debugger;
+        this.toast.error('File upload failed');
+        console.error('File Upload Error:', err);
+      },
+    });
+  }
+}
+
+
+  formSubmit() {
+    this.submitted = true;
+    if (!this.jobForm.valid) return;
+
+    let JobOpeningDate =
+      this.jobOpeningDatePicker.year + '-' +
+      this.jobOpeningDatePicker.month + '-' +
+      this.jobOpeningDatePicker.day;
+
+    this.jobForm.value['JobOpeningDate'] = JobOpeningDate;
+    let jobDescriptionId = this.jobForm.value['JobDescriptionId'];
+
+    this.jobService.saveUpdate(this.jobForm.value).subscribe({
+      next: (data: any) => {
+        this.toast.success('Job Description has been saved.');
+        this.uploadFiles(jobDescriptionId); 
+        this.jobForm.reset();
+        this.jobForm.controls['JobDescriptionId'].setValue(uuidv4());
+        this.isEdit = false;
+        this.curdBtnIsList = true;
+        this.getjobdescriptions();
+      },
+      error: (err: any) => {
+        this.toast.error(err.error);
+      },
+    });
+  }
+
+  getjobdescriptions() {
+    this.jobService.get(1, 10, '').subscribe({
+      next: (result) => {
+        this.jobList = result.data;
+        console.log( "Check Data" ,this.jobList);
+      },
+      error: (err: any) => {
+        this.toast.error(err.message);
+      },
+    });
+  }
+
+  openFile(jobDescriptionId: any): void {
+    this.router.navigate(['/cv', jobDescriptionId]);
   }
   
   
+
 }

@@ -13,18 +13,34 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let token = this.auth.getUserDetails();
+    // if (token) {
+    //   req = req.clone({
+    //     setHeaders: {
+    //       Authorization: `Bearer ${token.token}`,
+    //     }
+    //   })
+    // }
+    // req = req.clone({
+    //   setHeaders: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // });
+
+    let headers: any = {};
+
     if (token) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token.token}`,
-        }
-      })
+      headers['Authorization'] = `Bearer ${token.token}`;
     }
-    req = req.clone({
-      setHeaders: {
-        'Content-Type': 'application/json'
-      }
-    });
+  
+    // Only set 'Content-Type' if it is NOT 'multipart/form-data'
+    if (!(req.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+  
+    req = req.clone({ setHeaders: headers });
+
+
+
         this.lcount++;
         if (this.lcount > 0) {
            this.auth.setLoading(true);

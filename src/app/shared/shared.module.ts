@@ -48,6 +48,7 @@ import { StudentProfileComponent } from './layout-components/student-profile/stu
     ToggleThemeDirective,
     LandingpageLayoutComponent,
     StudentProfileComponent,
+    
   
   ],
   imports: [
