@@ -53,13 +53,17 @@
                                 </div>
                             </div>
                             <div class="parsley-input col-md-6" id="lnWrapper">
-                              <label class="w-100">IsExecutive: <span class="tx-danger">*</span></label>
-                            <label>
-                              <input  type="checkbox" formControlName="IsExecutive"
-                                name="form-switch-checkbox1" class="form-switch-input mt-2">
-                              <span class="form-switch-indicator"></span>
-                            </label>
-                          </div>
+                              <div class="form-group">
+                                <label>Groups </label>
+                                <ng-select #select [items]="groups"  [ngClass]="{'has-success': basicFormControl['Group'].valid}"
+                                  bindLabel="text" bindValue="text" formControlName="Group">
+                                </ng-select>
+                                <div *ngIf="(basicFormControl['Group'].touched || submitted) && (basicFormControl['Group'].errors?.['required'])"
+                                class="tx-danger">
+                                <small>Group  is <strong>required</strong></small>
+                            </div>
+                              </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mg-t-30">
@@ -84,7 +88,7 @@
                 <thead>
                   <tr>
                     <th>Level Name</th>
-                    <th>Is Executive</th>
+                    <th>Group</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -92,11 +96,7 @@
                   <tr *ngFor="let item of levelList;let ndx = index">
                     <td>{{item.levelName}}</td>
                     <td>
-                      <label>
-                        <input disabled type="checkbox" [checked]="item.isExecutive"
-                          name="form-switch-checkbox1" class="form-switch-input">
-                        <span class="form-switch-indicator"></span>
-                      </label>
+                      {{item.group}}
                     </td>
                     <td>
                       <button type="button" (click)="setValueToForm(item)" class="btn btn-sm btn-primary">

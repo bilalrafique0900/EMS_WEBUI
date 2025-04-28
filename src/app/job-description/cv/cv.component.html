@@ -13,9 +13,12 @@
 </div>
 
 <!-- List  -->
-<div class="cv-container" *ngIf="files && files.length > 0; else noFiles">
-  <h2 class="cv-heading">Uploaded CVs</h2>
 
+<div class="cv-container" *ngIf="files && files.length > 0; else noFiles">
+  <div class="card">
+    <div class="card-header">
+  <h2 class="cv-heading">Uploaded CVs</h2>
+</div>
   <table class="cv-table">
     <thead>
       <tr>
@@ -36,7 +39,7 @@
     </tbody>
   </table>
 </div>
-
+</div>
 <ng-template #noFiles>
   <p class="no-files">No CVs found.</p>
 </ng-template>

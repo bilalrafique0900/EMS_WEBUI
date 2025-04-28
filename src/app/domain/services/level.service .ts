@@ -21,6 +21,9 @@ export class LevelService {
   getlevelsbyGroupId(GroupId:string): Observable<any> {
     return this.http.get(`master/level/level-by-groupid?GroupId=`+GroupId);
     }
+  getlevelsbyGroupCode(GroupCode:string=''): Observable<any> {
+    return this.http.get(`master/level/level-by-groupcode?GroupCode=`+GroupCode);
+    }
   active(id: string): Observable<any> {
     return this.http.get(`master/level/active/${id}`);
   }

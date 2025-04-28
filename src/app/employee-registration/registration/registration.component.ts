@@ -169,7 +169,7 @@ export class RegistrationComponent implements OnInit {
   }
   onGroupChange(event:any){
     this.getdepartmentsbyGroupId(event.id);
-    this.getlevelsbyGroupId(event.id)
+    this.getlevelsbyGroupCode(event.code)
     this.getfunctionsbyGroupId(event.id);
 
   }
@@ -205,9 +205,9 @@ export class RegistrationComponent implements OnInit {
         error: (err: any) => { this.toast.error(err.message) },
       });
     }
-    getlevelsbyGroupId(groupId:string) {
+    getlevelsbyGroupCode(groupCode:string) {
 
-      this.levelService.getlevelsbyGroupId(groupId).subscribe({
+      this.levelService.getlevelsbyGroupCode(groupCode).subscribe({
         next: result => {
           debugger;
           this.levelList=[];

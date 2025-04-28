@@ -5,6 +5,7 @@ import { ContentLayoutComponent } from './shared/layout-components/layout/conten
 import { content } from './shared/routes/routes';
 import { ErrorpageComponent } from './authentication/errorpage/errorpage.component';
 
+
 const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+ 
   {
     path: '',
     component: ContentLayoutComponent,

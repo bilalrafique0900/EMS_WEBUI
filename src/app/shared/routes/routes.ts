@@ -50,6 +50,14 @@ export const content: Routes = [
         (m) => m.EmployeeRegistrationModule
       ),
   },
+  {
+    path: 'boarding',
+    //canLoad: [AuthGuardService],
+    loadChildren: () =>
+      import('src/app/onboarding/onboarding.module').then(
+        (m) => m.OnBoardingModule
+      ),
+  },
   // {
   //   path: 'dashboard',
   //   loadChildren: () =>

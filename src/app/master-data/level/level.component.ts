@@ -22,6 +22,11 @@ export class LevelComponent {
   searchText:string='';
   branchId:any;
   levelList: any[] = [];
+  groups = [
+    { text: 'Others' },
+    { text: 'Executive' },
+    {  text: 'C-Suite' }
+  ];
   constructor( 
     private fb: FormBuilder, 
     private toast: ToastrService,
@@ -31,7 +36,7 @@ export class LevelComponent {
     this.levelForm = this.fb.group({
       LevelId: [uuidv4()],
       LevelName: ['', Validators.required],
-      IsExecutive:false
+      Group:['',Validators.required]
     });
   }
 
@@ -60,15 +65,15 @@ export class LevelComponent {
         debugger;
         this.levelList=[];
         this.levelList = result.data.data;
-        this.levelList.sort((a, b) => {
-          if (a.isExecutive && !b.isExecutive) {
-            return -1; // a comes before b
-          } else if (!a.isExecutive && b.isExecutive) {
-            return 1; // b comes before a
-          } else {
-            return 0; // no change in order
-          }
-        });
+        // this.levelList.sort((a, b) => {
+        //   if (a.isExecutive && !b.isExecutive) {
+        //     return -1; // a comes before b
+        //   } else if (!a.isExecutive && b.isExecutive) {
+        //     return 1; // b comes before a
+        //   } else {
+        //     return 0; // no change in order
+        //   }
+        // });
         if(result.data.data.length > 0)
         this.pagination.totalCount=result.data.totalCount;
       },
@@ -82,7 +87,7 @@ export class LevelComponent {
   setValueToForm(row: any) {
     this.levelForm.controls['LevelId'].setValue(row.levelId);
     this.levelForm.controls['LevelName'].setValue(row.levelName);
-    this.levelForm.controls['IsExecutive'].setValue(row.isExecutive);
+    this.levelForm.controls['Group'].setValue(row.Group);
     this.curdBtnIsList = false;
     this.isEdit=true;
   }

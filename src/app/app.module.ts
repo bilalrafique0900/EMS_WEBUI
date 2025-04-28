@@ -16,16 +16,20 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SharedModule } from './shared/shared.module';
 import { JobDescriptionModule } from './job-description/job-description.module';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 export function initializeApp(configService: ConfigService) {
   return () => configService.loadConfig();
 }
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,  ],
   imports: [
     BrowserModule,
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
+    NgbModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgxColorsModule,

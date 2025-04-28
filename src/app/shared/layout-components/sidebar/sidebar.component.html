@@ -63,6 +63,8 @@
                 </a>
               </li>
              </ng-container>
+           
+          
              <!-- *ngIf="Item.children.length > 0" -->
              <!-- <li class="slide" [class]="selectedItem=='1' ? 'show is-expanded' : ''">
               <a class="side-menu__item" (click)="toggleSlide('1')"><span class="shape1"></span><span class="shape2"></span><span class="side-menu__icon">
@@ -76,6 +78,19 @@
                 </li>
               </ul>
         </li> -->
+        <li class="slide" [class]="selectedItem=='1' ? 'show is-expanded' : ''">
+          <a class="side-menu__item" (click)="toggleSlide('1')"><span class="shape1"></span><span class="shape2"></span><span class="side-menu__icon">
+            <i class="fe fe-home"></i></span><span class="side-menu__label"> Client Onboarding</span>
+              <i class="angle fe fe-chevron-right"></i>
+          </a>
+          <ul class="slide-menu open">
+            <!-- *ngFor="let item1 of Item.children -->
+            <li><a routerLinkActive="active" class="slide-item"
+              routerLink="boarding/onboarding">Onboarding </a>
+            </li>
+ 
+          </ul>
+    </li>
         <li class="slide" [class]="selectedItem=='2' ? 'show is-expanded' : ''">
           <a class="side-menu__item" (click)="toggleSlide('2')"><span class="shape1"></span><span class="shape2"></span><span class="side-menu__icon">
             <i class="fe fe-home"></i></span><span class="side-menu__label">Employee</span>
