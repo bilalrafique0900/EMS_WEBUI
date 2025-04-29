@@ -150,7 +150,7 @@
                 <small>Job Opening Date is <strong>required</strong></small>
               </div>
             </div>
-
+<!-- 
             <div class="col-md-6 col-sm-12 col-md-6 my-1">
               <label>CV Upload:</label>
               <div class="input-group mb-3">
@@ -163,7 +163,7 @@
                 class="tx-danger">
                 <small>CV is <strong>required</strong></small>
               </div>
-            </div>
+            </div> -->
 
             <div class="row">
               <b>Job Description Details:</b>
@@ -192,6 +192,11 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="showNotification" class="notification">
+  Request for job opening
+</div>
+
 
 <div class="row" *ngIf="curdBtnIsList">
   <div class="col-lg-12">
