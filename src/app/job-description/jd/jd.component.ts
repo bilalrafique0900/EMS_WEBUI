@@ -27,6 +27,7 @@ import { SharedModule } from "../../shared/shared.module";
 export class JDComponent {
   editor: any;
   public jobForm!: FormGroup;
+  showNotification = false;
   submitted = false;
   curdBtnIsList: boolean = true;
   pagination: any = paginationEnum;
@@ -301,10 +302,11 @@ uploadFiles(jobDescriptionId: string) {
 }
 
 
-formSubmit() {
-  debugger;
-  this.submitted = true;
-  if (!this.jobForm.valid) return;
+  formSubmit() {
+    this.showNotification = true;
+
+    this.submitted = true;
+    if (!this.jobForm.valid) return;
 
   let JobOpeningDate =
     this.jobOpeningDatePicker.year + '-' +

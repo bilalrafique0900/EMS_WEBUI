@@ -8,27 +8,14 @@ import {
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DepartmentService } from 'src/app/domain/services/department.service';
-import { FunctionService } from 'src/app/domain/services/function.service';
-import { GroupService } from 'src/app/domain/services/group.service';
 import { ToastrService } from 'ngx-toastr';                                             
-import { LovService } from 'src/app/domain/services/Lov.service';
-import { AcadmicYearService } from 'src/app/domain/services/acadmic-year.service';
 import { AreaService } from 'src/app/domain/services/area.service';
-import { ClassService } from 'src/app/domain/services/class.service';
-import { ClassSectionService } from 'src/app/domain/services/classsection.service';
-import { EmployeeService } from 'src/app/domain/services/employee.service';
-import { StudentService } from 'src/app/domain/services/student.service';
-import { ZoneService } from 'src/app/domain/services/zone.service';
-import { FilePathEnum } from 'src/app/shared/Enum/documentTableName-enum';
-import { LevelService } from 'src/app/domain/services/level.service ';
-import { LovCode } from 'src/app/shared/Enum/lov-enum';
-import { AuthService } from 'src/app/shared/security/auth-service.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { v4 as uuidv4 } from 'uuid';
-import { JobService } from 'src/app/domain/services/job.service ';
-
+import { paginationEnum } from '../shared/Enum/paginationEnum';
+import { OnboardingService } from '../domain/services/onboarding.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-onboarding',
   templateUrl: './onboarding.component.html',
@@ -37,106 +24,52 @@ import { JobService } from 'src/app/domain/services/job.service ';
 })
 
 export class OnboardingComponent implements OnInit {
-  employeeId: any;
+  onboardingId: any;
   url: string | ArrayBuffer | null | undefined;
   urlAttachment!: string | ArrayBuffer | null;
   @ViewChild('stepper') stepper!: MatStepper;
-  attachmentFileName: string = 'Please select Medical report Attachment';
+  
   registrationForm!: FormGroup;
   parentRegistrationForm!: FormGroup;
   submitted = false;
   isEdit = false;
-  dateofbirthPicker: { day?: number; month: number; year: number };
-  dateOfJoiningPicker: { day?: number; month: number; year: number };
-  RenewPicker: { day?: number; month: number; year: number };
-  attachmentList: any[] = [];
-  jobDescriptiontList: any[] = [];
-  genderList: any[] = [];
-  emplyeeDesignationList: any[]=[];
-  levelList: any[] = [];
-  departmentList: any[] = [];
-  functionList: any[] = [];
   
-  groupList: any[] = [];
-  employeeDetails: any;
+  onboardingStartDatePicker: { day?: number; month: number; year: number };
+  curdBtnIsList: boolean = true;
+  searchText: string = '';
+  pagination: any = paginationEnum;
   baseUrl: any = this.configService.baseApiUrl;
-  FilePath: any = FilePathEnum;
-  classSectionList: any[] = [];
-  maritalList: any[] = [];
-  employeetypeList: any[] = [];
-  employmenttypeList: any[]=[];
   working:boolean=false;
-  jobDescriptionList: any[]=[];
+  onboardingList: any[]=[];
+  onboardingDetails: any={};
   constructor(
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
     private readonly toast: ToastrService,
-    private readonly LovServ: LovService,
     private readonly modalService: NgbModal,
-    private departmentService: DepartmentService, 
-    private functionService: FunctionService, 
-    private groupService: GroupService, 
-    private readonly employeeService: EmployeeService,
+    private readonly onboardingService: OnboardingService,
     private readonly common: CommonService,
-    private jobService: JobService, 
-    private levelService: LevelService,
-    private readonly datePipe: DatePipe,
     private readonly configService: ConfigService
   ) {
     this.registrationForm = this.fb.group({
-      EmployeeId: uuidv4(),
-      EmployeeCode: [''],
-      FirstName: ['', Validators.required],
-      MiddleName: ['', Validators.required],
-      LastName: ['', Validators.required],
-      Contact:['', Validators.required],
-      PersonalEmail: ['', [Validators.pattern(this.common.emailPatteren)]], //Validators.required,
-      DateOfJoining: ['', Validators.required],
-      DateOfBirth: ['', Validators.required],
-      LevelId: ['',Validators.required],
-      DepartmentId: ['',Validators.required],
-      FunctionId: ['',Validators.required],
-      GroupId: ['',Validators.required],
-      
-      Cnic: ['', Validators.required],
-      GenderId: ['', Validators.required],
-      EmployeeDesignationId: ['',Validators.required],
-      EmploymentTypeId: ['',Validators.required],
-      MaritalStatusId: [''],
-      JobDescriptionId: ['',Validators.required],
-      EducationTypeId: [''],
-      EmployeeTypeId: [''],
-      StreetAddress: [''],
-      Mohallah: [''],
-      City: [''],
-      State: [''],
-      CurrentStreetAddress: [''],
-      CurrentMohallah: [''],
-      CurrentTehsil: [''],
-      CurrentDistrict: [''],
-      CurrentCity: [''],
-      CurrentState: [''],
-      PermanentStreetAddress: [''],
-      PermanentMohallah: [''],
-      PermanentTehsil: [''],
-      PermanentDistrict: [''],
-      PermanentCity: [''],
-      PermanentState: [''],
-      IsPicturePermission: [true],
-      Picture: [''],
-      Base64: [''], 
-      ImagePath: [FilePathEnum.ProfilePictures],
+      OnboardingId: uuidv4(),
+
+      CompanyName: ['', Validators.required],
+      ContactPersonName: ['', Validators.required], 
+      ContactPhoneNumber:['', Validators.required],
+      ContactEmailAddress: ['', [Validators.pattern(this.common.emailPatteren)]], //Validators.required,
+      ClientType: ['', Validators.required],
+      OnboardingStartDate: ['', Validators.required],
+      NumberOfEmployee: ['', Validators.required],
+      ServicesRequired: ['', Validators.required],
+      SpecialRequirmentOrNotes: ['', Validators.required],
+      CompanyAddress: [''],
       IsActive: [true],
       IsDeleted: [false],
     });
     const today = new Date();
-    this.dateofbirthPicker = { day: 1, month: 1, year: 2000 };
-    this.RenewPicker = {
-      day: today.getDate(),
-      month: today.getMonth() + 1,
-      year: new Date().getFullYear(),
-    };
-    this.dateOfJoiningPicker = {
+   
+    this.onboardingStartDatePicker = {
       year: today.getFullYear(),
       month: today.getMonth() + 1,
       day: today.getDate(),
@@ -146,10 +79,25 @@ export class OnboardingComponent implements OnInit {
     //   'EMP-01'
     // );
   }
-
+  get basicFormControl() {
+    return this.registrationForm.controls;
+  }
+  changeCurdView(bitVal: boolean) {
+    this.curdBtnIsList = bitVal;
+    this.isEdit = false;
+  }
+  onPageChange(event: any) {
+    this.pagination.pageNo = event;
+    this.getonboardings();
+  }
+  onSearchText() {
+    this.pagination.pageNo = 1;
+    this.pagination.pageSize = 10;
+    this.getonboardings();
+  }
   ngOnInit(): void {
-    this.employeeId = this.route.snapshot.queryParamMap.get('id');
-    if (this.employeeId != null && this.employeeId != '') {
+    this.onboardingId = this.route.snapshot.queryParamMap.get('id');
+    if (this.onboardingId != null && this.onboardingId != '') {
       this.isEdit = true;
      // this.getEmployeeById(this.employeeId);
     }else{
@@ -169,247 +117,99 @@ export class OnboardingComponent implements OnInit {
     //  this.getEmploymentTypeByLovCode();
     //  this.getjobDescriptions();
   }
-  onGroupChange(event:any){
-    this.getdepartmentsbyGroupId(event.id);
-    this.getlevelsbyGroupCode(event.code)
-    this.getfunctionsbyGroupId(event.id);
+  getonboardings() {
 
+    this.onboardingService.getOnboardings('','','').subscribe({
+      next: result => {
+        
+        this.onboardingList=[];
+        this.onboardingList = result.data;
+      },
+      error: (err: any) => { this.toast.error(err.message) },
+    });
   }
-  getEmployeeById(employeeId: string) {
-    this.employeeService.getEmployeeById(employeeId).subscribe({
+  getOnboardingById(onboardingId: string) {
+    this.onboardingService.getOnboardingById(onboardingId).subscribe({
       next: (result) => {
-        this.employeeDetails = result.data;
-        this.setRegistrationValuesForupdate(this.employeeDetails);
+        this.onboardingDetails = result.data;
+        this.setRegistrationValuesForupdate(this.onboardingDetails);
       },
       error: (err: any) => {
         this.toast.error(err?.error?.message);
       },
     });
   }
-    getEmploymentTypeByLovCode(): void {
-      this.LovServ.getLevelByCode(LovCode.EMPLOYMENT_TYPE).subscribe({
-        next: (result) => {
-          this.employmenttypeList = result.data;
-        },
-        error: (err: any) => {
-          this.toast.error(err?.error?.message);
-        },
-      });
-    }
-    getdepartmentsbyGroupId(groupId:string) {
-
-      this.departmentService.getdepartmentsbyGroupId(groupId).subscribe({
-        next: result => {
-          
-          this.departmentList=[];
-          this.departmentList = result.data;
-        },
-        error: (err: any) => { this.toast.error(err.message) },
-      });
-    }
-    getlevelsbyGroupCode(groupCode:string) {
-
-      this.levelService.getlevelsbyGroupCode(groupCode).subscribe({
-        next: result => {
-          debugger;
-          this.levelList=[];
-          this.levelList = result.data;
-        },
-        error: (err: any) => { this.toast.error(err.message) },
-      });
-    }
-    getfunctionsbyGroupId(groupId:string) {
-
-      this.functionService.getfunctionsbyGroupId(groupId).subscribe({
-        next: result => {
-          
-          this.functionList=[];
-          this.functionList = result.data;
-        },
-        error: (err: any) => { this.toast.error(err.message) },
-      });
-    }
-
-    getgroups() {
-
-      this.groupService.getall().subscribe({
-        next: result => {
-          
-          this.groupList=[];
-          this.groupList = result.data;
-        },
-        error: (err: any) => { this.toast.error(err.message) },
-      });
-    }
-  
   setRegistrationValuesForupdate(item: any) {
-    this.registrationForm.controls['EmployeeId'].setValue(item.employeeId);
-    if (!item.employeeCode) {
-     // this.common.generateRandomCode(6)
-      this.registrationForm.controls['EmployeeCode'].setValue(
-        'EMP-01'
-      );
-    } else {
-      this.registrationForm.controls['EmployeeCode'].setValue(item.employeeCode);
-    }
-    this.registrationForm.controls['FirstName'].setValue(item.firstName);
-    this.registrationForm.controls['MiddleName'].setValue(item.middleName);
-    this.registrationForm.controls['LastName'].setValue(item.lastName);
-    this.registrationForm.controls['Contact'].setValue(item.contact);
-    this.registrationForm.controls['PersonalEmail'].setValue(item.personalEmail);
-    let FormateDOB = this.datePipe.transform(item?.dateOfBirth, 'yyyy-MM-dd');
-    let splitDOB: any = FormateDOB?.split('-');
-    if (Array.isArray(splitDOB)) {
-      this.dateofbirthPicker = {
-        day: Number(splitDOB[2]),
-        month: Number(splitDOB[1]),
-        year: Number(splitDOB[0]),
-      };
-    }
-    let FormateDOBJoing = this.datePipe.transform(
-      item.dateOfJoining,
-      'yyyy-MM-dd'
-    );
-    let splitDOBJoining: any = FormateDOBJoing?.split('-');
-    if (Array.isArray(splitDOBJoining)) {
-      this.dateOfJoiningPicker = {
-        day: Number(splitDOBJoining[2]),
-        month: Number(splitDOBJoining[1]),
-        year: Number(splitDOBJoining[0]),
-      };
-    }
-    debugger;
-    this.registrationForm.controls['Cnic'].setValue(item.cnic);
-    this.registrationForm.controls['Contact'].setValue(item.contact);
-    this.registrationForm.controls['GenderId'].setValue(item.genderId);
-    this.registrationForm.controls['DepartmentId'].setValue(item.departmentId);
-    this.registrationForm.controls['FunctionId'].setValue(item.functionId);
+    this.registrationForm.controls['OnboardingId'].setValue(item.onboardingId);
+  
+    this.registrationForm.controls['CompanyName'].setValue(item.companyName);
+    this.registrationForm.controls['ContactPersonName'].setValue(item.contactPersonName);
+    this.registrationForm.controls['ContactEmailAddress'].setValue(item.contactEmailAddress);
+    this.registrationForm.controls['ContactPhoneNumber'].setValue(item.ContactPhoneNumber);  
+      
+
+    this.registrationForm.controls['ClientType'].setValue(item.clientType);
+    this.registrationForm.controls['CompanyAddress'].setValue(item.companyAddress);
+    this.registrationForm.controls['NumberOfEmployees'].setValue(item.numberOfEmployees);
+    this.registrationForm.controls['ServicesRequired'].setValue(item.servicesRequired);
+    this.registrationForm.controls['OnboardingStartDate'].setValue(item.onboardingStartDate);
     
-    this.registrationForm.controls['GroupId'].setValue(item.groupId);
-    this.registrationForm.controls['EmployeeDesignationId'].setValue(item.employeeDesignationId);
-    this.registrationForm.controls['EmployeeTypeId'].setValue(item.employeeTypeId);
-    this.registrationForm.controls['MaritalStatusId'].setValue(item.maritalStatusId);
-    this.registrationForm.controls['EducationTypeId'].setValue(item.educationTypeId);
-   this.registrationForm.controls['JobDescriptionId'].setValue(item.jobDescriptionId);
-   this.registrationForm.controls['EmploymentTypeId'].setValue(item.employmentTypeId);
-   this.registrationForm.controls['LevelId'].setValue(item.levelId);
+    this.registrationForm.controls['SpeccialRequirementsOrNotes'].setValue(item.speccialRequirementsOrNotes);
+  
 
-    this.registrationForm.controls['IsPicturePermission'].setValue(item.isPicturePermission);
-    this.registrationForm.controls['Picture'].setValue(item.picture);
-    this.registrationForm.controls['StreetAddress'].setValue(item.streetAddress);
-    this.registrationForm.controls['Mohallah'].setValue(item.mohallah);
-    this.registrationForm.controls['City'].setValue(item.city);
-    this.registrationForm.controls['State'].setValue(item.state);
-    this.registrationForm.controls['PermanentStreetAddress'].setValue(item.permanentStreetAddress);
-    this.registrationForm.controls['PermanentMohallah'].setValue(item.permanentMohallah);
-    this.registrationForm.controls['PermanentTehsil'].setValue(item.permanentTehsil);
-    this.registrationForm.controls['PermanentDistrict'].setValue(item.permanentDistrict);
-    this.registrationForm.controls['PermanentCity'].setValue(item.permanentCity);
-    this.registrationForm.controls['PermanentState'].setValue(item.permanentState);
+    
+ 
     this.registrationForm.controls['IsActive'].setValue(item.isActive);
-    this.registrationForm.controls['IsDeleted'].setValue(item.isDeleted);
-    if (item.picture)
-      this.url =
-        this.baseUrl + this.FilePath.ProfilePictures + '/' + item.picture;
+    
   }
-  getEmployeeTypeByLovCode(): void { 
-    this.LovServ.getLevelByCode(LovCode.EMPLOYMENT_TYPE).subscribe({
-      next: (result) => {
-        this.employeetypeList = result.data;
-      },     
-      error: (err: any) => {
-        this.toast.error(err?.error?.message);
-      },
-    });
-  }
-  getEmployeeCode(): void {
-    this.employeeService.getEmployeeCode().subscribe({ 
-      next: (result) => {
-        this.registrationForm.controls['EmployeeCode'].setValue(result.data);
-      },
-      error: (err: any) => {
-        this.toast.error(err?.error?.message);   
-      },
-    });
-  }
-  getlevels() {
-
-    this.levelService.getall().subscribe({
+  IsActive(row: any) {
+    this.onboardingService.active(row.onboardingId).subscribe({
       next: result => {
-        debugger;
-        this.levelList=[];
-        this.levelList = result.data;
+        if (result.status) {
+          this.getonboardings();
+          this.toast.success("Record Active OR InActive SuccessFully");
+        }
       },
       error: (err: any) => { this.toast.error(err.message) },
     });
   }
-  getGenderByLovCode(): void {
-    this.LovServ.getLevelByCode(LovCode.GENDER).subscribe({ 
-      next: (result) => {
-        this.genderList = result.data;
-      },
-      error: (err: any) => {
-        this.toast.error(err?.error?.message);
-      },
-    });
-  }
-  getjobDescriptions() {
-
-    this.jobService.getall().subscribe({
-      next: result => {
-        debugger;
-        this.jobDescriptionList=[];
-        this.jobDescriptionList = result.data;
-      },
-      error: (err: any) => { this.toast.error(err.message) },
-    });
-  }
-    getEmployeeDesignationByLovCode(): void {
-    this.LovServ.getLevelByCode(LovCode.EMPLOYEE_DESIGNATION).subscribe({ 
-     next: (result) => {
-      this.emplyeeDesignationList = result.data;
-   },
-     error: (err: any) => {
-       this.toast.error(err?.error?.message);
-     },
-     });
-   }
-  getMaritalStatusByLovCode(): void {
-    this.LovServ.getLevelByCode(LovCode.MARITAL_STATUS).subscribe({
-      next: (result) => {
-        this.maritalList = result.data;
-      },
-      error: (err: any) => {
-        this.toast.error(err?.error?.message);
-      },
-    });
-  }
-  get basicFormControl() {
-    return this.registrationForm.controls;
+  
+  deleteRow(row: any) {
+    // Swal.fire({
+    //   icon: 'warning',
+    //   title: 'Are you sure ?',
+    //   text: 'You will not be able to recover this imaginary file!',
+    //   showCancelButton: true,
+    //   confirmButtonColor: '#6259ca',
+    //   cancelButtonColor: '#6259ca',
+    //   confirmButtonText: 'Yes, delete it!',
+    //   reverseButtons: true,
+    // }).then((result: any) => {
+    //   if (result.isConfirmed) {
+    //     this.onboardingService.delete(row.onboardingId).subscribe({
+    //       next: result => {
+    //         if (result.status) {
+    //           this.getonboardings();
+    //           this.toast.success("Record Deleted SuccessFully")
+    //         }
+    //       },
+    //       error: (err: any) => { this.toast.error(err.message) },
+    //     });
+    //     Swal.fire({
+    //       title: 'Deleted!',
+    //       text: 'Your class has been deleted.',
+    //       icon: 'success',
+    //       confirmButtonColor: '#6259ca',
+    //     });
+    //   }
+    // });
   }
 
   onRemove() {
     this.url = null;
     this.registrationForm.controls['Base64'].setValue('');
   }
-  onRemoveAttachment() {
-    this.attachmentFileName = 'Please select Medical report Attachment';
-  }
-  onSelectFile(event: any) {
-    if (event.addedFiles && event.addedFiles[0]) {
-      var reader = new FileReader();
-      reader.readAsDataURL(event.addedFiles[0]); // read file as data url
-
-      reader.onload = (event) => {
-        // called once readAsDataURL is completed
-        if (event.target) {
-          this.url = event.target.result;
-          this.registrationForm.controls['Base64'].setValue(this.url);
-        }
-        // this.p.setValue(this.url);
-      };
-    }
-  }
+ 
   formatBytes(bytes: number): string {
     const UNITS = ['Bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     const factor = 1024;
@@ -430,25 +230,20 @@ export class OnboardingComponent implements OnInit {
       this.toast.error('Please complete all required fields before proceeding.');
       return;
     }
-    let DateOfBirth =
-      this.dateofbirthPicker.year +
-      '-' +
-      this.dateofbirthPicker.month +
-      '-' +
-      this.dateofbirthPicker.day;
+    
     // if(this.RenewPicker!=null || this.RenewPicker!=undefined){
     //   let RenewPicker = this.RenewPicker.year + '-' + this.RenewPicker.month + '-' + this.RenewPicker.day;
     //   this.registrationForm.value['RenewDate'] = RenewPicker;
     // }
-    let DateOfJoining =
-      this.dateOfJoiningPicker.year +
+    let OnboardingStartDate =
+      this.onboardingStartDatePicker.year +
       '-' +
-      this.dateOfJoiningPicker.month +
+      this.onboardingStartDatePicker.month +
       '-' +
-      this.dateOfJoiningPicker.day;
-    this.registrationForm.value['DateOfBirth'] = DateOfBirth;
+      this.onboardingStartDatePicker.day;
+    
 
-    this.registrationForm.value['DateOfJoining'] = DateOfJoining;
+    this.registrationForm.value['DateOfJoining'] = OnboardingStartDate;
     if (
       this.registrationForm.controls['IsPicturePermission'].value &&
       this.registrationForm.controls['Base64'].value == '' &&
@@ -459,10 +254,10 @@ export class OnboardingComponent implements OnInit {
     }
     this.working = true;
 
-    this.employeeService.save(this.registrationForm.value).subscribe({
+    this.onboardingService.save(this.registrationForm.value).subscribe({
       next: (result: any) => {
         if (result) {
-          this.employeeId = result.data;
+          this.onboardingId = result.data;
           this.toast.success("Your details have been saved.");
           this.stepper.next();
         } else this.toast.error('Somethings went wrong...');
@@ -475,26 +270,5 @@ export class OnboardingComponent implements OnInit {
     });
   }
 
-  copyCurrentToPermanent(event: any) {
-    if (event.target.checked) {
-      this.registrationForm.patchValue({
-        PermanentStreetAddress: this.registrationForm.value.CurrentStreetAddress,
-        PermanentMohallah: this.registrationForm.value.CurrentMohallah,
-        PermanentTehsil: this.registrationForm.value.CurrentTehsil,
-        PermanentDistrict: this.registrationForm.value.CurrentDistrict,
-        PermanentCity: this.registrationForm.value.CurrentCity,
-        PermanentState: this.registrationForm.value.CurrentState
-      });
-    } else {
-      this.registrationForm.patchValue({
-        PermanentStreetAddress: '',
-        PermanentMohallah: '',
-        PermanentTehsil: '',
-        PermanentDistrict: '',
-        PermanentCity: '',
-        PermanentState: ''
-      });
-    }
-  }
   
 }
