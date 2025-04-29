@@ -46,6 +46,20 @@ export class JDComponent {
   selectedFiles: File[] = [];
   referenceId: number = 1;
 
+  idList = [
+    { id: 1, text: '1' },
+    { id: 2, text: '2' },
+    { id: 3, text: '3' },
+    { id: 4, text: '4' },
+    { id: 5, text: '5' },
+    { id: 6, text: '6' },
+    { id: 7, text: '7' },
+    { id: 8, text: '8' },
+    { id: 9, text: '9' },
+    { id: 10, text: '10' }
+  ]; 
+
+
   constructor(
     private fb: FormBuilder,
     private fileService: FileUploadService,
@@ -64,13 +78,13 @@ export class JDComponent {
       JobDescriptionId: uuidv4(),
       DepartmentId: ['', Validators.required],
       GroupId: ['', Validators.required],
-
       PostHostId: ['', Validators.required],
       HiringManagerId: ['', Validators.required],
       EmploymentTypeId: ['', Validators.required],
       Title: ['', Validators.required],
       JobOpeningDate: ['', Validators.required],
-      Description: ['', Validators.required]
+      Description: ['', Validators.required],
+      NumberOfJobs: [1, Validators.required],
     });
     const today = new Date();
     this.jobOpeningDatePicker = {
@@ -189,6 +203,7 @@ export class JDComponent {
     this.jobForm.controls['EmploymentTypeId'].setValue(row.employmentTypeId);
     this.jobForm.controls['Title'].setValue(row.title);
     this.jobForm.controls['Description'].setValue(row.description);
+    this.jobForm.controls['NumberOfJobs'].setValue(row.numberOfJobs);
     this.curdBtnIsList = false;
     this.isEdit = true;
     let FormateOpeningDate = this.datePipe.transform(
@@ -205,6 +220,11 @@ export class JDComponent {
     }
   }
   deleteRow(row: any) {
+
+    debugger;
+
+    console.log(row);
+
     Swal.fire({
       icon: 'warning',
       title: 'Are you sure ?',
@@ -216,7 +236,7 @@ export class JDComponent {
       reverseButtons: true,
     }).then((result: any) => {
       if (result.isConfirmed) {
-        this.jobService.delete(row.jobDespcritionId).subscribe({
+        this.jobService.delete(row.jobDescriptionId).subscribe({
           next: result => {
             if (result.status) {
               this.getjobdescriptions();
@@ -281,33 +301,39 @@ uploadFiles(jobDescriptionId: string) {
 }
 
 
-  formSubmit() {
-    this.submitted = true;
-    if (!this.jobForm.valid) return;
+formSubmit() {
+  debugger;
+  this.submitted = true;
+  if (!this.jobForm.valid) return;
 
-    let JobOpeningDate =
-      this.jobOpeningDatePicker.year + '-' +
-      this.jobOpeningDatePicker.month + '-' +
-      this.jobOpeningDatePicker.day;
+  let JobOpeningDate =
+    this.jobOpeningDatePicker.year + '-' +
+     this.jobOpeningDatePicker.month + '-' +
+    this.jobOpeningDatePicker.day;
+    const date = new Date(this.jobOpeningDatePicker.year, this.jobOpeningDatePicker.month, this.jobOpeningDatePicker.day);
+ // this.jobForm.value['JobOpeningDate'] = JobOpeningDate;
+  this.jobForm.value['JobOpeningDate'] = date;
 
-    this.jobForm.value['JobOpeningDate'] = JobOpeningDate;
-    let jobDescriptionId = this.jobForm.value['JobDescriptionId'];
+  let jobDescriptionId = this.jobForm.value['JobDescriptionId'];
 
-    this.jobService.saveUpdate(this.jobForm.value).subscribe({
-      next: (data: any) => {
-        this.toast.success('Job Description has been saved.');
-        this.uploadFiles(jobDescriptionId); 
-        this.jobForm.reset();
-        this.jobForm.controls['JobDescriptionId'].setValue(uuidv4());
-        this.isEdit = false;
-        this.curdBtnIsList = true;
-        this.getjobdescriptions();
-      },
-      error: (err: any) => {
-        this.toast.error(err.error);
-      },
-    });
-  }
+  this.jobService.saveUpdate(this.jobForm.value).subscribe({
+    next: (data: any) => {
+      debugger;
+      console.log("data",data)
+      this.toast.success('Job Description has been saved.');
+      this.uploadFiles(jobDescriptionId);
+      this.jobForm.reset();
+      this.jobForm.controls['JobDescriptionId'].setValue(uuidv4());
+      this.isEdit = false;
+      this.curdBtnIsList = true;
+      this.getjobdescriptions();
+    },
+    error: (err: any) => {
+      this.toast.error(err.error);
+    },
+  });
+}
+
 
   getjobdescriptions() {
     this.jobService.get(1, 10, '').subscribe({

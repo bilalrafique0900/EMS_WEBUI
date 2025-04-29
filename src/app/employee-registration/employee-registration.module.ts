@@ -13,6 +13,7 @@ import { PreviousExperienceDetailsComponent } from './previous-experience-detail
 import { EducationalDetailsComponent } from './educational-details/educational-detailsparent-details.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { MaritalDetailsComponent } from './marital-details/marital-details.component';
+import { AceessriesComponent } from './aceessries/aceessries.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MaritalDetailsComponent } from './marital-details/marital-details.compo
     PreviousExperienceDetailsComponent,
     EducationalDetailsComponent,
     EmployeeListComponent,
-    MaritalDetailsComponent
+    MaritalDetailsComponent,
+    AceessriesComponent
   ],
   imports: [
     CommonModule,
