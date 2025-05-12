@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -34,6 +34,10 @@ export class HttpRequestService {
     delete(relativeUrl: string): Observable<ApiResponseModel>{
       let absoluteUrl = `${this.baseApiUrl}${relativeUrl}`;
       return this.httpClient.delete<ApiResponseModel>(absoluteUrl);
+    }
+    deleteWithParams(relativeUrl: string, params? : HttpParams): Observable<ApiResponseModel>{
+      let absoluteUrl = `${this.baseApiUrl}${relativeUrl}`;
+      return this.httpClient.delete<ApiResponseModel>(absoluteUrl, {params});
     }
   get(relativeUrl: string, id?: number | null): Observable<ApiResponseModel>;
   get(relativeUrl: string, params: { name: string, value: any }[] | null): Observable<ApiResponseModel>;

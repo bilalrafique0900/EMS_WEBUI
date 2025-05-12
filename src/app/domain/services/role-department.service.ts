@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from 'src/app/shared/services/http-request.service';
@@ -26,7 +27,10 @@ export class RoleDepartmentService {
   //   return this.http.delete(`user-management/roledepartment/delete?departmentId=${departmentId}&roleId=${roleId}`);
   // }
   delete(departmentId: string, roleId: string): Observable<any> {
-    return this.http.delete(`user-management/roledepartment/delete/${departmentId}/${roleId}`);
+    const params = new HttpParams()
+    .set('departmentId', departmentId)
+    .set('roleId', roleId);
+    return this.http.deleteWithParams(`user-management/roledepartment`,  params);
   }
   getRoles(): Observable<any> {
     return this.http.get(`user-management/role/get`);

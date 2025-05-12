@@ -18,7 +18,6 @@ export class RoleDepartmentComponent implements OnInit {
   roleDepartmentToEdit: any;
 
   departments: any[] = [];
-  groups: any[] = [];
   roles: any[] = [];
 
 
@@ -90,8 +89,8 @@ export class RoleDepartmentComponent implements OnInit {
 
   changeCurdView(isList: boolean) {
     this.curdBtnIsList = isList;
-    this.isEdit = false;
-    this.roleDepartmentForm.reset();
+    // this.isEdit = false;
+    // this.roleDepartmentForm.reset();
   }
 
   onSubmit() {
@@ -116,15 +115,6 @@ export class RoleDepartmentComponent implements OnInit {
     });
   }
 
-  onEdit(item: any) {
-    this.isEdit = true;
-    this.roleDepartmentToEdit = item;
-    this.roleDepartmentForm.patchValue({
-      groupId: item.groupId,
-      departmentId: item.departmentId
-    });
-    this.changeCurdView(false);
-  }
 
   onDelete(departmentId: string, roleId: string) {
     this.roleDepartmentService.delete(departmentId, roleId).subscribe({

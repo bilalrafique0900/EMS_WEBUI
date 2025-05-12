@@ -84,7 +84,7 @@
                 <tr>
                   <th>Role Name</th>
                   <th>Department Name</th>
-                  <th>Actions</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -93,16 +93,9 @@
                     <td>{{ roleDepartment.roleName }}</td>
                     <td>{{ roleDepartment.departmentName }}</td>
                   <td>
-                    <button type="button" class="btn btn-sm btn-primary me-1" (click)="onEdit(roleDepartment)">
-                      <span class="fe fe-edit"></span>
-                    </button>
                     <button type="button" class="btn btn-sm btn-danger me-1" (click)="onDelete(roleDepartment.departmentId, roleDepartment.roleId)">
                       <span class="fe fe-trash-2"></span>
                     </button>
-                    <label class="form-switch">
-                      <input type="checkbox" class="form-switch-input" checked>
-                      <span class="form-switch-indicator"></span>
-                    </label>
                   </td>
                 </tr>
               </tbody>
