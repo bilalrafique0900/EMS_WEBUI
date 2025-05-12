@@ -17,12 +17,14 @@ import { RoleComponent } from './role/role.component';
 import { UserManagementRoutingModule } from './user-management-routing.module';
 import { UserComponent } from './user/user.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { RoleDepartmentComponent } from './role-department/role-department.component';
 
 @NgModule({
   declarations: [
     PermissionComponent,
     RoleComponent,
-    UserComponent
+    UserComponent,
+    RoleDepartmentComponent
   ],
   imports: [
     CommonModule,

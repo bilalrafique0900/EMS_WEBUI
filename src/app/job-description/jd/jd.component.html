@@ -197,9 +197,10 @@
   </div>
 </div>
 
-<div *ngIf="showNotification" class="notification">
+<!-- Request for job opening -->
+<!-- <div *ngIf="showNotification" class="notification">
   Request for job opening
-</div>
+</div> -->
 
 
 <div class="row" *ngIf="curdBtnIsList">
@@ -213,7 +214,7 @@
           <table class="table table-bordered border text-nowrap mb-0" id="new-edit">
             <thead>
               <tr>
-              <th>ID</th> 
+              <!-- <th>ID</th>  -->
                 <th>Title</th>
                 <th>Department</th>
                 <th>Group</th>
@@ -222,12 +223,12 @@
                 <th>Employment Type</th>
                 <th>Opening Date</th>
                 <th>Actions</th>
-                <th>CV'S</th>
+                <!-- <th>CV'S</th> -->
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of jobList;let ndx = index">
-             <td>{{item.jobDescriptionId}}</td>
+             <!-- <td>{{item.jobDescriptionId}}</td> -->
                 <td>{{item.title}}</td>
                 <td>{{item.departmentName}}</td>
                 <td>{{item.groupName}}</td>
@@ -252,11 +253,11 @@
                 </td>
 
 
-                  <td>
+                  <!-- <td>
                     <button type="button" class="btn btn-sm btn-success" (click)="openFile(item.fileId)">
                       <a class="setBg" [routerLink]="['/job-description/cv', item.jobDescriptionId]">View CV</a>
                     </button>
-                  </td>
+                  </td> -->
 
               
               </tr>

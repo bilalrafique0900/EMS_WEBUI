@@ -4,6 +4,7 @@ import { RoleComponent } from './role/role.component';
 import { UserComponent } from './user/user.component';
 import { PermissionComponent } from './permission/permission.component';
 import { AuthGuardService } from '../shared/security/auth-guard.service';
+import { RoleDepartmentComponent } from './role-department/role-department.component';
 
 const routes: Routes = [
   {path: 'role',component: RoleComponent,
@@ -13,6 +14,7 @@ const routes: Routes = [
   //canActivate: [AuthGuardService]
 },
   {path: 'permission',component: PermissionComponent},
+  {path: 'role-department',component: RoleDepartmentComponent},
 ];
 
 @NgModule({
