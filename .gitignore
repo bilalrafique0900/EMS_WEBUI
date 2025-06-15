@@ -1,3 +1,13 @@
 node_modules
 /.angular/cache/16.2.12/babel-webpack
 /.vs/EMS_WEBUI/FileContentIndex/merges
+/.angular/cache/16.2.12/angular-webpack/799b607dd8167a09f76d70c75b279969e0a0b809
+*.vsidx
+/.vs/EMS_WEBUI/FileContentIndex/09a40e43-b046-4596-adad-5f8cdadb1d87.vsidx
+/.vs/EMS_WEBUI/FileContentIndex/35598415-7222-4524-b3d9-c6ad89b282f5.vsidx
+/.vs/EMS_WEBUI/FileContentIndex/4430453c-5a51-4c71-b355-111a3e8a625c.vsidx
+/.vs/EMS_WEBUI/FileContentIndex/e2740e9f-8e7c-48c4-8d6b-7e6e9322ad90.vsidx
+/.vs/EMS_WEBUI/FileContentIndex/e6612ed6-f982-4fe4-9143-1b4d664f8f69.vsidx
+/.vs/EMS_WEBUI/FileContentIndex/f60b2a13-190d-4937-876b-40a672cbd3ce.vsidx
+/.vs/slnx.sqlite
+*.sqlite-journal
