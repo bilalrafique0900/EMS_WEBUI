@@ -46,6 +46,21 @@
       <div class="card-body">
         <form [formGroup]="jobForm" novalidate (ngSubmit)="formSubmit()">
           <div class="row">
+
+              <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <div class="form-group">
+                <label>Company Name: </label>
+                <ng-select #select [items]="CompainesList" formControlName="OnnboardingId" bindLabel="companyName"
+                  bindValue="OnnboardingId">
+                </ng-select>
+                <div
+                  *ngIf="(basicFormControl['OnnboardingId'].invalid) && submitted&& (basicFormControl['OnnboardingId'].errors?.['required'])"
+                  class="tx-danger">
+                  <small>Company Name is <strong>required</strong></small>
+                </div>
+              </div>
+            </div>
+
             <div class="col-md-6 col-sm-12 col-md-6 my-1">
               <label>Title: </label>
               <input class="form-control" formControlName="Title" placeholder="Enter Title"
@@ -54,22 +69,8 @@
                 *ngIf="(basicFormControl['Title'].invalid) && submitted && (basicFormControl['Title'].errors?.['required'])"
                 class="tx-danger">
                 <small>Title is <strong>required</strong></small>
-
               </div>
 
-            </div>
-            <div class="col-md-6 col-sm-12 col-md-6 my-1">
-              <div class="form-group">
-                <label>Department: </label>
-                <ng-select #select [items]="departmentList" formControlName="DepartmentId" bindLabel="departmentName"
-                  bindValue="departmentId">
-                </ng-select>
-                <div
-                  *ngIf="(basicFormControl['DepartmentId'].invalid) && submitted&& (basicFormControl['DepartmentId'].errors?.['required'])"
-                  class="tx-danger">
-                  <small>Department is <strong>required</strong></small>
-                </div>
-              </div>
             </div>
           </div>
           <div class="row">
@@ -85,7 +86,22 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+               <div class="col-md-6 col-sm-12 col-md-6 my-1">
+              <div class="form-group">
+                <label>Department: </label>
+                <ng-select #select [items]="departmentList" formControlName="DepartmentId" bindLabel="departmentName"
+                  bindValue="departmentId">
+                </ng-select>
+                <div
+                  *ngIf="(basicFormControl['DepartmentId'].invalid) && submitted&& (basicFormControl['DepartmentId'].errors?.['required'])"
+                  class="tx-danger">
+                  <small>Department is <strong>required</strong></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+             <div class="col-md-6 col-sm-12 col-md-6 my-1">
               <div class="form-group">
                 <label>Hiring Managers: </label>
                 <ng-select #select [items]="managerList" formControlName="HiringManagerId" bindLabel="name"
@@ -98,11 +114,6 @@
                 </div>
               </div>
             </div>
-
-          </div>
-          <div class="row">
-
-
             <div class="col-md-6 col-sm-12 col-md-6 my-1">
               <div class="form-group">
                 <label>Post Host: </label>
@@ -116,7 +127,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+          </div>
+          <div class="row">
+             <div class="col-md-6 col-sm-12 col-md-6 my-1">
               <div class="form-group">
                 <label>Employment Type: </label>
                 <ng-select #select [items]="employmenttypeList" formControlName="EmploymentTypeId" bindLabel="text"
@@ -129,11 +142,6 @@
                 </div>
               </div>
             </div>
-
-          </div>
-          <div class="row">
-
-
             <div class="col-md-6 col-sm-12 col-md-6 my-1">
               <label>Job Opening Date: </label>
               <div class="form-input">
@@ -150,8 +158,8 @@
                 <small>Job Opening Date is <strong>required</strong></small>
               </div>
             </div>
-
-            <div class="col-md-6 col-sm-12 col-md-6 my-1">
+            <div class="row">
+               <div class="col-md-6 col-sm-12 col-md-6 my-1">
               <label>ID: Generate</label>
               <div class="form-input">
                   <div class="input-group">
@@ -171,7 +179,6 @@
                   </div>
               </div>
           </div>
-            <div class="row">
               <b>Job Description Details:</b>
             </div>
             <div class="parsley-input col-md-12 mt-2">
@@ -217,6 +224,7 @@
               <!-- <th>ID</th>  -->
                 <th>Title</th>
                 <th>Department</th>
+                <th>Company Name</th>
                 <th>Group</th>
                 <th>Manager</th>
                 <th>Post Host</th>
@@ -231,6 +239,7 @@
              <!-- <td>{{item.jobDescriptionId}}</td> -->
                 <td>{{item.title}}</td>
                 <td>{{item.departmentName}}</td>
+                <td>{{item.companyName}}</td>
                 <td>{{item.groupName}}</td>
                 <td>{{item.managerName}}</td>
                 <td>{{item.postHostName}}</td>

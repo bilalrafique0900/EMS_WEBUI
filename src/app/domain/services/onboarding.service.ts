@@ -23,4 +23,7 @@ export class OnboardingService {
   active(id:any): Observable<any> {
     return this.http.get(`onboarding/active?onboardingId=`+id);
     }
+  getAll(): Observable<any> {
+    return this.http.get(`onboarding/get-all`);
+    }
 }

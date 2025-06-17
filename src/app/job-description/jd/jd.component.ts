@@ -18,6 +18,7 @@ import { JobService } from 'src/app/domain/services/job.service ';
 import { Router } from '@angular/router';
 import { FileUploadService } from 'src/app/domain/services/file-upload.service';
 import { SharedModule } from "../../shared/shared.module";
+import { OnboardingService } from 'src/app/domain/services/onboarding.service';
 @Component({
   selector: 'app-jd',
   templateUrl: './jd.component.html',
@@ -37,6 +38,7 @@ export class JDComponent {
   searchText: string = '';
   branchId: any;
   departmentList: any[] = [];
+  CompainesList: any[] = [];
   posthostList: any[] = [];
   groupList: any[] = [];
 
@@ -67,6 +69,7 @@ export class JDComponent {
     private toast: ToastrService,
     private departmentService: DepartmentService,
     private groupService: GroupService,
+    private onboardingService: OnboardingService,
     private postHostService: PostHostService,
     private LovServ: LovService,
     private employeeService: EmployeeService,
@@ -78,6 +81,7 @@ export class JDComponent {
     this.jobForm = this.fb.group({
       JobDescriptionId: uuidv4(),
       DepartmentId: ['', Validators.required],
+      OnnboardingId: [''],
       GroupId: ['', Validators.required],
       PostHostId: ['', Validators.required],
       HiringManagerId: ['', Validators.required],
@@ -102,12 +106,14 @@ export class JDComponent {
   ngOnInit(): void {
     this.editor = new Editor();
     this.getgroups();
+    this.getCompanies();
 
     this.getdepartments();
     this.getposthosts();
     this.getHiringManagers();
     this.getEmploymentTypeByLovCode();
     this.getjobdescriptions();
+
   }
   ngOnDestroy(): void {
     this.editor.destroy();
@@ -156,6 +162,17 @@ export class JDComponent {
       error: (err: any) => { this.toast.error(err.message) },
     });
   }
+
+  getCompanies() {
+   this.onboardingService.getAll().subscribe({
+    next: result => {
+      this.CompainesList = [];
+      this.CompainesList = result.data;
+    },
+    error: (err: any) => {this.toast.error(err.message)},
+   });
+  }
+
   getposthosts() {
 
     this.postHostService.getall().subscribe({
@@ -197,9 +214,9 @@ export class JDComponent {
   setValueToForm(row: any) {
     this.jobForm.controls['JobDescriptionId'].setValue(row.jobDescriptionId);
     this.jobForm.controls['DepartmentId'].setValue(row.departmentId);
+    this.jobForm.controls['OnnboardingId'].setValue(row.onnboardingId);
     this.jobForm.controls['PostHostId'].setValue(row.postHostId);
     this.jobForm.controls['GroupId'].setValue(row.groupId);
-
     this.jobForm.controls['HiringManagerId'].setValue(row.hiringManagerId);
     this.jobForm.controls['EmploymentTypeId'].setValue(row.employmentTypeId);
     this.jobForm.controls['Title'].setValue(row.title);
