@@ -15,10 +15,11 @@ import { LovService } from 'src/app/domain/services/Lov.service';
 import { Editor, Toolbar } from 'ngx-editor';
 import { DatePipe } from '@angular/common';
 import { JobService } from 'src/app/domain/services/job.service ';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FileUploadService } from 'src/app/domain/services/file-upload.service';
 import { SharedModule } from "../../shared/shared.module";
 import { OnboardingService } from 'src/app/domain/services/onboarding.service';
+import { StateService } from 'src/app/domain/services/state.service';
 @Component({
   selector: 'app-jd',
   templateUrl: './jd.component.html',
@@ -49,6 +50,9 @@ export class JDComponent {
   selectedFiles: File[] = [];
   referenceId: number = 1;
 
+    // jobId: string = '';
+
+
   idList = [
     { id: 1, text: '1' },
     { id: 2, text: '2' },
@@ -61,9 +65,11 @@ export class JDComponent {
     { id: 9, text: '9' },
     { id: 10, text: '10' }
   ]; 
-
+isOpenedFromCompany= false;
+selectedCompanyId= '';
 
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private fileService: FileUploadService,
     private toast: ToastrService,
@@ -77,11 +83,15 @@ export class JDComponent {
     private readonly datePipe: DatePipe,
     private router: Router,
     private http: HttpRequestService,
-    private authSrv: AuthService) {
+    private authSrv: AuthService,
+  private stateService: StateService) {
+
+
+
     this.jobForm = this.fb.group({
       JobDescriptionId: uuidv4(),
       DepartmentId: ['', Validators.required],
-      OnnboardingId: [''],
+      OnboardingId: [''],
       GroupId: ['', Validators.required],
       PostHostId: ['', Validators.required],
       HiringManagerId: ['', Validators.required],
@@ -97,6 +107,7 @@ export class JDComponent {
       month: today.getMonth() + 1,
       day: today.getDate(),
     };
+   
   }
 
 
@@ -106,13 +117,24 @@ export class JDComponent {
   ngOnInit(): void {
     this.editor = new Editor();
     this.getgroups();
-    this.getCompanies();
-
+    
     this.getdepartments();
     this.getposthosts();
     this.getHiringManagers();
     this.getEmploymentTypeByLovCode();
     this.getjobdescriptions();
+      this.getCompanies();
+
+  this.isOpenedFromCompany = this.stateService.getOpenedFromCompany()
+  this.selectedCompanyId = this.stateService.getSelectedCompany() || ''
+  this.jobForm.controls['OnboardingId'].setValue(this.selectedCompanyId);
+
+      if (this.isOpenedFromCompany) {
+      this.curdBtnIsList = false;
+    } else {
+      this.curdBtnIsList = true;
+    }
+    console.log(this.selectedCompanyId)
 
   }
   ngOnDestroy(): void {
@@ -369,7 +391,4 @@ uploadFiles(jobDescriptionId: string) {
   openFile(jobDescriptionId: any): void {
     this.router.navigate(['/cv', jobDescriptionId]);
   }
-  
-  
-
 }

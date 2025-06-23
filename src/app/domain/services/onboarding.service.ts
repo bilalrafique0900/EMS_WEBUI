@@ -26,4 +26,6 @@ export class OnboardingService {
   getAll(): Observable<any> {
     return this.http.get(`onboarding/get-all`);
     }
+
+   
 }

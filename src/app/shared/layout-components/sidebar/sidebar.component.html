@@ -141,12 +141,14 @@
   <ul class="slide-menu open">
     <!-- *ngFor="let item1 of Item.children -->
     <li><a routerLinkActive="active" class="slide-item"
-      routerLink="/job-description/jd">Add Job Description </a>
+      (click)="openJobDescription()">Add Job Description </a>
+    </li>
+     <li><a routerLinkActive="active" class="slide-item"
+      routerLink="/job-description/company">Company List</a>
     </li>
     <li><a routerLinkActive="active" class="slide-item"
       routerLink="/job-description/cv">CV'S</a>
     </li>
- 
   </ul>
 </li>
     <li class="slide" [class]="selectedItem=='5' ? 'show is-expanded' : ''">

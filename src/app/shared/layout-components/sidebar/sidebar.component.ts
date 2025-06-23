@@ -5,6 +5,7 @@ import { fromEvent } from 'rxjs';
 import { Menu, NavService } from '../../services/nav.service';
 import { checkHoriMenu, switcherArrowFn } from './sidebar';
 import { AuthService } from '../../security/auth-service.service';
+import { StateService } from 'src/app/domain/services/state.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,7 +24,9 @@ export class SidebarComponent {
   constructor(
     public elRef: ElementRef,
     private _authService: AuthService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private stateService: StateService
   ) {
     // this.userDetails = this.authService.getUserDetails();
     // this.loginRoleName = this.userDetails.user.roleName;
@@ -88,5 +91,11 @@ export class SidebarComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.scrolled = window.scrollY > 64;
+  }
+
+  openJobDescription(){
+    this.stateService.setOpenedFromCompany(false);
+     this.stateService.setSelectedCompany('');
+    this.router.navigate(['/job-description/jd'])
   }
 }

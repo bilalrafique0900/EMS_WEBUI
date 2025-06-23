@@ -15,11 +15,13 @@ import { NgxEditorModule } from 'ngx-editor';
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
 import { JDComponent } from './jd/jd.component';
 import { CvComponent } from './cv/cv.component';
+import { CompanyListComponent } from './company-list/company-list.component';
 
 @NgModule({
   declarations: [
     JDComponent,
     CvComponent,
+    CompanyListComponent,
   ],
   imports: [
     SharedModule,
