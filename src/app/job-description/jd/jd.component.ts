@@ -321,24 +321,6 @@ selectedCompanyId= '';
   }
   
 
-// 1) Upload Cv
-uploadFiles(jobDescriptionId: string) {
-  debugger;
-  console.log(this.selectedFiles && jobDescriptionId ); 
-  if (this.selectedFiles.length > 0) {
-    this.fileService.uploadFiles(this.selectedFiles, jobDescriptionId).subscribe({
-      next: (response) => {
-        this.toast.success('Files uploaded successfully');
-        this.selectedFiles = [];
-      },
-      error: (err) => {
-        debugger;
-        this.toast.error('File upload failed');
-        console.error('File Upload Error:', err);
-      },
-    });
-  }
-}
 
 
   formSubmit() {
@@ -362,7 +344,6 @@ uploadFiles(jobDescriptionId: string) {
       debugger;
       console.log("data",data)
       this.toast.success('Job Description has been saved.');
-      this.uploadFiles(jobDescriptionId);
       this.jobForm.reset();
       this.jobForm.controls['JobDescriptionId'].setValue(uuidv4());
       this.isEdit = false;

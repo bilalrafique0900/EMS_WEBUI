@@ -1,119 +1,97 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PostHostService } from 'src/app/domain/services/posthost.service';
 import { FileUploadService } from 'src/app/domain/services/file-upload.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { JobService } from 'src/app/domain/services/job.service ';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cv',
   templateUrl: './cv.component.html',
-  styleUrls: ['./cv.component.scss']
+  styleUrls: ['./cv.component.scss'],
 })
 export class CvComponent implements OnInit {
-  files: any[] = [];
-  jobDescriptionId: string | null = null;
-  loading = false;
-  errorMessage: string | null = null;
-  selectedFile: any = null;
-  isModalOpen: boolean = false;
+  curdBtnIsList: boolean = true;
+  isEdit: boolean = false;
 
-  constructor(
+  postHostList: any[] = [];
+  jobDescriptionList: any[] = [];
+  cvList: any[] = [];
+
+  cvForm!: FormGroup;
+
+ constructor(
+    private fb: FormBuilder,
+    private posthostService: PostHostService,
+    private jobService: JobService,
     private fileUploadService: FileUploadService,
-    private sanitizer: DomSanitizer,
-    private route: ActivatedRoute
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.getAllFiles();
-    this.route.paramMap.subscribe(params => {
-      this.jobDescriptionId = params.get('id');
-      this.jobDescriptionId ? this.getFilesByJobId() : this.getAllFiles();
+   this.cvForm = this.fb.group({
+  id: [0],
+  cvCount: ['', [Validators.required, Validators.min(1)]], 
+  postHostId: [null, Validators.required],
+  jobDescriptionId: [null, Validators.required]
+});
+
+
+    this.loadPostHosts();
+    this.getjobDescriptions();
+    this.loadCVs();
+  }
+
+ changeCurdView(isList: boolean): void {
+    this.curdBtnIsList = isList;
+    this.isEdit = false;
+  }
+
+  loadPostHosts(): void {
+    this.posthostService.getall().subscribe((res: any) => {
+      this.postHostList = res.data || res;
     });
   }
-
-  getFilesByJobId(): void {
-    if (!this.jobDescriptionId) return;
-    this.loading = true;
-    this.errorMessage = null;
-    
-    this.fileUploadService.getFiles(this.jobDescriptionId).subscribe({
-      next: data => this.processFiles(data),
-      error: err => this.handleError('Error fetching files', err)
-    });
+  getPostHostName(id: string): string {
+    const item = this.postHostList.find((x) => x.postHostId === id);
+    return item ? item.postHostName : '';
   }
 
-  getAllFiles(): void {
-    this.loading = true;
-    this.errorMessage = null;
-    
-    this.fileUploadService.getAllFiles().subscribe({
-      next: data => this.processFiles(data),
-      error: err => this.handleError('Error fetching all CVs', err)
-    });
-  }
-
-  processFiles(data: any[]): void {
-    this.files = data.map(file => ({
-      ...file,
-      safeFilePath: this.sanitizeUrl(file.filePath),
-      comment: file.comment || '',
-      isCommentSubmitted: !!file.comment
-    }));
-    this.loading = false;
-  }
-
-  sanitizeUrl(url: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
-
-  isPdf(filePath: string): boolean {
-    return filePath.toLowerCase().endsWith('.pdf');
-  }
-
-  downloadCv(fileId: number, fileName: string): void {
-    this.fileUploadService.downloadFile(fileId).subscribe({
-      next: blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
+  getjobDescriptions() {
+    this.jobService.getall().subscribe({
+      next: (result) => {
+        debugger;
+        this.jobDescriptionList = [];
+        this.jobDescriptionList = result.data;
       },
-      error: err => this.handleError('Error downloading file', err)
-    });
-  }
-
-  openModal(file: any): void {
-    this.selectedFile = { ...file };
-    this.isModalOpen = true;
-  }
-  
-  closeModal(): void {
-    this.selectedFile = null;
-    this.isModalOpen = false;
-  }
-
-  saveStatus(): void {
-    if (!this.selectedFile) return;
-
-    this.fileUploadService.updateStatus(this.selectedFile.id, this.selectedFile.comment).subscribe({
-      next: () => {
-        const file = this.files.find(f => f.id === this.selectedFile.id);
-        if (file) {
-          file.comment = this.selectedFile.comment;
-          file.isCommentSubmitted = true;
-        }
-        this.closeModal();
+      error: (err: any) => {
+        this.toast.error(err.message);
       },
-      error: err => this.handleError('Error updating status', err)
     });
   }
+   loadCVs(): void {
+    this.fileUploadService.getAllCVs().subscribe({
+      next: (res) => {
+        this.cvList = res.data || [];
+      },
+      error: (err) => {
+        this.toast.error('Error loading CVs');
+      }
+    });
+  }
+   onSubmit(): void {
+    if (this.cvForm.invalid) return;
 
-  handleError(message: string, err: any): void {
-    console.error(message, err);
-    this.errorMessage = `${message}. Please try again later.`;
-    this.loading = false;
+    this.fileUploadService.addCV(this.cvForm.value).subscribe({
+      next: (res) => {
+        this.toast.success('CV saved successfully!');
+        this.cvForm.reset({ id: 0 });
+        this.loadCVs();
+        this.changeCurdView(true);
+      },
+      error: (err) => {
+        this.toast.error('Failed to save CV');
+      }
+    });
   }
 }
